@@ -25,7 +25,7 @@ router.get('/create', function (req, res, next) {
 /* edit */
 router.get('/edit/:id', function (req, res, next) {
     var id = req.params.id;
-    var query = "SELECT * FROM products WHERE id = 1";
+    var query = "SELECT * FROM products WHERE id = " + id;
     database.query(query, function (err, data) {
         if (err) throw err;
         else {
