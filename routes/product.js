@@ -5,8 +5,8 @@ const dd = require('dump-die');
 
 /* index. */
 router.get('/index', function (req, res, next) {
-    var query =
-        `SELECT p.*, c.name as category_name 
+    var query = `
+    SELECT p.*, c.name as category_name 
     FROM products p 
     LEFT JOIN categories c ON p.category_id = c.id
     WHERE p.deleted_at IS NULL`;
@@ -37,20 +37,20 @@ router.get('/create', function (req, res, next) {
 
 /* store */
 router.post('/store', function (req, res, next) {
-    var name = req.body.name;
-    var category_id = req.body.category_id;
-    var description = req.body.description;
-    var stock = req.body.stock;
-    var unit_price = req.body.unit_price;
-    var discounted_price = (req.body.discounted_price == null) ? 0 : req.body.discounted_price;
-    var expiry_date = req.body.expiry_date;
-    var age = (req.body.age_restriction == null) ? 1 : req.body.age_restriction;
-    var show = (req.body.show_listing == null) ? 1 : req.body.show_listing;
-    var query =
-        `INSERT INTO products (name, category_id, description, stock, unit_price, discounted_price, expiry_date, age_restriction, show_listing)
-	VALUES ("${name}", "${category_id}", "${description}", "${stock}", "${unit_price}", "${discounted_price}", "${expiry_date}", "${age}", "${show}")`;
+    var product = {
+        name: req.body.name,
+        category_id: req.body.category_id,
+        description: req.body.description,
+        stock: req.body.stock,
+        unit_price: req.body.unit_price,
+        discounted_price: (req.body.discounted_price == null) ? 0 : req.body.discounted_price,
+        expiry_date: req.body.expiry_date,
+        age_restriction: (req.body.age_restriction == null) ? 1 : req.body.age_restriction,
+        show_listing: (req.body.show_listing == null) ? 1 : req.body.show_listing,
+    }
+    var query = `INSERT INTO ?`;
 
-    database.query(query, function (err, data) {
+    database.query(query, product, function (err, data) {
         if (err) throw err;
 
         req.toastr.success('New Product created!');
@@ -78,50 +78,27 @@ router.get('/edit/:id', function (req, res, next) {
 
 /* update */
 router.post('/update/:id', function (req, res, next) {
-    var id = req.params.id;
-    var name = req.body.name;
-    var category_id = req.body.category_id;
-    var description = req.body.description;
-    var stock = req.body.stock;
-    var unit_price = req.body.unit_price;
-    var discounted_price = (req.body.discounted_price == null) ? null : req.body.discounted_price;
-    var expiry_date = req.body.expiry_date;
-    var age = (req.body.age_restriction == null) ? 1 : req.body.age_restriction;
-    var show = (req.body.show_listing == null) ? 1 : req.body.show_listing;
-    var query = `
-    UPDATE products 
-    SET name = "${name}", category_id = "${category_id}", description = "${description}", stock = "${stock}", unit_price = "${unit_price}", discounted_price = "${discounted_price}", expiry_date = "${expiry_date}", age_restriction = "${age}", show_listing = "${show}" 
-    WHERE id = "${id}"`;
+    var product = {
+        name: req.body.name,
+        category_id: req.body.category_id,
+        description: req.body.description,
+        stock: req.body.stock,
+        unit_price: req.body.unit_price,
+        discounted_price: (req.body.discounted_price == null) ? 0 : req.body.discounted_price,
+        expiry_date: req.body.expiry_date,
+        age_restriction: (req.body.age_restriction == null) ? 1 : req.body.age_restriction,
+        show_listing: (req.body.show_listing == null) ? 1 : req.body.show_listing,
+    }
 
-    database.query(query, function (err, data) {
+    var query = `UPDATE products SET ? WHERE id = "${req.params.id}"`;
+
+    database.query(query, product, function (err, data) {
         if (err) throw err;
         res.redirect("/product/index");
     });
 });
 
-/* update */
-router.post('/update/:id', function (req, res, next) {
-    var id = req.params.id;
-    var name = req.body.name;
-    var category_id = req.body.category_id;
-    var description = req.body.description;
-    var stock = req.body.stock;
-    var unit_price = req.body.unit_price;
-    var discounted_price = (req.body.discounted_price == null) ? null : req.body.discounted_price;
-    var expiry_date = req.body.expiry_date;
-    var age = (req.body.age_restriction == null) ? 1 : req.body.age_restriction;
-    var show = (req.body.show_listing == null) ? 1 : req.body.show_listing;
-    var query = `
-    UPDATE products 
-    SET name = "${name}", category_id = "${category_id}", description = "${description}", stock = "${stock}", unit_price = "${unit_price}", discounted_price = "${discounted_price}", expiry_date = "${expiry_date}", age_restriction = "${age}", show_listing = "${show}" 
-    WHERE id = "${id}"`;
-
-    database.query(query, function (err, data) {
-        if (err) throw err;
-        res.redirect("/product/index");
-    });
-});
-
+/* destroy */
 router.post('/destroy/:id', function (req, res, next) {
     var id = req.params.id;
     var d = new Date().toISOString().split('T');
