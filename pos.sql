@@ -78,7 +78,7 @@ CREATE TABLE `products` (
   `description` varchar(255) DEFAULT NULL,
   `stock` int(11) NOT NULL,
   `unit_price` double(8,2) NOT NULL,
-  `discounted_price` double(8,2) DEFAULT NULL,
+  `discounted_price` double(8,2) NOT NULL DEFAULT 0.00
   `expiry_date` date NOT NULL,
   `age_restriction` tinyint(1) NOT NULL DEFAULT 0,
   `show_listing` tinyint(1) NOT NULL DEFAULT 1,
