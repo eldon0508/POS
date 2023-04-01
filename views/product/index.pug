@@ -26,7 +26,15 @@ block content
                                                     | Id
                                                 th
                                                     | Name
-                                                th(width='80')
+                                                th
+                                                    | Category
+                                                th
+                                                    | Price (£)
+                                                th
+                                                    | Stock
+                                                th
+                                                    | Show Listing
+                                                th
                                                     | Action
                                         tbody 
                                             each result in results
@@ -36,14 +44,25 @@ block content
                                                     td
                                                         | #{result.name}
                                                     td
+                                                        | #{result.category_name}
+                                                    td 
+                                                        | #{result.unit_price.toFixed(2)}
+                                                    td 
+                                                        | #{result.stock}
+                                                    td 
+                                                        if result.show_listing == 1 
+                                                            | Yes
+                                                        else 
+                                                            | No
+                                                    td
                                                         div(style='display:inline-block')
-                                                            a(href='/product/edit/' + result.id).btn.btn-sm.btn-primary
+                                                            a(href='/product/edit/' + result.id).btn.btn-sm.btn-primary.mx-2
                                                                 i.fa.fa-edit
                                                         | 
                                                         div(style='display:inline-block')
                                                             form(method='post' action='/product/destroy/' + result.id)
                                                                 input(type="hidden" name="_method" value="DELETE")
-                                                                button.btn.btn-sm.btn-danger.js-show-confirmation-modal(type='submit')
+                                                                button.btn.btn-sm.btn-danger(type='submit')
                                                                     i.fas.fa-trash-alt
                             div.row
                                 div.col-12.col-md-6

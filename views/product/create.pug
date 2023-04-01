@@ -1,14 +1,88 @@
 extends ../layout/base 
-block content
 
+block content
     div.content-header
         div.container-fluid
-            div.row.mb-2
-                div.col-sm-6
-                    h1.m-0 						
-                    | #{title}
+            div.row.mb-2.mt-3
+                div.col-12
+                    h1.m-0
+                        | #{title}
 
     section.content
         div.container-fluid
             div.row
                 div.col-12
+                    div.card
+                        div.card-body
+                            form(action="/product/store" method="post")
+                                input(type="hidden" name="_csrf" value=_csrf)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Name
+                                            input.form-control#name(type='text' value=typeof name != 'undefined'? name: '' name='name' placeholder='Enter Name' required)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Category
+                                            select.form-control#category_id(name="category_id" required)
+                                                option(value="") --- Select Category ---
+                                                    each category in categories 
+                                                        option(value=category.id) #{category.name}
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Unit Price
+                                            input.form-control#unit_price(type='number' name='unit_price' placeholder='Enter Unit Price' step=0.01 min=0 required)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Stock
+                                            input.form-control#stock(type='number' name='stock' placeholder='Enter Stock' step=1 min=0 required)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Discounted Price (Optional)
+                                            input.form-control#discounted_price(type='number' name='discounted_price' placeholder='Enter Discounted Price' min=0 step=0.01)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Expiry Date
+                                            input.form-control.date#expiry_date(type='date' name='expiry_date' placeholder='Enter Expiry Date' required min=new Date().toISOString().split('T')[0])
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Age Restriction 
+                                            small.text-danger 
+                                                | (Default False)
+                                            select.form-control#age_restriction(name="age_restriction")
+                                                option(value="") --- Select Age Restriction ---
+                                                option(value=0) False 
+                                                option(value=1) True
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Show Listing
+                                            small.text-danger 
+                                                | (Default True)
+                                            select.form-control.form-group#show_listing(name="show_listing")
+                                                option(value="") --- Select Show Listing ---
+                                                option(value=0) False 
+                                                option(value=1) True
+                                div.row
+                                    div.col-12
+                                        div.form-group
+                                            label
+                                                | Description
+                                            textarea.form-control#description(name="description" ) 
+                                div.row
+                                    div.col-12.text-right
+                                        a(href="/product/index").mr-2
+                                            button.btn.btn-secondary(type='button')
+                                                | Back
+                                        button.btn.btn-primary(type='submit')
+                                            | Submit

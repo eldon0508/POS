@@ -1,18 +1,90 @@
 extends ../layout/base 
-block content
 
+block content
     div.content-header
         div.container-fluid
-            div.row.mb-2
-                div.col-sm-6
-                    h1.m-0 
-                        | Dashboard
+            div.row.mb-2.mt-3
+                div.col-12
+                    h1.m-0
+                        | #{title}
 
     section.content
         div.container-fluid
             div.row
                 div.col-12
-                    | #{result.id}
-                    | #{result.name}
-                    | #{result.description}
-                    
+                    div.card
+                        div.card-body
+                            form(action="/product/update/" + result.id method="post")
+                                input(type="hidden" name="_csrf" value=_csrf)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Name #{result.name}
+                                            input.form-control#name(type='text' value=result.name name='name' placeholder='Enter Name' required)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Category
+                                            select.form-control#category_id(name="category_id" required)
+                                                option(value="") --- Select Category ---
+                                                    each category in categories 
+                                                        option(value=category.id selected=(result.category_id == category.id)) #{category.name}
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Unit Price
+                                            input.form-control#unit_price(type='number' name='unit_price' placeholder='Enter Unit Price' step=0.01 min=0 required value=result.unit_price)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Stock
+                                            input.form-control#stock(type='number' name='stock' placeholder='Enter Stock' step=1 min=0 required value=result.stock)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Discounted Price (Optional)
+                                            input.form-control#discounted_price(type='number' name='discounted_price' placeholder='Enter Discounted Price' min=0 step=0.01 value=result.discounted_price)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Expiry Date
+                                            input.form-control.date#expiry_date(type='date' name='expiry_date' placeholder='Enter Expiry Date' required min=new Date().toISOString().split('T')[0] value=result.expiry_date.toISOString().split('T')[0])
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Age Restriction 
+                                            small.text-danger 
+                                                | (Default False)
+                                            select.form-control#age_restriction(name="age_restriction")
+                                                option(value="") --- Select Age Restriction ---
+                                                option(value=0 selected=(result.age_restriction == 0)) False 
+                                                option(value=1 selected=(result.age_restriction == 1)) True
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Show Listing
+                                            small.text-danger 
+                                                | (Default True)
+                                            select.form-control.form-group#show_listing(name="show_listing")
+                                                option(value="") --- Select Show Listing ---
+                                                option(value=0 selected=(result.show_listing == 0)) False 
+                                                option(value=1 selected=(result.show_listing == 1)) True
+                                div.row
+                                    div.col-12
+                                        div.form-group
+                                            label
+                                                | Description
+                                            textarea.form-control#description(name="description") 
+                                                | #{result.description}
+                                input(type="hidden" name="id" value=result.id)
+                                div.row
+                                    div.col-12.text-right
+                                        a(href="/product/index").mr-2
+                                            button.btn.btn-secondary(type='button')
+                                                | Back
+                                        button.btn.btn-primary(type='submit')
+                                            | Submit
