@@ -29,8 +29,6 @@ router.get('/create', function (req, res, next) {
     database.query(query, function (err, data) {
         if (err) throw err;
 
-        req.toastr.success('Create Page!');
-        // req.flash('success', 'New Product created');
         res.render('product/create', {
             title: 'Product - Create',
             categories: data,
