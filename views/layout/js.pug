@@ -42,6 +42,15 @@ script.
 		});
 	});
 
-	if(req.toastr.success) {
-		toastr.success('asd', 'asdf');
+	
+	if('#{msg_type}' == 'success') {
+		toastr.success("#{msg}", 'Success');
+	} else if('#{msg_type}' == 'error') {
+		toastr.error("#{msg}", 'Error');
+	} else if('#{msg_type}' == 'warning') {
+		toastr.warning("#{msg}", 'Warning');
+	} else if('#{msg_type}' == 'info') {
+		toastr.warning("#{msg}", 'Info');
 	}
+	
+	

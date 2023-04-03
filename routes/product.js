@@ -10,15 +10,17 @@ router.get('/index', function (req, res, next) {
     FROM products p 
     LEFT JOIN categories c ON p.category_id = c.id
     WHERE p.deleted_at IS NULL`;
+
     database.query(query, function (err, data) {
         if (err) throw err;
 
         res.render('product/index', {
             title: 'Products',
             results: data,
-            req: req,
+            msg_type: req.flash('msg_type'),
+            msg: req.flash('msg'),
         });
-    })
+    });
 });
 
 /* create */
@@ -27,12 +29,13 @@ router.get('/create', function (req, res, next) {
     database.query(query, function (err, data) {
         if (err) throw err;
 
+        req.toastr.success('Create Page!');
+        // req.flash('success', 'New Product created');
         res.render('product/create', {
             title: 'Product - Create',
             categories: data,
         });
-    })
-
+    });
 });
 
 /* store */
@@ -48,12 +51,13 @@ router.post('/store', function (req, res, next) {
         age_restriction: (req.body.age_restriction == null) ? 1 : req.body.age_restriction,
         show_listing: (req.body.show_listing == null) ? 1 : req.body.show_listing,
     }
-    var query = `INSERT INTO ?`;
+    var query = "INSERT INTO products SET ?";
 
     database.query(query, product, function (err, data) {
         if (err) throw err;
 
-        req.toastr.success('New Product created!');
+        req.flash('msg', 'New Product has been created!');
+        req.flash('msg_type', 'success');
         res.redirect("/product/index");
     });
 });
@@ -94,6 +98,9 @@ router.post('/update/:id', function (req, res, next) {
 
     database.query(query, product, function (err, data) {
         if (err) throw err;
+
+        req.flash('msg', 'Product has been updated!');
+        req.flash('msg_type', 'success');
         res.redirect("/product/index");
     });
 });
@@ -111,8 +118,10 @@ router.post('/destroy/:id', function (req, res, next) {
     WHERE id = "${id}"`;
 
     database.query(query, function (err, data) {
-        if (err)
-            throw err;
+        if (err) throw err;
+
+        req.flash('msg', 'Product has been deleted!');
+        req.flash('msg_type', 'success');
         res.redirect("/product/index");
     });
 });
