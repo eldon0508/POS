@@ -58,21 +58,21 @@ block content
                                             label
                                                 | Age Restriction 
                                             small.text-danger 
-                                                | (Default False)
+                                                | (Default No)
                                             select.form-control#age_restriction(name="age_restriction")
                                                 option(value="") --- Select Age Restriction ---
-                                                option(value=0 selected=(result.age_restriction == 0)) False 
-                                                option(value=1 selected=(result.age_restriction == 1)) True
+                                                option(value=0 selected=(result.age_restriction == 0)) No 
+                                                option(value=1 selected=(result.age_restriction == 1)) Yes
                                     div.col-6
                                         div.form-group
                                             label
                                                 | Show Listing
                                             small.text-danger 
-                                                | (Default True)
+                                                | (Default Yes)
                                             select.form-control.form-group#show_listing(name="show_listing")
                                                 option(value="") --- Select Show Listing ---
-                                                option(value=0 selected=(result.show_listing == 0)) False 
-                                                option(value=1 selected=(result.show_listing == 1)) True
+                                                option(value=0 selected=(result.show_listing == 0)) No 
+                                                option(value=1 selected=(result.show_listing == 1)) Yes
                                 div.row
                                     div.col-12
                                         div.form-group

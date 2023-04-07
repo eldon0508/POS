@@ -1,0 +1,84 @@
+extends ../layout/base-datatables.pug
+
+block content 
+    div.content-header
+        div.container-fluid
+            div.row.mb-2.mt-3
+                div.col-12.d-flex.justify-content-between
+                    h1.m-0
+                        | #{title}
+                    a(href='/promotion/create').btn.btn-primary
+                        i.fa.fa-plus 
+                        |  Create Promotion
+
+    section.content 
+        div.container-fluid
+            div.row
+                div.col-12
+                    div.card
+                        div.card-body
+                            div.row
+                                div.col-12
+                                    table#table.table.table-hover.dataTable.dtr-inline(role="grid")
+                                        thead
+                                            tr
+                                                th
+                                                    | Id
+                                                th
+                                                    | Name
+                                                th
+                                                    | Discount Scheme
+                                                th
+                                                    | Rate
+                                                th
+                                                    | Capped (£)
+                                                th
+                                                    | Duration                                                
+                                                th
+                                                    | Status
+                                                th
+                                                    | Action
+                                        tbody 
+                                            each result in results
+                                                tr
+                                                    td 
+                                                        | #{result.id}
+                                                    td
+                                                        | #{result.name}
+                                                    td
+                                                        if result.type == 1
+                                                            | Total Amount 
+                                                        else if result.type == 2
+                                                            | Two-in-One 
+                                                        else
+                                                            | Promo Code 
+                                                        if result.discount_type == 1
+                                                            | (Percentage)
+                                                        else
+                                                            | (Fixed)
+                                                    td 
+                                                        | #{result.rate.toFixed(2)}
+                                                    td 
+                                                        | #{result.capped_at.toFixed(2)}
+                                                    td 
+                                                        | #{result.start_date.toISOString().split('T')[0]} - 
+                                                        | #{result.end_date.toISOString().split('T')[0]}
+                                                    td
+                                                        if result.status == 1 
+                                                            | Active
+                                                        else 
+                                                            | Inactive
+                                                    td
+                                                        div(style='display:inline-block')
+                                                            a(href='/promotion/edit/' + result.id).btn.btn-sm.btn-primary.mx-2
+                                                                i.fa.fa-edit
+                                                        | 
+                                                        div(style='display:inline-block')
+                                                            form(method='post' action='/promotion/destroy/' + result.id)
+                                                                input(type="hidden" name="_method" value="DELETE")
+                                                                button.btn.btn-sm.btn-danger(type='submit')
+                                                                    i.fas.fa-trash-alt
+                            div.row
+                                div.col-12.col-md-6
+                                    div#table_info.dataTables_info(role="status")
+                                        //- Total entries and pagination text added by JS
