@@ -7,10 +7,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var userRouter = require('./routes/user');
 // var categoryRouter = require('./routes/category');
 var productRouter = require('./routes/product');
-// var customerRouter = require('./routes/customer');
+var staffRouter = require('./routes/staff');
 
 var app = express();
 
@@ -33,7 +32,7 @@ app.use(session({
 app.use(flash());
 
 app.use('/', indexRouter);
-app.use('/user', userRouter);
+app.use('/staff', staffRouter);
 // app.use('/category', categoryRouter);
 app.use('/product', productRouter);
 // app.use('/customer', customerRouter);
