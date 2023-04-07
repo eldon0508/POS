@@ -1,0 +1,93 @@
+extends ../layout/base 
+
+block content
+    div.content-header
+        div.container-fluid
+            div.row.mb-2.mt-3
+                div.col-12
+                    h1.m-0
+                        | #{title}
+
+    section.content
+        div.container-fluid
+            div.row
+                div.col-12
+                    div.card
+                        div.card-body
+                            form(method="post" action="/promotion/update/" + result.id)
+                                input(type="hidden" name="_csrf" value=_csrf)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Name
+                                            input.form-control#name(value=result.name type='text' name='name' placeholder='Enter Name' required)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Status
+                                            select.form-control#status(name="status" required)
+                                                option(value="") --- Select Status ---
+                                                option(value="1" selected=(result.status == 1)) Active
+                                                option(value="0" selected=(result.status == 0)) Inactive
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Type
+                                            select.form-control#type(name="type" required)
+                                                option(value="") --- Select Type ---
+                                                option(value="1" selected=(result.type == 1)) Total Amount
+                                                option(value="2" selected=(result.type == 2)) Two-in-One
+                                                option(value="3" selected=(result.type == 3)) Promo Code
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Discount Type
+                                            select.form-control#discount_type(name="discount_type" required)
+                                                option(value="") --- Select Discount Type ---
+                                                option(value="1" selected=(result.discount_type == 1)) Percentage
+                                                option(value="2" selected=(result.discount_type == 2)) Fixed
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Rate
+                                            input.form-control#rate(value=result.rate type='number' name='rate' placeholder='Enter Rate' min=0 step=0.01)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Capped
+                                            input.form-control#capped_at(value=result.capped_at type='number' name='capped_at' placeholder='Enter Capped' min=0 step=0.01)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Start From
+                                            input.form-control#start_date(value=result.start_date.toISOString().split('T')[0] type='date' name='start_date')
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | End At
+                                            input.form-control#end_date(value=result.end_date.toISOString().split('T')[0] type='date' name='end_date')
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Product
+                                            select.form-control.select2#product_id(name="product_id")
+                                                option(value="") --- Select Status ---
+                                                each product in products
+                                                    option(value=product.id selected=(result.product_id == product.id)) #{product.name}
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Promo Code
+                                            input.form-control#promo_code(value=result.promo_code name='promo_code' placeholder="Enter Promo Code")
+                                div.row
+                                    div.col-12.text-right
+                                        a(href="/promotion/index").mr-2
+                                            button.btn.btn-secondary(type='button')
+                                                | Back
+                                        button.btn.btn-primary(type='submit')
+                                            | Submit

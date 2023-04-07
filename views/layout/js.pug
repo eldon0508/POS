@@ -6,6 +6,7 @@ script(type='text/javascript' src='/adminlte/plugins/bootstrap/js/bootstrap.bund
 script(type='text/javascript' src='/adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')
 script(type='text/javascript' src='/adminlte/dist/js/adminlte.min.js')
 script(type='text/javascript' src="/adminlte/plugins/toastr/toastr.min.js") 
+script(type='text/javascript' src="/javascripts/select2.full.min.js") 
 
 script.
 	//- Set menu items as active, checking if href value exists in the url
@@ -42,7 +43,9 @@ script.
 		});
 	});
 
-	
+	$('.select2').select2();
+
+
 	if('#{msg_type}' == 'success') {
 		toastr.success("#{msg}", 'Success');
 	} else if('#{msg_type}' == 'error') {
@@ -52,5 +55,5 @@ script.
 	} else if('#{msg_type}' == 'info') {
 		toastr.warning("#{msg}", 'Info');
 	}
-	
-	
+
+

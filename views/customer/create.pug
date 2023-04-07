@@ -1,0 +1,48 @@
+extends ../layout/base 
+
+block content
+    div.content-header
+        div.container-fluid
+            div.row.mb-2.mt-3
+                div.col-12
+                    h1.m-0
+                        | #{title}
+
+    section.content
+        div.container-fluid
+            div.row
+                div.col-12
+                    div.card
+                        div.card-body
+                            form(method="post" action="/customer/store")
+                                input(type="hidden" name="_csrf" value=_csrf)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | First Name
+                                            input.form-control#first_name(type='text' name='first_name' placeholder='Enter First Name' required)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Last Name
+                                            input.form-control#last_name(type='text' name='last_name' placeholder='Enter Last Name' required)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Date Of Birth
+                                            input#dob.form-control(type="date" name="dob" placeholder="Enter Date of Birth" required max=new Date().toISOString().split('T')[0])
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Address
+                                            input.form-control#address(type='text' name='address' placeholder='Enter Address' required)
+
+                                div.row
+                                    div.col-12.text-right
+                                        a(href="/customer/index").mr-2
+                                            button.btn.btn-secondary(type='button')
+                                                | Back
+                                        button.btn.btn-primary(type='submit')
+                                            | Submit
