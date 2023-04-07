@@ -51,7 +51,7 @@ block content
                                         div.form-group
                                             label
                                                 | Expiry Date
-                                            input.form-control.date#expiry_date(type='date' name='expiry_date' placeholder='Enter Expiry Date' required min=new Date().toISOString().split('T')[0] value=result.expiry_date.toISOString().split('T')[0])
+                                            input.form-control.date#expiry_date(type='date' name='expiry_date' placeholder='Enter Expiry Date' required min=result.expiry_date.toISOString().split('T')[0] value=result.expiry_date.toISOString().split('T')[0])
                                 div.row
                                     div.col-6
                                         div.form-group

@@ -38,6 +38,11 @@ router.get('/create', function (req, res, next) {
 
 /* store */
 router.post('/store', function (req, res, next) {
+    var d = new Date(),
+        date = d[0],
+        time = d[1],
+        dt = d.toISOString().replace('T', ' ').substring(0, 19);
+
     var product = {
         name: req.body.name,
         category_id: req.body.category_id,
@@ -80,6 +85,11 @@ router.get('/edit/:id', function (req, res, next) {
 
 /* update */
 router.post('/update/:id', function (req, res, next) {
+    var d = new Date(),
+        date = d[0],
+        time = d[1],
+        dt = d.toISOString().replace('T', ' ').substring(0, 19);
+
     var product = {
         name: req.body.name,
         category_id: req.body.category_id,
@@ -105,14 +115,14 @@ router.post('/update/:id', function (req, res, next) {
 
 /* destroy */
 router.post('/destroy/:id', function (req, res, next) {
-    var id = req.params.id;
-    var d = new Date().toISOString().split('T');
-    var deleted_at_date = d[0];
-    var deleted_at_time = d[1];
-    var deleted_at = deleted_at_date.concat(" ", deleted_at_time);
-    var query = `
+    var d = new Date(),
+        date = d[0],
+        time = d[1],
+        dt = d.toISOString().replace('T', ' ').substring(0, 19),
+        id = req.params.id,
+        query = `
 	UPDATE products
-    SET deleted_at = "${deleted_at}"
+    SET deleted_at = "${dt}"
     WHERE id = "${id}"`;
 
     database.query(query, function (err, data) {
