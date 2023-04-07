@@ -14,30 +14,31 @@ block content
                 div.col-12
                     div.card
                         div.card-body
-                            form(action="/customer/update/" + result.id method="post")
+                            form(method="post" action="/customer/update/" + result.id)
                                 input(type="hidden" name="_csrf" value=_csrf)
                                 div.row
                                     div.col-6
                                         div.form-group
                                             label
-                                                | First Name #{result.name}
-                                            input.form-control#name(type='text' value=result.name name='first_name' placeholder='Enter First Name' required)
+                                                | First Name
+                                            input.form-control#first_name(name='first_name' placeholder='Enter First Name' value=result.first_name required)
                                     div.col-6
                                         div.form-group
                                             label
                                                 | Last Name
-                                            input.form-control#name(type='text' value=result.name name='last_name' placeholder='Enter Last Name' required)
+                                            input.form-control#last_name(name='last_name' placeholder='Enter Last Name' value=result.last_name required)
                                 div.row
                                     div.col-6
                                         div.form-group
                                             label
-                                                | Date of Birth
-                                            <input class="form-control" id="dob" type="date" name="dob" placeholder="Enter Date of Birth" required>
+                                                | Date Of Birth
+                                            input#dob.form-control(value=result.dob.toISOString().split('T')[0] type="date" name="dob" placeholder="Enter Date of Birth" max=new Date().toISOString().split('T')[0] required)
                                     div.col-6
                                         div.form-group
                                             label
                                                 | Address
-                                            input.form-control#name(type='text' value=result.name name='address' placeholder='Enter Address' required)
+                                            input.form-control#address(name='address' placeholder='Enter Address' value=result.address required)
+
                                 div.row
                                     div.col-12.text-right
                                         a(href="/customer/index").mr-2

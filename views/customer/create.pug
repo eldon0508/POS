@@ -14,36 +14,34 @@ block content
                 div.col-12
                     div.card
                         div.card-body
-                            form(action="/customer/store" method="post")
+                            form(method="post" action="/customer/store")
                                 input(type="hidden" name="_csrf" value=_csrf)
                                 div.row
                                     div.col-6
                                         div.form-group
                                             label
                                                 | First Name
-                                            input.form-control#first_name(type='text' value=typeof name != 'undefined'? name: '' name='first_name' placeholder='Enter First Name' required)
+                                            input.form-control#first_name(type='text' name='first_name' placeholder='Enter First Name' required)
                                     div.col-6
                                         div.form-group
                                             label
                                                 | Last Name
-                                            input.form-control#last_name(type='text' value=typeof name != 'undefined'? name: '' name='last_name' placeholder='Enter Last Name' required)
+                                            input.form-control#last_name(type='text' name='last_name' placeholder='Enter Last Name' required)
                                 div.row
                                     div.col-6
                                         div.form-group
                                             label
                                                 | Date Of Birth
-                                            //input.form-control#dob(type='number' name='unit_price' placeholder='Enter Unit Price' step=0.01 min=0 required)
-                                            <input class="form-control" id="dob" type="date" name="dob" placeholder="Enter Date of Birth" required>
-
+                                            input#dob.form-control(type="date" name="dob" placeholder="Enter Date of Birth" required max=new Date().toISOString().split('T')[0])
                                     div.col-6
                                         div.form-group
                                             label
                                                 | Address
-                                            input.form-control#address(type='text' value=typeof name != 'undefined'? name: '' name='address' placeholder='Enter Address' required)
-                                
+                                            input.form-control#address(type='text' name='address' placeholder='Enter Address' required)
+
                                 div.row
                                     div.col-12.text-right
-                                        a(href="/product/index").mr-2
+                                        a(href="/customer/index").mr-2
                                             button.btn.btn-secondary(type='button')
                                                 | Back
                                         button.btn.btn-primary(type='submit')
