@@ -5,3 +5,4 @@ https://github.com/hivvu/nodejs-adminlte
 https://www.npmjs.com/package/dump-die
 https://www.w3schools.com/MySQL/
 https://codeforgeek.com/render-html-file-expressjs/
+https://www.npmjs.com/package/bcrypt
