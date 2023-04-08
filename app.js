@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-// var categoryRouter = require('./routes/category');
+var categoryRouter = require('./routes/category');
 var productRouter = require('./routes/product');
 var staffRouter = require('./routes/staff');
 var customerRouter = require('./routes/customer');
@@ -35,7 +35,7 @@ app.use(flash());
 
 app.use('/', indexRouter);
 app.use('/staff', staffRouter);
-// app.use('/category', categoryRouter);
+app.use('/category', categoryRouter);
 app.use('/product', productRouter);
 app.use('/customer', customerRouter);
 app.use('/promotion', promotionRouter);
