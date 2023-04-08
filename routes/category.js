@@ -90,14 +90,12 @@ router.post('/update/:id', function (req, res, next) {
 
 /* destroy */
 router.post('/destroy/:id', function (req, res, next) {
-    var id = req.params.id;
-    var d = new Date().toISOString().split('T');
-    var deleted_at_date = d[0];
-    var deleted_at_time = d[1];
-    var deleted_at = deleted_at_date.concat(" ", deleted_at_time);
+    var d = new Date(),
+    dt = d.toISOString().replace('T', ' ').substring(0, 19),
+    id = req.params.id;
     var query = `
 	UPDATE categories
-    SET deleted_at = "${deleted_at}"
+    SET deleted_at = "${dt}"
     WHERE id = "${id}"`;
 
     database.query(query, function (err, data) {
