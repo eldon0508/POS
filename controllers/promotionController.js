@@ -33,23 +33,22 @@ const create = (req, res, next) => {
 /* store */
 const store = (req, res, next) => {
     var d = new Date(),
-        dt = d.toISOString().replace('T', ' ').substring(0, 19);
-
-    var q2 = {
-        name: req.body.name,
-        user_id: 1,
-        type: req.body.type,
-        discount_type: req.body.discount_type,
-        rate: req.body.rate,
-        capped_at: req.body.capped_at,
-        promo_code: req.body.promo_code,
-        start_date: req.body.start_date,
-        end_date: req.body.end_date,
-        product_id: req.body.product_id,
-        status: req.body.status,
-        created_at: dt,
-        updated_at: dt,
-    }
+        dt = d.toISOString().replace('T', ' ').substring(0, 19),
+        q2 = {
+            name: req.body.name,
+            user_id: 1,
+            type: req.body.type,
+            discount_type: req.body.discount_type,
+            rate: req.body.rate,
+            capped_at: req.body.capped_at,
+            promo_code: req.body.promo_code,
+            start_date: req.body.start_date,
+            end_date: req.body.end_date,
+            product_id: req.body.product_id,
+            status: req.body.status,
+            created_at: dt,
+            updated_at: dt,
+        }
     var query = "INSERT INTO promotions SET ?";
 
     database.query(query, q2, function (err, data) {
@@ -82,23 +81,21 @@ const edit = (req, res, next) => {
 /* update */
 const update = (req, res, next) => {
     var d = new Date(),
-        dt = d.toISOString().replace('T', ' ').substring(0, 19);
-
-    var q2 = {
-        name: req.body.name,
-        user_id: 1,
-        type: req.body.type,
-        discount_type: req.body.discount_type,
-        rate: req.body.rate,
-        capped_at: req.body.capped_at,
-        promo_code: req.body.promo_code,
-        start_date: req.body.start_date,
-        end_date: req.body.end_date,
-        product_id: req.body.product_id,
-        status: req.body.status,
-        created_at: dt,
-        updated_at: dt,
-    }
+        dt = d.toISOString().replace('T', ' ').substring(0, 19),
+        q2 = {
+            name: req.body.name,
+            user_id: 1,
+            type: req.body.type,
+            discount_type: req.body.discount_type,
+            rate: req.body.rate,
+            capped_at: req.body.capped_at,
+            promo_code: req.body.promo_code,
+            start_date: req.body.start_date,
+            end_date: req.body.end_date,
+            product_id: req.body.product_id,
+            status: req.body.status,
+            updated_at: dt,
+        }
 
     var query = `UPDATE promotions SET ? WHERE id = "${req.params.id}"`;
 
@@ -115,11 +112,7 @@ const update = (req, res, next) => {
 const destroy = (req, res, next) => {
     var d = new Date(),
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
-        id = req.params.id,
-        query = `
-	UPDATE promotions
-    SET deleted_at = "${dt}"
-    WHERE id = "${id}"`;
+        query = `UPDATE promotions SET deleted_at = "${dt}" WHERE id = "${req.params.id}"`;
 
     database.query(query, function (err, data) {
         if (err) throw err;

@@ -4,7 +4,6 @@ const dd = require('dump-die');
 /* index. */
 const index = (req, res, next) => {
     var query = `SELECT * FROM customers WHERE deleted_at IS NULL`;
-
     database.query(query, function (err, data) {
         if (err) throw err;
 
@@ -27,19 +26,19 @@ const create = (req, res, next) => {
 /* store */
 const store = (req, res, next) => {
     var d = new Date(),
-        dt = d.toISOString().replace('T', ' ').substring(0, 19);
+        dt = d.toISOString().replace('T', ' ').substring(0, 19),
+        q2 = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            dob: req.body.dob,
+            address: req.body.address,
+            created_at: dt,
+            updated_at: dt,
+        }
 
-    var product = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        dob: req.body.dob,
-        address: req.body.address,
-        created_at: dt,
-        updated_at: dt,
-    }
     var query = "INSERT INTO customers SET ?";
 
-    database.query(query, product, function (err, data) {
+    database.query(query, q2, function (err, data) {
         if (err) throw err;
 
         req.flash('msg', 'New Customer has been created!');
@@ -68,19 +67,18 @@ const edit = (req, res, next) => {
 /* update */
 const update = (req, res, next) => {
     var d = new Date(),
-        dt = d.toISOString().replace('T', ' ').substring(0, 19);
-
-    var customer = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        dob: req.body.dob,
-        address: req.body.address,
-        updated_at: dt,
-    }
+        dt = d.toISOString().replace('T', ' ').substring(0, 19),
+        q2 = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            dob: req.body.dob,
+            address: req.body.address,
+            updated_at: dt,
+        }
 
     var query = `UPDATE customers SET ? WHERE id = "${req.params.id}"`;
 
-    database.query(query, customer, function (err, data) {
+    database.query(query, q2, function (err, data) {
         if (err) throw err;
 
         req.flash('msg', 'Customer has been updated!');
@@ -93,12 +91,7 @@ const update = (req, res, next) => {
 const destroy = (req, res, next) => {
     var d = new Date(),
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
-        id = req.params.id;
-
-    var query = `
-	UPDATE customers
-    SET deleted_at = "${dt}"
-    WHERE id = "${id}"`;
+        query = `UPDATE customers SET deleted_at = "${dt}" WHERE id = "${req.params.id}"`;
 
     database.query(query, function (err, data) {
         if (err) throw err;

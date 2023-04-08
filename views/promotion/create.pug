@@ -21,7 +21,7 @@ block content
                                         div.form-group
                                             label
                                                 | Name
-                                            input.form-control#name(type='text' name='name' placeholder='Enter Name' required)
+                                            input.form-control#name(name='name' placeholder='Enter Name' required)
                                     div.col-6
                                         div.form-group
                                             label
@@ -76,7 +76,7 @@ block content
                                             label
                                                 | Product
                                             select.form-control.select2#product_id(name="product_id")
-                                                option(value="") --- Select Status ---
+                                                option(value="") --- Select Product ---
                                                 each product in products
                                                     option(value=product.id) #{product.name}
                                     div.col-6

@@ -4,10 +4,10 @@ const dd = require('dump-die');
 /* index */
 const index = (req, res, next) => {
     var query = `
-    SELECT p.*, c.name as category_name 
-    FROM products p 
-    LEFT JOIN categories c ON p.category_id = c.id
-    WHERE p.deleted_at IS NULL`;
+        SELECT p.*, c.name as category_name 
+        FROM products p 
+        LEFT JOIN categories c ON p.category_id = c.id
+        WHERE p.deleted_at IS NULL`;
 
     database.query(query, function (err, data) {
         if (err) throw err;
@@ -37,24 +37,23 @@ const create = (req, res, next) => {
 /* store */
 const store = (req, res, next) => {
     var d = new Date(),
-        dt = d.toISOString().replace('T', ' ').substring(0, 19);
-
-    var product = {
-        name: req.body.name,
-        category_id: req.body.category_id,
-        description: req.body.description,
-        stock: req.body.stock,
-        unit_price: req.body.unit_price,
-        discounted_price: (req.body.discounted_price == null) ? 0 : req.body.discounted_price,
-        expiry_date: req.body.expiry_date,
-        age_restriction: (req.body.age_restriction == null) ? 1 : req.body.age_restriction,
-        show_listing: (req.body.show_listing == null) ? 1 : req.body.show_listing,
-        created_at: dt,
-        updated_at: dt,
-    }
+        dt = d.toISOString().replace('T', ' ').substring(0, 19),
+        q2 = {
+            name: req.body.name,
+            category_id: req.body.category_id,
+            description: req.body.description,
+            stock: req.body.stock,
+            unit_price: req.body.unit_price,
+            discounted_price: (req.body.discounted_price == null) ? 0 : req.body.discounted_price,
+            expiry_date: req.body.expiry_date,
+            age_restriction: (req.body.age_restriction == null) ? 1 : req.body.age_restriction,
+            show_listing: (req.body.show_listing == null) ? 1 : req.body.show_listing,
+            created_at: dt,
+            updated_at: dt,
+        }
     var query = "INSERT INTO products SET ?";
 
-    database.query(query, product, function (err, data) {
+    database.query(query, q2, function (err, data) {
         if (err) throw err;
 
         req.flash('msg', 'New Product has been created!');
@@ -84,25 +83,23 @@ const edit = (req, res, next) => {
 /* update */
 const update = (req, res, next) => {
     var d = new Date(),
-        dt = d.toISOString().replace('T', ' ').substring(0, 19);
-
-    var product = {
-        name: req.body.name,
-        category_id: req.body.category_id,
-        description: req.body.description,
-        stock: req.body.stock,
-        unit_price: req.body.unit_price,
-        discounted_price: (req.body.discounted_price == null) ? 0 : req.body.discounted_price,
-        expiry_date: req.body.expiry_date,
-        age_restriction: (req.body.age_restriction == null) ? 1 : req.body.age_restriction,
-        show_listing: (req.body.show_listing == null) ? 1 : req.body.show_listing,
-        created_at: dt,
-        updated_at: dt,
-    }
+        dt = d.toISOString().replace('T', ' ').substring(0, 19),
+        q2 = {
+            name: req.body.name,
+            category_id: req.body.category_id,
+            description: req.body.description,
+            stock: req.body.stock,
+            unit_price: req.body.unit_price,
+            discounted_price: (req.body.discounted_price == null) ? 0 : req.body.discounted_price,
+            expiry_date: req.body.expiry_date,
+            age_restriction: (req.body.age_restriction == null) ? 1 : req.body.age_restriction,
+            show_listing: (req.body.show_listing == null) ? 1 : req.body.show_listing,
+            updated_at: dt,
+        }
 
     var query = `UPDATE products SET ? WHERE id = "${req.params.id}"`;
 
-    database.query(query, product, function (err, data) {
+    database.query(query, q2, function (err, data) {
         if (err) throw err;
 
         req.flash('msg', 'Product has been updated!');
@@ -115,11 +112,7 @@ const update = (req, res, next) => {
 const destroy = (req, res, next) => {
     var d = new Date(),
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
-        id = req.params.id,
-        query = `
-	UPDATE products
-    SET deleted_at = "${dt}"
-    WHERE id = "${id}"`;
+        query = `UPDATE products SET deleted_at = "${dt}" WHERE id = "${req.params.id}"`;
 
     database.query(query, function (err, data) {
         if (err) throw err;

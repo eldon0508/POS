@@ -21,7 +21,7 @@ block content
                                         div.form-group
                                             label
                                                 | Name #{result.name}
-                                            input.form-control#name(type='text' value=result.name name='name' placeholder='Enter Name' required)
+                                            input.form-control#name(value=result.name name='name' placeholder='Enter Name' required)
                                     div.col-6
                                         div.form-group
                                             label
@@ -69,7 +69,7 @@ block content
                                                 | Show Listing
                                             small.text-danger 
                                                 | (Default Yes)
-                                            select.form-control.form-group#show_listing(name="show_listing")
+                                            select.form-control#show_listing(name="show_listing")
                                                 option(value="") --- Select Show Listing ---
                                                 option(value=0 selected=(result.show_listing == 0)) No 
                                                 option(value=1 selected=(result.show_listing == 1)) Yes
