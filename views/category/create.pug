@@ -19,7 +19,15 @@ block content
                                         div.form-group
                                             label
                                                 | Name
-                                            input.form-control#name(type='text' value=typeof name != 'undefined'? name: '' name='name' placeholder='Enter Name' required)
+                                            input.form-control#name(name='name' placeholder='Enter Name' required)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Status
+                                            select.form-control#status(name="status" required)
+                                                option(value="") --- Select Status ---
+                                                option(value=1) Active
+                                                option(value=0) Inactive
                                 div.row
                                     div.col-12
                                         div.form-group

@@ -25,9 +25,11 @@ block content
                                                 th
                                                     | Id
                                                 th
-                                                    | Namex
+                                                    | Name
                                                 th
                                                     | Description
+                                                th
+                                                    | Status
                                                 th
                                                     | Action
                                         tbody 
@@ -39,6 +41,11 @@ block content
                                                         | #{result.name}
                                                     td
                                                         | #{result.description}
+                                                    td
+                                                        if result.status == 1
+                                                            | Active 
+                                                        else 
+                                                            | Inactive
                                                     td
                                                         div(style='display:inline-block')
                                                             a(href='/category/edit/' + result.id).btn.btn-sm.btn-primary.mx-2
@@ -53,21 +60,3 @@ block content
                                 div.col-12.col-md-6
                                     div#table_info.dataTables_info(role="status")
                                         //- Total entries and pagination text added by JS
-
-    .modal.confirmation-modal(role="dialog" tabindex="-1")
-        .modal-dialog(role="document")
-            .modal-content
-                .modal-header
-                    h5.modal-title
-                        | Delete user
-                    button.close(type="button" data-dismiss="modal" arial-label="Close")
-                        span(aria-hidden="true")
-                            | &times;
-                .modal-body 
-                    p 
-                        | Are you sure? 
-                .modal-footer 
-                    button.btn.btn-secondary.js-cancel(data-dismiss="modal")
-                        | Cancel
-                    button.btn.btn-danger.js-confirm
-                        | Continue

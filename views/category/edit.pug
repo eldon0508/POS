@@ -1,5 +1,4 @@
 extends ../layout/base 
-
 block content
     div.content-header
         div.container-fluid
@@ -7,29 +6,35 @@ block content
                 div.col-12
                     h1.m-0
                         | #{title}
-
     section.content
         div.container-fluid
             div.row
                 div.col-12
                     div.card
                         div.card-body
-                            form(action="/category/update/" + result.id method="post")
+                            form(method="post" action="/category/update/" + result.id)
                                 input(type="hidden" name="_csrf" value=_csrf)
                                 div.row
                                     div.col-6
                                         div.form-group
                                             label
-                                                | Name #{result.name}
-                                            input.form-control#name(type='text' value=result.name name='name' placeholder='Enter Name' required)
-                                div.row
+                                                | Name
+                                            input.form-control#name(value=result.name name='name' placeholder='Enter Name' required)
                                     div.col-6
+                                        div.form-group
+                                            label
+                                                | Status
+                                            select.form-control#status(name="status" required)
+                                                option(value="") --- Select Status ---
+                                                option(value=1 selected=(result.status == 1)) Active 
+                                                option(value=0 selected=(result.status == 0)) Inactive
+                                div.row
+                                    div.col-12
                                         div.form-group
                                             label
                                                 | Description
                                             textarea.form-control#description(name="description")
                                                 | #{result.description}
-                                input(type="hidden" name="id" value=result.id)
                                 div.row
                                     div.col-12.text-right
                                         a(href="/category/index").mr-2
