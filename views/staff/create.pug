@@ -14,15 +14,19 @@ block content
                 div.col-12
                     div.card
                         div.card-body
-                            form(action="/staff/store" method="post")
+                            form(method="post" action="/staff/store")
                                 input(type="hidden" name="_csrf" value=_csrf)
                                 div.row
                                     div.col-6
                                         div.form-group
                                             label
                                                 | Username
-                                            input.form-control#name(type='text' value=typeof name != 'undefined'? name: '' name='username' placeholder='Enter Username' required)
-                                div.row
+                                            input.form-control#name(name='username' placeholder='Enter Username' required)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Date of Birth
+                                            input.form-control#dob(type='date' max=new Date().toISOString().split('T')[0] name='dob' placeholder='Enter Date of Birth' required)
                                     div.col-6
                                         div.form-group
                                             label
@@ -33,26 +37,23 @@ block content
                                             label
                                                 | Password
                                             input.form-control#password(type='password' name='password' placeholder='Enter Password' required)
+                                div.row
                                     div.col-6
                                         div.form-group
                                             label
                                                 | First Name
-                                            input.form-control#first_name(type='text' name='first_name' placeholder='Enter First Name' required)
+                                            input.form-control#first_name(name='first_name' placeholder='Enter First Name' required)
                                     div.col-6
                                         div.form-group
                                             label
                                                 | Last Name
-                                            input.form-control#last_name(type='text' name='last_name' placeholder='Enter Last Name' required)
-                                    div.col-6
-                                        div.form-group
-                                            label
-                                                | Date of Birth
-                                            input.form-control#dob(type='date' name='dob' placeholder='Enter Date of Birth' required)
+                                            input.form-control#last_name(name='last_name' placeholder='Enter Last Name' required)
+                                div.row
                                     div.col-6
                                         div.form-group
                                             label
                                                 | Address
-                                            input.form-control#address(type='text' name='address' placeholder='Enter Address' required)
+                                            input.form-control#address(name='address' placeholder='Enter Address' required)
                                     div.col-6
                                         div.form-group
                                             label
