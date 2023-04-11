@@ -13,7 +13,7 @@ const index = (req, res, next) => {
         if (err) throw err;
 
         res.render('product/index', {
-            title: 'Products',
+            title: 'Product',
             results: data,
             msg_type: req.flash('msg_type'),
             msg: req.flash('msg'),

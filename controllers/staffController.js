@@ -9,7 +9,7 @@ const index = (req, res, next) => {
         if (err) throw err;
 
         res.render('staff/index', {
-            title: 'Staffs',
+            title: 'Staff',
             results: data,
             msg_type: req.flash('msg_type'),
             msg: req.flash('msg'),

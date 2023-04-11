@@ -9,7 +9,7 @@ const index = (req, res, next) => {
         if (err) throw err;
 
         res.render('promotion/index', {
-            title: 'Promotions',
+            title: 'Promotion',
             results: data,
             msg_type: req.flash('msg_type'),
             msg: req.flash('msg'),
@@ -24,7 +24,7 @@ const create = (req, res, next) => {
         if (err) throw err;
 
         res.render('promotion/create', {
-            title: 'Promotions - Create',
+            title: 'Promotion - Create',
             products: data,
         });
     });
