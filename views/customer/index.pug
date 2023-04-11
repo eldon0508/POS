@@ -49,7 +49,7 @@ block content
                                                     td
                                                         | #{result.last_name}
                                                     td 
-                                                        | #{result.dob}
+                                                        | #{result.dob.toISOString().replace('T', ' ').substring(0, 10)}
                                                     td 
                                                         | #{result.address}
                                                     td 
