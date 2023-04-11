@@ -1,11 +1,11 @@
-var database = require('../database');
+var db = require('../database');
 const dd = require('dump-die');
 const bcrypt = require('bcrypt');
 
 /* index */
 const index = (req, res, next) => {
     var query = `SELECT * FROM users WHERE deleted_at IS NULL`;
-    database.query(query, function (err, data) {
+    db.query(query, function (err, data) {
         if (err) throw err;
 
         res.render('staff/index', {
@@ -25,90 +25,113 @@ const create = (req, res, next) => {
 }
 
 /* store */
-const store = (req, res, next) => {
-    var d = new Date(),
-        dt = d.toISOString().replace('T', ' ').substring(0, 19),
-        q2 = {
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password,
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            dob: req.body.dob,
-            address: req.body.address,
-            role: req.body.role,
-            created_at: dt,
-            updated_at: dt,
-        };
+const store = async (req, res, next) => {
+    await db.beginTransaction();
 
-    var query = "INSERT INTO users SET ?";
+    try {
+        var d = new Date(),
+            dt = d.toISOString().replace('T', ' ').substring(0, 19),
+            q2 = {
+                username: req.body.username,
+                email: req.body.email,
+                password: req.body.password,
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+                dob: req.body.dob,
+                address: req.body.address,
+                role: req.body.role,
+                created_at: dt,
+                updated_at: dt,
+            };
 
-    database.query(query, q2, function (err, data) {
-        if (err) throw err;
+        var query = "INSERT INTO users SET ?";
+
+        db.query(query, q2);
 
         req.flash('msg', 'New Staff has been created!');
         req.flash('msg_type', 'success');
-        res.redirect("/staff/index");
-    });
+        db.commit();
+    } catch (error) {
+        db.rollback();
+        req.flash('msg', 'Failed to create record. Something went wrong!');
+        req.flash('msg_type', 'error');
+    }
+
+    res.redirect("/staff/index");
 }
 
 /* edit */
 const edit = (req, res, next) => {
-    var id = req.params.id;
-    var query = `SELECT * FROM users WHERE id = "${id}";`;
+    var query = `SELECT * FROM users WHERE id = "${req.params.id}";`;
 
-    database.query(query, function (err, data) {
+    db.query(query, function (err, data) {
         if (err) throw err;
 
         var title = data[0].username + ' - Edit';
         res.render('staff/edit', {
             title: title,
-            result: data[0]
+            result: data[0],
         });
 
     });
 }
 
 /* update */
-const update = (req, res, next) => {
-    var d = new Date(),
-        dt = d.toISOString().replace('T', ' ').substring(0, 19),
-        q2 = {
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password,
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            dob: req.body.dob,
-            address: req.body.address,
-            role: req.body.role,
-            updated_at: dt,
-        };
+const update = async (req, res, next) => {
+    await db.beginTransaction();
 
-    var query = `UPDATE users SET ? WHERE id = "${req.params.id}"`;
+    try {
+        var d = new Date(),
+            dt = d.toISOString().replace('T', ' ').substring(0, 19),
+            q2 = {
+                username: req.body.username,
+                email: req.body.email,
+                password: req.body.password,
+                first_name: req.body.first_name,
+                last_name: req.body.last_name,
+                dob: req.body.dob,
+                address: req.body.address,
+                role: req.body.role,
+                updated_at: dt,
+            };
 
-    database.query(query, q2, function (err, data) {
-        if (err) throw err;
+        var query = `UPDATE users SET ? WHERE id = "${req.params.id}"`;
 
+        db.query(query, q2);
         req.flash('msg', 'Staff has been updated!');
         req.flash('msg_type', 'success');
-        res.redirect("/staff/index");
-    });
+        db.commit();
+    } catch (error) {
+        db.rollback();
+        req.flash('msg', 'Failed to update record. Something went wrong!');
+        req.flash('msg_type', 'error');
+    }
+
+    res.redirect("/staff/index");
 }
 
 /* destroy */
-const destroy = (req, res, next) => {
-    var d = new Date(),
-        dt = d.toISOString().replace('T', ' ').substring(0, 19),
-        query = `UPDATE users SET deleted_at = "${dt}" WHERE id = "${req.params.id}"`;
+const destroy = async (req, res, next) => {
+    await db.beginTransaction();
 
-    database.query(query, function (err, data) {
-        if (err) throw err;
+    try {
+        var d = new Date(),
+            dt = d.toISOString().replace('T', ' ').substring(0, 19),
+            query = `UPDATE users SET deleted_at = "${dt}" WHERE id = "${req.params.id}"`;
+
+        db.query(query);
 
         req.flash('msg', 'Staff has been deleted!');
         req.flash('msg_type', 'success');
-        res.redirect("/staff/index");
-    });
+
+        db.commit();
+    } catch (error) {
+        db.rollback();
+        req.flash('msg', 'Failed to delete record. Something went wrong!');
+        req.flash('msg_type', 'error');
+    }
+
+    res.redirect("/staff/index");
 }
 
 module.exports = { index, create, store, edit, update, destroy };
