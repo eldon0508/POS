@@ -50,7 +50,8 @@ const store = (req, res, next) => {
             show_listing: (req.body.show_listing == null) ? 1 : req.body.show_listing,
             created_at: dt,
             updated_at: dt,
-        }
+        };
+
     var query = "INSERT INTO products SET ?";
 
     database.query(query, q2, function (err, data) {
@@ -95,7 +96,7 @@ const update = (req, res, next) => {
             age_restriction: (req.body.age_restriction == null) ? 1 : req.body.age_restriction,
             show_listing: (req.body.show_listing == null) ? 1 : req.body.show_listing,
             updated_at: dt,
-        }
+        };
 
     var query = `UPDATE products SET ? WHERE id = "${req.params.id}"`;
 

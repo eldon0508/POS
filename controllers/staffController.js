@@ -1,5 +1,6 @@
 var database = require('../database');
 const dd = require('dump-die');
+const bcrypt = require('bcrypt');
 
 /* index */
 const index = (req, res, next) => {
@@ -38,7 +39,8 @@ const store = (req, res, next) => {
             role: req.body.role,
             created_at: dt,
             updated_at: dt,
-        }
+        };
+
     var query = "INSERT INTO users SET ?";
 
     database.query(query, q2, function (err, data) {
@@ -81,7 +83,7 @@ const update = (req, res, next) => {
             address: req.body.address,
             role: req.body.role,
             updated_at: dt,
-        }
+        };
 
     var query = `UPDATE users SET ? WHERE id = "${req.params.id}"`;
 

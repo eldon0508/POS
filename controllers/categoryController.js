@@ -34,7 +34,7 @@ const store = (req, res, next) => {
             status: req.body.status,
             created_at: dt,
             updated_at: dt,
-        }
+        };
 
     var query = "INSERT INTO categories SET ?";
 
@@ -72,7 +72,7 @@ const update = (req, res, next) => {
             description: req.body.description,
             status: req.body.status,
             updated_at: dt,
-        }
+        };
 
     var query = `UPDATE categories SET ? WHERE id = "${req.params.id}"`;
 

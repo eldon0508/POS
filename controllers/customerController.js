@@ -34,7 +34,7 @@ const store = (req, res, next) => {
             address: req.body.address,
             created_at: dt,
             updated_at: dt,
-        }
+        };
 
     var query = "INSERT INTO customers SET ?";
 
@@ -74,7 +74,7 @@ const update = (req, res, next) => {
             dob: req.body.dob,
             address: req.body.address,
             updated_at: dt,
-        }
+        };
 
     var query = `UPDATE customers SET ? WHERE id = "${req.params.id}"`;
 

@@ -48,7 +48,8 @@ const store = (req, res, next) => {
             status: req.body.status,
             created_at: dt,
             updated_at: dt,
-        }
+        };
+
     var query = "INSERT INTO promotions SET ?";
 
     database.query(query, q2, function (err, data) {
@@ -95,7 +96,7 @@ const update = (req, res, next) => {
             product_id: req.body.product_id,
             status: req.body.status,
             updated_at: dt,
-        }
+        };
 
     var query = `UPDATE promotions SET ? WHERE id = "${req.params.id}"`;
 
