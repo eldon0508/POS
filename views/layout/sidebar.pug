@@ -10,35 +10,42 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4
 				img.img-circle.elevation-2(src="/adminlte/dist/img/user2-160x160.jpg" alt="User image")
 			div.info
 				a.d-block(href="#")
-					| Ah Beng
+					| #{req.user.username}
 
 		nav.mt-2
 			ul.nav.nav-pills.nav-sidebar.flex-column(data-widget="treeview" role="menu" data-accordion="false")
-				li.nav-item
-					a.nav-link(href="/category/index")
-						i.nav-icon.fas.fa-list
-						p
-							| Category
-				li.nav-item
-					a.nav-link(href="/product/index")
-						i.nav-icon.fas.fa-box
-						p
-							| Product
-				li.nav-item
-					a.nav-link(href="/staff/index")
-						i.nav-icon.fas.fa-user-shield
-						p
-							| Staff
-				li.nav-item
-					a.nav-link(href="/customer/index")
-						i.nav-icon.fas.fa-users
-						p
-							| Customer
-				li.nav-item
-					a.nav-link(href="/promotion/index")
-						i.nav-icon.fas.fa-percent
-						p
-							| Promotion
+				if(req.user.role == 1)
+					li.nav-item
+						a.nav-link(href="/category/index")
+							i.nav-icon.fas.fa-list
+							p
+								| Category
+					li.nav-item
+						a.nav-link(href="/product/index")
+							i.nav-icon.fas.fa-box
+							p
+								| Product
+					li.nav-item
+						a.nav-link(href="/staff/index")
+							i.nav-icon.fas.fa-user-shield
+							p
+								| Staff
+					li.nav-item
+						a.nav-link(href="/customer/index")
+							i.nav-icon.fas.fa-users
+							p
+								| Customer
+					li.nav-item
+						a.nav-link(href="/promotion/index")
+							i.nav-icon.fas.fa-percent
+							p
+								| Promotion
+				else
+					li.nav-item
+						a.nav-link(href="/promotion/index")
+							i.nav-icon.fas.fa-percent
+							p
+								| Promotion2
 
 				//- li.nav-item
 				//- 	a.nav-link(href="#")

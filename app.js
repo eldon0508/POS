@@ -1,19 +1,43 @@
 var createError = require('http-errors');
 const express = require('express');
-var path = require('path');
-const flash = require('connect-flash');
-const session = require('express-session');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const path = require('path'),
+  flash = require('connect-flash'),
+  session = require('express-session'),
+  cookieParser = require('cookie-parser'),
+  logger = require('morgan'),
+  passport = require('passport');
 
-var indexRouter = require('./routes/index');
-var categoryRouter = require('./routes/category');
-var productRouter = require('./routes/product');
-var staffRouter = require('./routes/staff');
-var customerRouter = require('./routes/customer');
-var promotionRouter = require('./routes/promotion');
+// Routes declaration
+var indexRouter = require('./routes/index'),
+  categoryRouter = require('./routes/category'),
+  productRouter = require('./routes/product'),
+  staffRouter = require('./routes/staff'),
+  customerRouter = require('./routes/customer'),
+  promotionRouter = require('./routes/promotion'),
+  checkoutRouter = require('./routes/checkout');
 
-var app = express();
+const app = express();
+
+/* Protecting routes declaration */
+function isAuth(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  req.flash('msg', 'Unauthorised access! Please login!');
+  req.flash('msg_type', 'error');
+  res.redirect('/login');
+}
+function isManager(req, res, next) {
+  if (req.user.role == 1) { return next(); }
+  req.flash('msg', 'Unauthorised! Manager access required!');
+  req.flash('msg_type', 'warning');
+  res.redirect('back');
+}
+function isStaff(req, res, next) {
+  if (req.user.role == 1 || req.user.role == 2) { return next(); }
+  req.flash('msg', 'Unauthorised access! Please login!');
+  req.flash('msg_type', 'error');
+  res.redirect('/login');
+}
+/* Protecting routes */
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,13 +56,16 @@ app.use(session({
   resave: true,
 }));
 app.use(flash());
+app.use(passport.authenticate('session'));
 
+// Routes
 app.use('/', indexRouter);
-app.use('/staff', staffRouter);
-app.use('/category', categoryRouter);
-app.use('/product', productRouter);
-app.use('/customer', customerRouter);
-app.use('/promotion', promotionRouter);
+app.use('/staff', [isAuth, isManager], staffRouter);
+app.use('/category', [isAuth, isManager], categoryRouter);
+app.use('/product', [isAuth, isManager], productRouter);
+app.use('/customer', [isAuth, isStaff], customerRouter);
+app.use('/promotion', [isAuth, isManager], promotionRouter);
+app.use('/checkout', [isAuth, isStaff], checkoutRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

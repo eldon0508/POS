@@ -7,3 +7,4 @@ https://www.w3schools.com/MySQL/
 https://codeforgeek.com/render-html-file-expressjs/
 https://www.npmjs.com/package/bcrypt
 https://www.youtube.com/watch?v=JqF2BJBQI9Y&ab_channel=TheNetNinja
+https://www.passportjs.org/tutorials/password/verify/
