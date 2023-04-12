@@ -1,5 +1,5 @@
 var db = require('../database');
-const dd = require('dump-die');
+
 
 /* index */
 const index = (req, res, next) => {
@@ -13,6 +13,7 @@ const index = (req, res, next) => {
             results: data,
             msg_type: req.flash('msg_type'),
             msg: req.flash('msg'),
+            req: req,
         });
     });
 }
@@ -26,6 +27,7 @@ const create = (req, res, next) => {
         res.render('promotion/create', {
             title: 'Promotion - Create',
             products: data,
+            req: req,
         });
     });
 }
@@ -81,8 +83,8 @@ const edit = (req, res, next) => {
             title: title,
             result: data[0][0],
             products: data[1],
+            req: req,
         });
-
     });
 }
 

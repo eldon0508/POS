@@ -1,8 +1,9 @@
 var db = require('../database');
-const dd = require('dump-die');
+
 
 /* index */
 const index = (req, res, next) => {
+    console.log(req);
     var query = `
         SELECT p.*, c.name as category_name 
         FROM products p 
@@ -17,6 +18,7 @@ const index = (req, res, next) => {
             results: data,
             msg_type: req.flash('msg_type'),
             msg: req.flash('msg'),
+            req: req,
         });
     });
 }
@@ -30,6 +32,7 @@ const create = (req, res, next) => {
         res.render('product/create', {
             title: 'Product - Create',
             categories: data,
+            req: req,
         });
     });
 }
@@ -83,8 +86,8 @@ const edit = (req, res, next) => {
             title: title,
             result: data[0][0],
             categories: data[1],
+            req: req,
         });
-
     });
 }
 

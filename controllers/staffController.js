@@ -1,5 +1,5 @@
 var db = require('../database');
-const dd = require('dump-die');
+
 const bcrypt = require('bcrypt');
 
 /* index */
@@ -13,6 +13,7 @@ const index = (req, res, next) => {
             results: data,
             msg_type: req.flash('msg_type'),
             msg: req.flash('msg'),
+            req: req,
         });
     });
 }
@@ -20,7 +21,8 @@ const index = (req, res, next) => {
 /* create */
 const create = (req, res, next) => {
     res.render('staff/create', {
-        title: 'Staff - Create'
+        title: 'Staff - Create',
+        req: req,
     });
 }
 
@@ -71,8 +73,8 @@ const edit = (req, res, next) => {
         res.render('staff/edit', {
             title: title,
             result: data[0],
+            req: req,
         });
-
     });
 }
 
