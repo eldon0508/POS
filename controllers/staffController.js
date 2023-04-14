@@ -122,10 +122,8 @@ const destroy = async (req, res, next) => {
             query = `UPDATE users SET deleted_at = "${dt}" WHERE id = "${req.params.id}"`;
 
         db.query(query);
-
         req.flash('msg', 'Staff has been deleted!');
         req.flash('msg_type', 'success');
-
         db.commit();
     } catch (error) {
         db.rollback();

@@ -1,13 +1,12 @@
 var db = require('../database');
 
-
 /* index */
 const index = (req, res, next) => {
-    console.log(req);
     var query = `
-        SELECT p.*, c.name as category_name 
-        FROM products p 
-        LEFT JOIN categories c ON p.category_id = c.id
+        SELECT p.*, c.name AS category_name
+        FROM products p
+        LEFT JOIN categories c
+        ON p.category_id = c.id
         WHERE p.deleted_at IS NULL`;
 
     db.query(query, function (err, data) {
