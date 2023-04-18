@@ -37,6 +37,17 @@ block content
                                     div.col-6
                                         div.form-group
                                             label
+                                                | Phone
+                                            input#phone.form-control(type="phone" name="phone" value=result.phone placeholder="Enter Phone" required)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Email
+                                            input.form-control#email(type="email" name='email' value=result.email placeholder='Enter Email' required)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
                                                 | Date Of Birth
                                             input#dob.form-control(value=result.dob.toISOString().split('T')[0] type="date" name="dob" placeholder="Enter Date of Birth" max=new Date().toISOString().split('T')[0] required)
                                     div.col-6
@@ -52,3 +63,87 @@ block content
                                                 | Back
                                         button.btn.btn-success(type='submit')
                                             | Submit
+
+        //- div.content-header
+        //-     .container-fluid
+        //-         .row.mb-2
+        //-             .col-sm-6
+        //-                 h1 Transactions
+
+        //- div.container-fluid
+        //-     div.row
+        //-         #accordion.col-12
+        //-             each transaction in transactions
+        //-                 .card.card-primary.card-outline
+        //-                     a.d-block.w-100(data-toggle='collapse' href='#collapseOne')
+        //-                         .card-header
+        //-                             h4.card-title.w-100
+        //-                                 | Transaction ID ##{transaction.transaction_id}
+        //-                     #collapseOne.collapse.show(data-parent='#accordion')
+        //-                         .card-body
+        //-                             .invoice.p-3.mb-3
+        //-                                 .row
+        //-                                     .col-12
+        //-                                         h4
+        //-                                             i.fas.fa-info-circle
+        //-                                             |  Customer Details
+        //-                                             small.float-right Date: #{result.created_at.toISOString().replace('T', ' ').substring(0, 10)}
+        //-                                 .row.invoice-info
+        //-                                     .col-sm-4.invoice-col
+        //-                                         address
+        //-                                             strong #{result.first_name} #{result.last_name}
+        //-                                             br
+        //-                                             | #{result.address}
+        //-                                             br
+        //-                                             | Phone: #{result.phone}
+        //-                                             br
+        //-                                             | Email: #{result.email}
+        //-                                 div.row
+        //-                                     div.col-12.table-responsive
+        //-                                         table.table.table-striped
+        //-                                             thead
+        //-                                                 tr
+        //-                                                     th(width='10%')
+        //-                                                         | Qty
+        //-                                                     th
+        //-                                                         | Product
+        //-                                                     th
+        //-                                                         | Description
+        //-                                                     th 
+        //-                                                         | Unit Price
+        //-                                                     th 
+        //-                                                         | Total
+        //-                                             tbody
+        //-                                                 each item in items
+        //-                                                     tr
+        //-                                                         td
+        //-                                                             | #{transaction.quantity}
+        //-                                                         if transaction.age_restriction
+        //-                                                             td.text-danger
+        //-                                                                 | *#{transaction.name}
+        //-                                                         else
+        //-                                                             td
+        //-                                                                 | #{transaction.name}
+        //-                                                         td
+        //-                                                             | #{transaction.description}
+        //-                                                         td
+        //-                                                             | #{transaction.unit_price.toFixed(2)}
+        //-                                                         td
+        //-                                                             | #{transaction.total.toFixed(2)}
+        //-                                 .row
+        //-                                     .col-3.offset-9
+        //-                                         .table-responsive
+        //-                                             table.table
+        //-                                                 tbody
+        //-                                                     tr
+        //-                                                         th(style='width:50%') Subtotal:
+        //-                                                         td 
+        //-                                                             | #{result.subtotal.toFixed(2)}
+        //-                                                     tr
+        //-                                                         th Tax (10%)
+        //-                                                         td 
+        //-                                                             | #{result.tax.toFixed(2)}
+        //-                                                     tr
+        //-                                                         th Grand Total:
+        //-                                                         td 
+        //-                                                             | #{result.grand_total.toFixed(2)}

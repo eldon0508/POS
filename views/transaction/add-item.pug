@@ -1,0 +1,20 @@
+form(action="/transaction/" + result.id + "/addItem" method="post")
+    input(type="hidden" name="transaction_id" value=result.id)
+    div.row
+        div.col-6
+            div.form-group
+                label
+                    | Product
+                select.select2.form-control#product_id(name="product_id" required)
+                    option(value="") --- Select Product ---
+                    each prod in products 
+                        option(value=prod.id) #{prod.name}
+        div.col-6
+            div.form-group
+                label
+                    | Quantity
+                input#quantity.form-control(type="number" name="quantity" min=1 step=1)
+    .row
+        .col-12
+            button.btn.btn-success.float-right(type='submit')
+                | Add

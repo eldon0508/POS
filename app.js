@@ -14,7 +14,8 @@ var indexRouter = require('./routes/index'),
   staffRouter = require('./routes/staff'),
   customerRouter = require('./routes/customer'),
   promotionRouter = require('./routes/promotion'),
-  checkoutRouter = require('./routes/checkout');
+  checkoutRouter = require('./routes/checkout'),
+  transactionRouter = require('./routes/transaction');
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use('/product', [isAuth, isManager], productRouter);
 app.use('/customer', [isAuth, isStaff], customerRouter);
 app.use('/promotion', [isAuth, isManager], promotionRouter);
 app.use('/checkout', [isAuth, isStaff], checkoutRouter);
+app.use('/transaction', [isAuth, isStaff], transactionRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

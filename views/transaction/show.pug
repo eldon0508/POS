@@ -1,0 +1,64 @@
+extends ../layout/base 
+
+block content
+    div.content-header
+        .container-fluid
+            .row.mb-2
+                .col-sm-6
+                    h1 #{title}
+                .col-sm-6
+                    ol.breadcrumb.float-sm-right
+                        li.breadcrumb-item
+                            a(href='/') Home
+                        li.breadcrumb-item
+                            a(href='/transaction/index') Transaction
+                        li.breadcrumb-item.active Show
+    section.content
+        .container-fluid
+            .row
+                .col-12
+                    .invoice.p-3.mb-3
+                        .row
+                            .col-12
+                                h4
+                                    i.fas.fa-globe
+                                    |  Customer Details
+                                    small.float-right Date: #{result.updated_at.toISOString().replace('T', ' ').substring(0, 10)}
+                        .row.invoice-info
+                            .col-sm-4.invoice-col
+                                address
+                                    strong #{customer.first_name} #{customer.last_name}
+                                    br
+                                    | #{customer.address}
+                                    br
+                                    | Phone: #{customer.phone}
+                                    br
+                                    | Email: #{customer.email}
+                        include items.pug
+                        .row
+                            .col-3.offset-9
+                                .table-responsive
+                                    table.table
+                                        tbody
+                                            tr
+                                                th(style='width:50%') Subtotal:
+                                                td 
+                                                    | #{result.subtotal.toFixed(2)}
+                                            tr
+                                                th Tax (10%)
+                                                td 
+                                                    | #{result.tax.toFixed(2)}
+                                            tr
+                                                th Grand Total:
+                                                td 
+                                                    | #{result.grand_total.toFixed(2)}
+                        .row
+                            .col-12
+                                small.text-danger.text-small
+                                    | *=Age Restricted Item
+                                button.btn.btn-warning.float-right.no-print(type='button')
+                                    i.fas.fa-hand-holding-usd
+                                    |  Refund
+                                button.btn.btn-default.float-right.no-print.mx-2(type='button' onclick="window.print();")
+                                    i.fas.fa-print
+                                    |  Print

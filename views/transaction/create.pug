@@ -1,0 +1,40 @@
+extends ../layout/base
+
+block content
+    div.content-header
+        .container-fluid
+            .row.mb-2
+                .col-sm-6
+                    h1 #{title}
+                .col-sm-6
+                    ol.breadcrumb.float-sm-right
+                        li.breadcrumb-item
+                            a(href='/') Home
+                        li.breadcrumb-item
+                            a(href='/transaction/index') Transaction
+                        li.breadcrumb-item.active Create
+
+    section.content
+        div.container-fluid
+            div.row
+                div.col-12
+                    div.card
+                        div.card-body
+                            form(action="/transaction/store" method="post")
+                                input(type="hidden" name="_csrf" value=_csrf)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Customer
+                                            select.select2.form-control#customer_id(name="customer_id" required)
+                                                option(value="") --- Select Customer ---
+                                                each customer in customers
+                                                    option(value=customer.id) #{customer.first_name} #{customer.last_name}
+                                div.row
+                                    div.col-12.text-right
+                                        a(href="/transaction/index").mx-2
+                                            button.btn.btn-secondary(type='button')
+                                                | Back
+                                        button.btn.btn-success(type='submit')
+                                            | Submit

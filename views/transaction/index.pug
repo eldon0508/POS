@@ -18,9 +18,9 @@ block content
                 div.col-12
                     div.card
                         div.card-header
-                            a(href='/customer/create').btn.btn-primary.float-right
+                            a(href='/transaction/create').btn.btn-primary.float-right
                                 i.fa.fa-plus 
-                                |  Create Customer
+                                |  Create Transaction
                         div.card-body
                             div.row
                                 div.col-12
@@ -30,39 +30,40 @@ block content
                                                 th
                                                     | Id
                                                 th
-                                                    | Name
+                                                    | Customer
                                                 th
-                                                    | Phone
+                                                    | Item Qty
                                                 th
-                                                    | Date of Birth
-                                                th
-                                                    | Address
+                                                    | Amount
                                                 th 
+                                                    | Status
+                                                th 
+                                                    | Date
+                                                th
                                                     | Action
                                         tbody 
                                             each result in results
                                                 tr
-                                                    td 
-                                                        | #{result.id}
+                                                    td #{result.id}
                                                     td
-                                                        | #{result.first_name} #{result.last_name}
+                                                        a(href="/customer/edit/" + result.customer_id)
+                                                            | #{result.first_name} #{result.last_name}
+                                                    td #{result.total_quantity}
+                                                    td #{result.grand_total.toFixed(2)}
+                                                    td #{(result.status).toUpperCase()}
+                                                    td #{result.created_at.toISOString().replace('T', ' ').substring(0, 10)}
                                                     td
-                                                        | #{result.phone}
-                                                    td 
-                                                        | #{result.dob.toISOString().replace('T', ' ').substring(0, 10)}
-                                                    td 
-                                                        | #{result.address}
-                                                    td
+                                                        if result.status == 'completed'
+                                                            div(style='display:inline-block')
+                                                                a(href='/transaction/show/' + result.id).btn.btn-sm.btn-info.mx-2
+                                                                    i.fa.fa-eye
+                                                        
+                                                        if result.status == 'pending'
+                                                            div(style='display:inline-block')
+                                                                a(href='/transaction/edit/' + result.id).btn.btn-sm.btn-primary.mx-2
+                                                                    i.fa.fa-edit
                                                         div(style='display:inline-block')
-                                                            form(method='post' action='/customer/new/tran/' + result.id)
-                                                                input(type="hidden" name="_csrf" value=_csrf)
-                                                                button.btn.btn-sm.btn-info(type='submit')
-                                                                    i.fa.fa-shopping-cart
-                                                        div(style='display:inline-block')
-                                                            a(href='/customer/edit/' + result.id).btn.btn-sm.btn-primary.mx-2
-                                                                i.fa.fa-edit
-                                                        div(style='display:inline-block')
-                                                            form(method='post' action='/customer/destroy/' + result.id)
+                                                            form(method='post' action='/staff/destroy/1')
                                                                 input(type="hidden" name="_method" value="DELETE")
                                                                 button.btn.btn-sm.btn-danger(type='submit')
                                                                     i.fas.fa-trash-alt

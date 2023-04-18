@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2023 at 06:40 PM
+-- Generation Time: Apr 18, 2023 at 04:57 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -58,12 +58,25 @@ CREATE TABLE `customers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `dob` date NOT NULL,
   `address` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `first_name`, `last_name`, `phone`, `email`, `dob`, `address`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Arthur', 'Scott', '+44(0)6737 072566', 'young.kieran@saunders.biz', '1992-02-23', 'Studio 51n\nWhite Shores\nLake Hannahfurt\nW1D 4PR', '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(2, 'Tanya', 'Rogers', '(00487) 44174', 'hunter.lauren@gmail.co.uk', '2015-10-08', '878 Muhammad Expressway\nMartinville\nWR14 2YU', '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(3, 'Phoebe', 'Taylor', '+44(0)9337 048275', 'evans.riley@hotmail.com', '2008-11-24', 'Studio 00\nWard Harbours\nWest Masonmouth\nRM9 4UT', '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(4, 'Jordan', 'Murray', '0844528220', 'charrison@yahoo.com', '2000-08-17', '960 Pauline Shore\nClarkborough\nWR5 1DG', '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(5, 'Linda', 'Wilkinson', '0531 953 8492', 'fdavis@hotmail.com', '2016-09-05', '39 Mason Neck\nCoxview\nBN12 6HW', '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -92,106 +105,56 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `category_id`, `description`, `stock`, `unit_price`, `discounted_price`, `expiry_date`, `age_restriction`, `show_listing`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Anthony Wood', 5, 'Jennifer Clark', 100, 7.00, 0.00, '1996-06-01', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(2, 'Ella Wilson', 3, 'Sophia Morgan', 100, 5.00, 0.00, '1983-06-12', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(3, 'Mia Davies', 4, 'Sophia White', 100, 9.00, 0.00, '2014-04-18', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(4, 'Will Cox', 2, 'Duncan Butler', 100, 7.00, 0.00, '1981-05-27', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(5, 'Danielle King', 1, 'Martin Stewart', 100, 8.00, 0.00, '1995-10-20', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(6, 'Abigail Phillips', 3, 'Adam Reynolds', 100, 7.00, 0.00, '1992-02-02', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(7, 'Freddie Ward', 5, 'Mike Ward', 100, 1.00, 0.00, '2022-01-29', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(8, 'Zachary Hall', 3, 'John Clark', 100, 4.00, 0.00, '2020-10-30', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(9, 'Jeremy Taylor', 1, 'Erin Thompson', 100, 5.00, 0.00, '1985-05-20', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(10, 'Matthew Wilkinson', 3, 'Florence James', 100, 1.00, 0.00, '1996-09-05', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(11, 'Oliver Khan', 5, 'Ryan Davis', 100, 8.00, 0.00, '2001-06-15', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(12, 'Lizzie Edwards', 1, 'Victoria Robinson', 100, 3.00, 0.00, '1995-04-23', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(13, 'Jonathan Knight', 4, 'Rosie Phillips', 100, 9.00, 0.00, '1977-09-18', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(14, 'Alexander Marshall', 3, 'Dale Lewis', 100, 1.00, 0.00, '2005-01-19', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(15, 'Eva Powell', 5, 'Layla Anderson', 100, 9.00, 0.00, '1995-07-08', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(16, 'Sonia Turner', 5, 'Benjamin Robinson', 100, 2.00, 0.00, '2021-05-08', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(17, 'Abbie Davies', 5, 'Graham Harris', 100, 8.00, 0.00, '1977-02-05', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(18, 'Jade Kelly', 5, 'Alexander Ellis', 100, 1.00, 0.00, '2015-02-28', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(19, 'Kevin Clark', 1, 'Darren Knight', 100, 4.00, 0.00, '2008-12-06', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(20, 'Lucy Miller', 5, 'Evelyn Scott', 100, 6.00, 0.00, '1990-03-19', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(21, 'Adam Anderson', 3, 'Jack Simpson', 100, 8.00, 0.00, '2011-07-26', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(22, 'Jim Stewart', 4, 'Frank Collins', 100, 1.00, 0.00, '2001-12-27', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(23, 'Elizabeth Edwards', 1, 'Ashley Campbell', 100, 2.00, 0.00, '2014-06-16', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(24, 'Nicole Fox', 2, 'Lola Turner', 100, 4.00, 0.00, '2022-10-11', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(25, 'Katie Holmes', 3, 'Sienna Khan', 100, 4.00, 0.00, '1989-10-01', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(26, 'Laura Jones', 5, 'Wendy Matthews', 100, 4.00, 0.00, '2007-10-17', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(27, 'Dennis Walker', 2, 'Vicky Graham', 100, 9.00, 0.00, '1996-11-12', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(28, 'Lewis Allen', 2, 'Gavin Matthews', 100, 4.00, 0.00, '1997-05-19', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(29, 'Emma Mitchell', 4, 'Kirsten Watson', 100, 2.00, 0.00, '1974-06-08', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(30, 'Kieran Gray', 3, 'Vanessa Chapman', 100, 6.00, 0.00, '1994-01-21', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(31, 'Finley Wood', 3, 'Katie Palmer', 100, 4.00, 0.00, '1989-07-07', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(32, 'Caitlin Davies', 3, 'Will Morris', 100, 4.00, 0.00, '2000-07-01', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(33, 'Candice Anderson', 5, 'Sean Mason', 100, 2.00, 0.00, '2017-12-09', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(34, 'Dave Parker', 5, 'Fiona Rose', 100, 3.00, 0.00, '1987-12-25', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(35, 'Tina Holmes', 5, 'Aaron Carter', 100, 1.00, 0.00, '1998-10-07', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(36, 'Jeremy Adams', 3, 'Ethan Edwards', 100, 3.00, 0.00, '1992-11-09', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(37, 'Jack Wright', 5, 'David Hunter', 100, 2.00, 0.00, '1995-07-14', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(38, 'Chris Butler', 2, 'Oscar Hill', 100, 3.00, 0.00, '2009-09-19', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(39, 'George Harris', 1, 'Joel Thompson', 100, 3.00, 0.00, '1998-03-28', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(40, 'Samantha Butler', 3, 'Teagan Harrison', 100, 3.00, 0.00, '2017-11-09', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(41, 'Stefan Robertson', 1, 'Eileen Johnson', 100, 5.00, 0.00, '1985-12-01', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(42, 'Mohammed Martin', 5, 'Anna Gray', 100, 9.00, 0.00, '1993-12-28', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(43, 'Jennifer Roberts', 3, 'Toby Griffiths', 100, 6.00, 0.00, '1985-05-14', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(44, 'Eva Murphy', 5, 'Daniel Palmer', 100, 5.00, 0.00, '1986-11-05', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(45, 'Chris Cooper', 3, 'Lewis Shaw', 100, 2.00, 0.00, '2011-10-23', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(46, 'Lucy Owen', 2, 'Will Hill', 100, 4.00, 0.00, '1977-12-31', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(47, 'Archie Chapman', 5, 'Paula Bell', 100, 1.00, 0.00, '2002-07-07', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(48, 'Jim Davies', 5, 'Samuel Smith', 100, 6.00, 0.00, '1981-07-19', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(49, 'Lauren Palmer', 3, 'Charlotte Wright', 100, 1.00, 0.00, '1970-10-25', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(50, 'Connor James', 1, 'Hollie Bailey', 100, 2.00, 0.00, '1977-11-06', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(51, 'William Wilkinson', 4, 'Jake Hunter', 100, 5.00, 0.00, '2011-03-09', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(52, 'Poppy Harrison', 5, 'William Morgan', 100, 8.00, 0.00, '2016-12-14', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(53, 'Oliver Rogers', 2, 'Neil Davies', 100, 8.00, 0.00, '1987-11-12', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(54, 'Harrison Walker', 4, 'Charlotte Ellis', 100, 5.00, 0.00, '1972-11-04', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(55, 'Jackson Wood', 1, 'Lee Williams', 100, 6.00, 0.00, '1989-01-31', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(56, 'Andy Evans', 1, 'Finley Campbell', 100, 4.00, 0.00, '2000-07-19', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(57, 'Lee Shaw', 5, 'Craig Harrison', 100, 8.00, 0.00, '2011-03-03', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(58, 'Toby Patel', 5, 'Dan Reid', 100, 7.00, 0.00, '1973-05-09', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(59, 'Jennifer Shaw', 2, 'Leah Jackson', 100, 1.00, 0.00, '1977-12-25', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(60, 'Faye Wilkinson', 4, 'Archie Price', 100, 4.00, 0.00, '1988-05-15', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(61, 'Freya Roberts', 4, 'Alexander Cox', 100, 1.00, 0.00, '1972-03-10', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(62, 'Rachel Hill', 3, 'Danielle Wilkinson', 100, 5.00, 0.00, '2004-08-26', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(63, 'Christopher Allen', 4, 'Andy Khan', 100, 8.00, 0.00, '2009-03-26', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(64, 'Ross Morris', 4, 'Duncan Powell', 100, 8.00, 0.00, '1990-05-07', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(65, 'Karlie Hill', 1, 'Zach Cook', 100, 4.00, 0.00, '2018-09-14', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(66, 'Yasmine Russell', 3, 'Riley Taylor', 100, 8.00, 0.00, '2013-09-25', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(67, 'Kirsty Hall', 4, 'Mandy Clark', 100, 9.00, 0.00, '1999-12-09', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(68, 'Alexander Roberts', 3, 'Max Jones', 100, 8.00, 0.00, '1985-12-21', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(69, 'Stephen Reid', 5, 'Imogen Phillips', 100, 2.00, 0.00, '1982-11-19', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(70, 'Liam Marshall', 3, 'Lucy Rose', 100, 8.00, 0.00, '1980-07-31', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(71, 'Matilda Kelly', 5, 'Christopher Shaw', 100, 6.00, 0.00, '2016-12-09', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(72, 'Reece Turner', 2, 'Hannah Hughes', 100, 2.00, 0.00, '2004-05-22', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(73, 'Sally Murray', 4, 'Harry Richardson', 100, 7.00, 0.00, '1982-04-21', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(74, 'Ryan Jackson', 4, 'Gavin Ross', 100, 4.00, 0.00, '2013-07-11', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(75, 'Lily Lloyd', 5, 'Teagan Moore', 100, 5.00, 0.00, '1997-03-05', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(76, 'Cameron Mitchell', 1, 'George Shaw', 100, 9.00, 0.00, '1986-07-23', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(77, 'Steve Rogers', 3, 'Samuel Bell', 100, 1.00, 0.00, '1983-05-07', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(78, 'Rebecca Mitchell', 4, 'Stefan Roberts', 100, 9.00, 0.00, '1971-09-07', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(79, 'Abbie Smith', 3, 'Arthur Hunter', 100, 4.00, 0.00, '2022-03-21', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(80, 'Emma Hall', 2, 'Isaac Evans', 100, 3.00, 0.00, '2003-01-04', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(81, 'Jonathan Watson', 4, 'Erin Harrison', 100, 1.00, 0.00, '2011-03-13', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(82, 'Nicole Adams', 3, 'Mason Green', 100, 2.00, 0.00, '2018-08-13', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(83, 'Sally Edwards', 4, 'Peter Marshall', 100, 7.00, 0.00, '1978-03-23', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(84, 'Leah Lewis', 1, 'Georgia Butler', 100, 3.00, 0.00, '2007-10-05', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(85, 'Holly Watson', 1, 'Dave Green', 100, 1.00, 0.00, '2010-07-04', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(86, 'George Anderson', 5, 'Dale Walsh', 100, 2.00, 0.00, '1980-02-22', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(87, 'Steve Gray', 3, 'Daisy Baker', 100, 8.00, 0.00, '2015-07-09', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(88, 'Roxanne Phillips', 1, 'Freya Harris', 100, 9.00, 0.00, '2001-05-09', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(89, 'Gary Bell', 2, 'Mike Gray', 100, 5.00, 0.00, '2020-03-30', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(90, 'Eva Wright', 4, 'Freya Watson', 100, 3.00, 0.00, '2013-01-04', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(91, 'Tara Powell', 4, 'Erin Jones', 100, 6.00, 0.00, '2005-03-27', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(92, 'Jim Roberts', 5, 'Amber Davis', 100, 8.00, 0.00, '1982-03-05', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(93, 'Florence Kennedy', 5, 'Rob Griffiths', 100, 9.00, 0.00, '2009-08-21', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(94, 'Selina Clark', 2, 'Joshua Stevens', 100, 6.00, 0.00, '1977-08-17', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(95, 'Dale Green', 3, 'Gavin Knight', 100, 5.00, 0.00, '1987-04-12', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(96, 'Lilly Robinson', 1, 'Joel Graham', 100, 7.00, 0.00, '2023-03-28', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(97, 'Grace Ellis', 4, 'Mia Bell', 100, 1.00, 0.00, '2013-06-29', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(98, 'Tom Collins', 2, 'Isaac Harrison', 100, 6.00, 0.00, '1992-08-26', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(99, 'Nicole Stewart', 2, 'Sally Khan', 100, 7.00, 0.00, '1978-04-25', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL),
-(100, 'Theresa Murphy', 3, 'Olivia Graham', 100, 7.00, 0.00, '2022-08-14', 0, 1, '2023-04-14 15:40:34', '2023-04-14 15:40:34', NULL);
+(1, 'molestias', 4, 'Est saepe accusamus omnis odit consequuntur dolores dolores.', 100, 5.00, 0.00, '2007-11-28', 0, 1, '2023-04-18 13:56:58', '2023-04-18 13:56:58', NULL),
+(2, 'deleniti', 3, 'Doloribus error veritatis incidunt labore a illo alias optio.', 100, 9.00, 0.00, '1980-11-25', 0, 1, '2023-04-18 13:56:58', '2023-04-18 13:56:58', NULL),
+(3, 'facilis', 3, 'Maiores fugit velit ut atque iure nulla.', 100, 3.00, 0.00, '2022-12-30', 0, 1, '2023-04-18 13:56:58', '2023-04-18 13:56:58', NULL),
+(4, 'ipsum', 3, 'Nihil et eius nihil culpa aut veritatis ut.', 100, 9.00, 0.00, '1986-06-06', 0, 1, '2023-04-18 13:56:58', '2023-04-18 13:56:58', NULL),
+(5, 'temporibus', 4, 'Qui repudiandae sed sed.', 100, 7.00, 0.00, '1982-06-03', 0, 1, '2023-04-18 13:56:58', '2023-04-18 13:56:58', NULL),
+(6, 'molestiae', 4, 'Rerum ut fuga unde rerum.', 100, 1.00, 0.00, '1995-12-16', 0, 1, '2023-04-18 13:56:58', '2023-04-18 13:56:58', NULL),
+(7, 'deserunt', 4, 'Nostrum atque odit eligendi.', 100, 3.00, 0.00, '1972-10-18', 0, 1, '2023-04-18 13:56:58', '2023-04-18 13:56:58', NULL),
+(8, 'iste', 5, 'Facilis iusto nihil exercitationem odio.', 100, 4.00, 0.00, '1988-11-05', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(9, 'vel', 4, 'Praesentium sapiente quidem adipisci qui.', 100, 6.00, 0.00, '1985-09-10', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(10, 'delectus', 4, 'Sint possimus voluptates nemo sed unde voluptatibus laborum.', 100, 5.00, 0.00, '2009-04-11', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(11, 'in', 4, 'Ratione qui minima facilis reiciendis vitae.', 100, 6.00, 0.00, '2021-08-04', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(12, 'ratione', 1, 'Vitae deserunt voluptatum nobis necessitatibus assumenda et temporibus.', 100, 1.00, 0.00, '1990-07-19', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(13, 'quo', 4, 'Qui laboriosam rerum tempore laboriosam culpa.', 100, 6.00, 0.00, '2008-07-15', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(14, 'animi', 4, 'Hic reiciendis ullam praesentium.', 100, 8.00, 0.00, '2005-08-07', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(15, 'voluptatem', 5, 'Quasi omnis ex incidunt eveniet similique tempore rerum.', 100, 4.00, 0.00, '1990-10-26', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(16, 'est', 5, 'Sit eos unde eligendi autem et.', 100, 8.00, 0.00, '2000-04-17', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(17, 'libero', 2, 'Soluta nobis esse aut quod voluptas.', 100, 7.00, 0.00, '2016-08-05', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(18, 'quis', 1, 'Vel ratione qui ratione eligendi consequuntur sapiente maiores.', 100, 9.00, 0.00, '2009-03-14', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(19, 'quaerat', 2, 'Velit facere dolores qui quaerat dolores temporibus ut.', 100, 1.00, 0.00, '2021-03-13', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(20, 'beatae', 5, 'Corporis odit aut ea quae.', 100, 2.00, 0.00, '1996-06-24', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(21, 'qui', 1, 'Magnam voluptatum et vel voluptatem unde.', 100, 1.00, 0.00, '1993-02-27', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(22, 'iste', 5, 'Dolores nisi doloribus veniam hic officia et.', 100, 6.00, 0.00, '1972-11-13', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(23, 'ab', 3, 'Accusantium laborum eligendi officiis iusto ipsum magni.', 100, 2.00, 0.00, '1983-07-26', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(24, 'vel', 3, 'Quisquam quasi doloremque ad reiciendis.', 100, 6.00, 0.00, '1987-01-14', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(25, 'est', 3, 'Consequatur dicta soluta voluptatem voluptates beatae commodi non.', 100, 8.00, 0.00, '1979-11-27', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(26, 'dolor', 2, 'Incidunt eos similique quis ea.', 100, 5.00, 0.00, '2013-04-27', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(27, 'nihil', 4, 'Porro autem nesciunt vitae deleniti voluptatibus.', 100, 2.00, 0.00, '2001-05-08', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(28, 'quis', 2, 'Ullam temporibus quia odit optio asperiores.', 100, 7.00, 0.00, '2002-08-27', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(29, 'tempora', 5, 'Est itaque blanditiis nam accusantium.', 100, 1.00, 0.00, '2023-03-20', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(30, 'est', 2, 'Et quas aut quisquam et.', 100, 1.00, 0.00, '1998-09-29', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(31, 'harum', 4, 'Aperiam et saepe minima eos quo.', 100, 1.00, 0.00, '1996-01-31', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(32, 'doloribus', 5, 'Est omnis repellendus id est reiciendis error perferendis.', 100, 7.00, 0.00, '2023-04-04', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(33, 'iure', 3, 'Deserunt quo quia quia rerum quia architecto.', 100, 8.00, 0.00, '2001-04-18', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(34, 'et', 3, 'Sit at qui exercitationem iure.', 100, 2.00, 0.00, '1975-02-26', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(35, 'enim', 5, 'In quisquam quibusdam doloremque dicta dolorem.', 100, 9.00, 0.00, '2020-06-15', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(36, 'similique', 4, 'Perspiciatis dignissimos architecto voluptate ad impedit sed odio.', 100, 1.00, 0.00, '1986-10-07', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(37, 'aliquam', 2, 'Voluptatem maiores corporis aut accusamus accusantium.', 100, 9.00, 0.00, '1980-10-12', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(38, 'quaerat', 1, 'Omnis non harum modi ipsum.', 100, 5.00, 0.00, '2021-07-05', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(39, 'veniam', 1, 'Quia fuga non sit molestiae qui provident.', 100, 9.00, 0.00, '1994-05-25', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(40, 'qui', 2, 'Fugiat cum quo omnis voluptatibus aut.', 100, 2.00, 0.00, '1983-06-02', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(41, 'blanditiis', 5, 'Consequatur nulla neque eligendi nihil consequatur.', 100, 9.00, 0.00, '2004-06-11', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(42, 'doloremque', 4, 'Voluptas praesentium cupiditate molestiae dolore quasi ipsum accusantium.', 100, 5.00, 0.00, '1994-09-18', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(43, 'odio', 4, 'Officiis repellat aut quia reprehenderit aut.', 100, 2.00, 0.00, '2014-10-20', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(44, 'id', 2, 'Accusamus fugit harum odit unde.', 100, 9.00, 0.00, '1970-11-13', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(45, 'consequatur', 3, 'Dolorem tempore voluptatem sunt aut.', 100, 6.00, 0.00, '1970-08-28', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(46, 'sit', 3, 'Aperiam ipsum ea cumque numquam et.', 100, 7.00, 0.00, '2016-12-03', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(47, 'enim', 3, 'Eaque rerum praesentium cum quia assumenda.', 100, 6.00, 0.00, '2019-08-07', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(48, 'ut', 1, 'Inventore voluptatum possimus non quae eligendi.', 100, 8.00, 0.00, '1980-08-13', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(49, 'et', 3, 'Ratione nihil est dolore animi.', 100, 2.00, 0.00, '1994-09-10', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL),
+(50, 'consequuntur', 5, 'Assumenda asperiores qui omnis omnis animi officiis et.', 100, 1.00, 0.00, '2007-12-10', 0, 1, '2023-04-18 13:56:59', '2023-04-18 13:56:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -270,6 +233,7 @@ CREATE TABLE `transaction_items` (
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
   `unit_price` double(8,2) NOT NULL,
+  `total` double(8,2) NOT NULL,
   `age_restriction` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -304,9 +268,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role`, `username`, `email`, `password`, `first_name`, `last_name`, `dob`, `address`, `join_date`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'test', 'murphy.craig@example.org', '$2b$10$KX2xzJUuXtTpP6LKv3IuLebp9TCtRA0/R7jzT5X4fa.nkQW0c9vBG', 'Pauline', 'Stevens', '2016-03-14', '310 Sophia Passage\nOliviaberg\nDY5 3EH', '1971-07-21', 'TQRtcCeIto', '2023-04-14 15:40:33', '2023-04-14 15:40:33', NULL),
-(2, 1, 'hunt.ruby', 'william71@example.net', '$2b$10$KX2xzJUuXtTpP6LKv3IuLebp9TCtRA0/R7jzT5X4fa.nkQW0c9vBG', 'Peter', 'Thomas', '1998-11-20', 'Flat 67r\nIsla Shoals\nLouisport\nBS6 9HE', '1973-01-15', 'RheTI2IVf5', '2023-04-14 15:40:33', '2023-04-14 15:40:33', NULL),
-(3, 1, 'caroline50', 'megan.ellis@example.org', '$2b$10$KX2xzJUuXtTpP6LKv3IuLebp9TCtRA0/R7jzT5X4fa.nkQW0c9vBG', 'Charles', 'Hill', '1998-01-05', '99 Elliott Creek\nSouth Daniel\nOX4 1GF', '2016-08-11', 'g9bbsZz0iM', '2023-04-14 15:40:33', '2023-04-14 15:40:33', NULL);
+(1, 1, 'test', 'elliot61@example.net', '$2b$10$KX2xzJUuXtTpP6LKv3IuLebp9TCtRA0/R7jzT5X4fa.nkQW0c9vBG', 'Candice', 'Patel', '2014-04-15', '21 Jones Lodge\nReeceburgh\nNE29 0AT', '1997-11-30', 'f7T0JDKhRN', '2023-04-18 13:56:58', '2023-04-18 13:56:58', NULL),
+(2, 1, 'caroline38', 'chris.parker@example.org', '$2b$10$KX2xzJUuXtTpP6LKv3IuLebp9TCtRA0/R7jzT5X4fa.nkQW0c9vBG', 'Bruce', 'Walsh', '2018-07-11', '739 Charlie Avenue\nWest Florenceton\nB26 3SX', '1994-10-25', 'jjI1c2PYgc', '2023-04-18 13:56:58', '2023-04-18 13:56:58', NULL),
+(3, 1, 'isaac96', 'ehunter@example.com', '$2b$10$KX2xzJUuXtTpP6LKv3IuLebp9TCtRA0/R7jzT5X4fa.nkQW0c9vBG', 'Heather', 'Scott', '1988-02-26', '21 Wendy Park\nJohnsonberg\nG83 0SH', '1998-05-23', 'h70iwgflHc', '2023-04-18 13:56:58', '2023-04-18 13:56:58', NULL);
 
 --
 -- Indexes for dumped tables
@@ -384,13 +348,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `promotions`

@@ -8,5 +8,6 @@ router.post('/store', customerController.store);
 router.get('/edit/:id', customerController.edit);
 router.post('/update/:id', customerController.update);
 router.post('/destroy/:id', customerController.destroy);
+router.post('/new/tran/:id', customerController.newTran);
 
 module.exports = router;

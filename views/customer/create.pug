@@ -37,6 +37,17 @@ block content
                                     div.col-6
                                         div.form-group
                                             label
+                                                | Phone
+                                            input#phone.form-control(type="phone" name="phone" placeholder="Enter Phone" required)
+                                    div.col-6
+                                        div.form-group
+                                            label
+                                                | Email
+                                            input.form-control#email(type="email" name='email' placeholder='Enter Email' required)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label
                                                 | Date Of Birth
                                             input#dob.form-control(type="date" name="dob" placeholder="Enter Date of Birth" required max=new Date().toISOString().split('T')[0])
                                     div.col-6

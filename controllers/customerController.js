@@ -35,6 +35,8 @@ const store = async (req, res, next) => {
             q2 = {
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
+                phone: req.body.phone,
+                email: req.body.email,
                 dob: req.body.dob,
                 address: req.body.address,
                 created_at: dt,
@@ -59,7 +61,9 @@ const store = async (req, res, next) => {
 /* edit */
 const edit = (req, res, next) => {
     var id = req.params.id;
-    var query = `SELECT * FROM customers WHERE id = "${id}"`;
+    var query = `SELECT * FROM customers WHERE id = ${id};`;
+
+    // SELECT * FROM transactions t LEFT JOIN transaction_items ti ON t.id = ti.transaction_id WHERE t.customer_id = ${id} AND t.status = 'completed' AND t.deleted_at IS NULL;
 
     db.query(query, function (err, data) {
         if (err) throw err;
@@ -68,6 +72,7 @@ const edit = (req, res, next) => {
         res.render('customer/edit', {
             title: title,
             result: data[0],
+            // transactions: data[1],
             req: req,
         });
     });
@@ -83,6 +88,8 @@ const update = async (req, res, next) => {
             q2 = {
                 first_name: req.body.first_name,
                 last_name: req.body.last_name,
+                phone: req.body.phone,
+                email: req.body.email,
                 dob: req.body.dob,
                 address: req.body.address,
                 updated_at: dt,
@@ -124,4 +131,24 @@ const destroy = async (req, res, next) => {
     res.redirect("/customer/index");
 }
 
-module.exports = { index, create, store, edit, update, destroy };
+/* New transaction */
+const newTran = (req, res, next) => {
+    var d = new Date(),
+        dt = d.toISOString().replace('T', ' ').substring(0, 19),
+        q2 = {
+            customer_id: req.params.id,
+            created_at: dt,
+            updated_at: dt,
+        };
+
+    var query = `INSERT INTO transactions SET ?`;
+
+    db.query(query, q2, (err, data) => {
+        if (err) throw err;
+
+        var tran_id = data.insertId;
+        res.redirect('/transaction/edit/' + tran_id);
+    });
+}
+
+module.exports = { index, create, store, edit, update, destroy, newTran };
