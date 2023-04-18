@@ -62,31 +62,29 @@ block content
                                                             | No
                                                     td
                                                         div(style='display:inline-block')
-                                                            a(href='/product/edit/' + result.id).btn.btn-sm.btn-primary.mx-2
+                                                            a(href='/product/' + result.id + '/edit').btn.btn-sm.btn-primary.mx-2
                                                                 i.fa.fa-edit
                                                         | 
                                                         div(style='display:inline-block')
-                                                            form(method='post' action='/product/destroy/' + result.id)
+                                                            form(method='post' action='/product/' + result.id + '/destroy')
                                                                 input(type="hidden" name="_method" value="DELETE")
-                                                                button.btn.btn-sm.btn-danger(type='submit')
+                                                                button.btn.btn-sm.btn-danger.js-show-confirmation-modal(type='submit')
                                                                     i.fas.fa-trash-alt
                             div.row
                                 div.col-12.col-md-6
                                     div#table_info.dataTables_info(role="status")
                                         //- Total entries and pagination text added by JS
 
-    .modal.confirmation-modal(role="dialog" tabindex="-1")
-        .modal-dialog(role="document")
+    .modal.confirmation-modal.fade
+        .modal-dialog
             .modal-content
                 .modal-header
                     h5.modal-title
-                        | Delete user
+                        | Delete Product
                     button.close(type="button" data-dismiss="modal" arial-label="Close")
-                        span(aria-hidden="true")
-                            | &times;
+                        span(aria-hidden="true") &times;
                 .modal-body 
-                    p 
-                        | Are you sure? 
+                    p Are you sure?
                 .modal-footer 
                     button.btn.btn-secondary.js-cancel(data-dismiss="modal")
                         | Cancel

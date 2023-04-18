@@ -57,7 +57,7 @@ block content
                                                             div(style='display:inline-block')
                                                                 a(href='/transaction/show/' + result.id).btn.btn-sm.btn-info.mx-2
                                                                     i.fa.fa-eye
-                                                        
+
                                                         if result.status == 'pending'
                                                             div(style='display:inline-block')
                                                                 a(href='/transaction/edit/' + result.id).btn.btn-sm.btn-primary.mx-2
@@ -65,9 +65,24 @@ block content
                                                         div(style='display:inline-block')
                                                             form(method='post' action='/staff/destroy/1')
                                                                 input(type="hidden" name="_method" value="DELETE")
-                                                                button.btn.btn-sm.btn-danger(type='submit')
+                                                                button.btn.btn-sm.btn-danger.js-show-confirmation-modal(type='submit')
                                                                     i.fas.fa-trash-alt
                             div.row
                                 div.col-12.col-md-6
                                     div#table_info.dataTables_info(role="status")
                                         //- Total entries and pagination text added by JS
+        .modal.confirmation-modal.fade
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        h5.modal-title
+                            | Delete Transaction
+                        button.close(type="button" data-dismiss="modal" arial-label="Close")
+                            span(aria-hidden="true") &times;
+                    .modal-body 
+                        p Are you sure?
+                    .modal-footer 
+                        button.btn.btn-secondary.js-cancel(data-dismiss="modal")
+                            | Cancel
+                        button.btn.btn-danger.js-confirm
+                            | Continue

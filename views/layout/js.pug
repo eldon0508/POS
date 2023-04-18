@@ -27,7 +27,7 @@ script.
 		$('.close').trigger('focus');
 	});
 
-	//- Open confirmation modal 
+	//- Open confirmation modal
 	$('.js-show-confirmation-modal').on('click', function(e){
 		var form = $(this).closest('form');
 
@@ -45,8 +45,7 @@ script.
 
 	$('.select2').select2();
 
-
-	if('#{msg_type}' == 'success') {
+	if ('#{msg_type}' == 'success') {
 		toastr.success("#{msg}", 'Success');
 	} else if('#{msg_type}' == 'error') {
 		toastr.error("#{msg}", 'Error');
@@ -55,5 +54,3 @@ script.
 	} else if('#{msg_type}' == 'info') {
 		toastr.warning("#{msg}", 'Info');
 	}
-
-

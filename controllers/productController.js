@@ -116,7 +116,6 @@ const update = async (req, res, next) => {
 
         req.flash('msg', 'Product has been updated!');
         req.flash('msg_type', 'success');
-        res.redirect("/product/index");
         db.commit();
     } catch (error) {
         db.rollback();

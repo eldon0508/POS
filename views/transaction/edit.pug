@@ -60,10 +60,32 @@ block content
                                     button.btn.btn-success.float-right(type='button')
                                         i.far.fa-credit-card
                                         |  Pay by Card
-                                button.btn.btn-primary.float-right.mx-2(type='button')
+                                button.btn.btn-primary.float-right.mx-2(type='button' data-toggle='modal' data-target='#pay-by-cash')
                                     i.fas.fa-money-bill
                                     |  Pay by Cash
                                 a(href="/transaction/" + result.id + "/recalTotal")  
                                     button.btn.btn-info.float-right(type='button')
                                         i.fas.fa-calculator
                                         |  Recalculate
+        #pay-by-cash.modal.fade
+            .modal-dialog
+                .modal-content
+                    form(action="/transaction/" + result.id + "/byCash" method="post")
+                        .modal-header
+                            h4.modal-title Pay By Cash
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') &times;
+                        .modal-body
+                            input(type="hidden" name="_csrf" value=_csrf)
+                            div.row
+                                div.col-6
+                                    div.form-group
+                                        label Amount to Pay
+                                        input.form-control(value=result.grand_total.toFixed(2) disabled)
+                                div.col-6
+                                    div.form-group
+                                        label Payment
+                                        input.form-control#payment(type="number" step=1 min=result.grand_total name='payment' placeholder='Enter Payment' required)
+                        .modal-footer.justify-content-between
+                            button.btn.btn-default(type='button' data-dismiss='modal') Close
+                            button.btn.btn-primary(type='submit') Submit
