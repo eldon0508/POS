@@ -27,34 +27,27 @@ block content
                                     table#table.table.table-hover.dataTable.dtr-inline(role="grid")
                                         thead
                                             tr
-                                                th
-                                                    | Id
-                                                th
-                                                    | Name
-                                                th
-                                                    | Category
-                                                th
-                                                    | Price
-                                                th
-                                                    | Stock
-                                                th
-                                                    | Show Listing
-                                                th
-                                                    | Action
+                                                th Id
+                                                th Name
+                                                th Category
+                                                th Price
+                                                th Stock
+                                                th Show Listing
+                                                th Action
                                         tbody 
                                             each result in results
                                                 tr
-                                                    td 
-                                                        | #{result.id}
+                                                    td #{result.id}
+                                                    td #{result.name}
                                                     td
-                                                        | #{result.name}
-                                                    td
-                                                        a(href="/category/edit/" + result.category_id) 
-                                                            | #{result.category_name}
+                                                        a(href="/category/edit/" + result.category_id) #{result.category_name}
+                                                    td #{result.unit_price.toFixed(2)}
                                                     td 
-                                                        | #{result.unit_price.toFixed(2)}
-                                                    td 
-                                                        | #{result.stock}
+                                                        if result.stock < 50
+                                                            i.fa.fa-battery-quarter
+                                                            span.text-danger  #{result.stock}
+                                                        else
+                                                            | #{result.stock}
                                                     td 
                                                         if result.show_listing == 1 
                                                             | Yes

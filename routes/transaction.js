@@ -14,6 +14,6 @@ router.post('/:id/addItem', transactionController.addItem);
 router.post('/:id/deleteItem', transactionController.deleteItem);
 router.get('/:id/recalTotal', transactionController.recalTotal);
 router.get('/:id/byCard', transactionController.byCard);
-
+router.post('/:id/byCash', transactionController.byCash);
 
 module.exports = router;

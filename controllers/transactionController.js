@@ -37,6 +37,7 @@ const create = (req, res, next) => {
     });
 }
 
+/* store */
 const store = (req, res, next) => {
     var d = new Date(),
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
@@ -239,6 +240,40 @@ const byCard = async (req, res, next) => {
     res.redirect('/transaction/show/' + tran_id);
 }
 
+/* Pay by Cash */
+const byCash = async (req, res, next) => {
+    await db.beginTransaction();
+
+    try {
+        var d = new Date(),
+            dt = d.toISOString().replace('T', ' ').substring(0, 19),
+            tran_id = req.params.id,
+            payment = req.body.payment,
+            q = `SELECT * FROM transactions WHERE id = ${tran_id}`;
+        db.query(q, (err, data) => {
+            var q2 = `UPDATE transactions SET ? WHERE id = ${tran_id}`,
+                changes = +(payment - data[0].grand_total),
+                d = {
+                    payment: payment,
+                    changes: changes,
+                    payment_method: 'cash',
+                    status: 'completed',
+                    updated_at: dt,
+                };
+
+            db.query(q2, d);
+        });
+        req.flash('msg', 'Payment completed!');
+        req.flash('msg_type', 'success');
+        db.commit();
+    } catch (error) {
+        db.rollback();
+        req.flash('msg', 'Failed to proceed payment. Something went wrong!');
+        req.flash('msg_type', 'error');
+    }
+    res.redirect('/transaction/show/' + tran_id);
+}
+
 /* recalculate function */
 function calTotal(tran_id) {
     var d = new Date(),
@@ -267,4 +302,4 @@ function calTotal(tran_id) {
     });
 }
 
-module.exports = { index, create, store, edit, show, destroy, addItem, deleteItem, recalTotal, byCard };
+module.exports = { index, create, store, edit, show, destroy, addItem, deleteItem, recalTotal, byCard, byCash };
