@@ -308,9 +308,14 @@ const byCash = async (req, res, next) => {
 /* recalculate function */
 function calTotal(tran_id, rate, disc_type) {
     var d = new Date(),
+        dOnly = d.toISOString().replace('T', ' ').substring(0, 11),
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
         query = `SELECT * FROM transaction_items WHERE transaction_id = ${tran_id};
-                SELECT * FROM transactions WHERE id = ${tran_id}`;
+                SELECT * FROM transactions WHERE id = ${tran_id};
+                SELECT * FROM promotions 
+                WHERE type = 1 AND status = 1 
+                AND start_date < "${dOnly}" AND end_date > "${dOnly}" 
+                AND deleted_at IS NULL`;
 
     db.query(query, (err, data) => {
         if (err) throw err;
@@ -322,12 +327,13 @@ function calTotal(tran_id, rate, disc_type) {
         });
 
         var tax = +((t * 0.1).toFixed(2));       // convert string to number using + operator
-        var disc = 0;
-        if (rate > 0) {
-            if (disc_type == 1) {
-                disc = +((t + tax) * (rate / 100));
-            } else {
-                disc = +rate;
+        var disc = 0,
+            promotion = data[2][0];
+        if (rate > 0) {     // Apply Discount Manually
+            disc = calDisc(t, tax, rate, disc_type, null);
+        } else {         // Apply Discount Automatically
+            if (t >= promotion.min_spending) {
+                disc = calDisc(t, tax, promotion.rate, promotion.discount_type, promotion.capped_at);
             }
         }
         var grand = +(t + tax - disc);
@@ -343,6 +349,23 @@ function calTotal(tran_id, rate, disc_type) {
         var q2 = `UPDATE transactions SET ? WHERE id = ${tran_id}`;
         db.query(q2, d1);
     });
+}
+
+/* Calculate & return discount based on type, cap  */
+function calDisc(total, tax, rate, type, cap) {
+    var deduct;
+    if (type == 1) {
+        deduct = +((total + tax) * (rate / 100));
+    } else {
+        deduct = rate;
+    }
+
+    if (cap != null) {
+        if (deduct >= cap) {
+            deduct = cap;
+        }
+    }
+    return deduct;
 }
 
 module.exports = { index, create, store, edit, show, destroy, addItem, deleteItem, applyDiscount, recalTotal, byCard, byCash };

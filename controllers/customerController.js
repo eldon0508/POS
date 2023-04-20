@@ -149,7 +149,7 @@ const newTran = (req, res, next) => {
         var tran_id = data.insertId;
         req.flash('msg', 'New Transaction has been created!');
         req.flash('msg_type', 'success');
-        res.redirect('/transaction/edit/' + tran_id);
+        res.redirect('/transaction/' + tran_id + '/edit');
     });
 }
 

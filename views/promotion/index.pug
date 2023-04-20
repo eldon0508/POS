@@ -27,47 +27,33 @@ block content
                                     table#table.table.table-hover.dataTable.dtr-inline(role="grid")
                                         thead
                                             tr
-                                                th
-                                                    | Id
-                                                th
-                                                    | Name
-                                                th
-                                                    | Discount Scheme
-                                                th
-                                                    | Rate
-                                                th
-                                                    | Capped (£)
-                                                th
-                                                    | Duration                                                
-                                                th
-                                                    | Status
-                                                th
-                                                    | Action
+                                                th Id
+                                                th Name
+                                                th Discount Scheme
+                                                th Discount Type
+                                                th Rate
+                                                th Capped
+                                                th Duration                                                
+                                                th Status
+                                                th Action
                                         tbody 
                                             each result in results
                                                 tr
-                                                    td 
-                                                        | #{result.id}
-                                                    td
-                                                        | #{result.name}
+                                                    td #{result.id}
+                                                    td #{result.name}
                                                     td
                                                         if result.type == 1
                                                             | Total Amount 
-                                                        else if result.type == 2
-                                                            | Two-in-One 
                                                         else
-                                                            | Promo Code 
+                                                            | Promo Code
+                                                    td
                                                         if result.discount_type == 1
-                                                            | (Percentage)
+                                                            | Percentage
                                                         else
-                                                            | (Fixed)
-                                                    td 
-                                                        | #{result.rate.toFixed(2)}
-                                                    td 
-                                                        | #{result.capped_at.toFixed(2)}
-                                                    td 
-                                                        | #{result.start_date.toISOString().split('T')[0]} - 
-                                                        | #{result.end_date.toISOString().split('T')[0]}
+                                                            | Fixed
+                                                    td #{result.rate.toFixed(2)}
+                                                    td #{result.capped_at.toFixed(2)}
+                                                    td #{result.start_date.toISOString().split('T')[0]} - #{result.end_date.toISOString().split('T')[0]}
                                                     td
                                                         if result.status == 1 
                                                             | Active
@@ -75,9 +61,8 @@ block content
                                                             | Inactive
                                                     td
                                                         div(style='display:inline-block')
-                                                            a(href='/promotion' + result.id + '/edit').btn.btn-sm.btn-primary.mx-2
+                                                            a(href='/promotion/' + result.id + '/edit').btn.btn-sm.btn-primary.mx-2
                                                                 i.fa.fa-edit
-                                                        | 
                                                         div(style='display:inline-block')
                                                             form(method='post' action='/promotion/' + result.id + '/destroy')
                                                                 input(type="hidden" name="_method" value="DELETE")

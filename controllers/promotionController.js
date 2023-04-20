@@ -41,7 +41,7 @@ const store = async (req, res, next) => {
             dt = d.toISOString().replace('T', ' ').substring(0, 19),
             q2 = {
                 name: req.body.name,
-                user_id: 1,
+                user_id: req.body.user_id,
                 type: req.body.type,
                 discount_type: req.body.discount_type,
                 rate: req.body.rate,
@@ -97,7 +97,7 @@ const update = async (req, res, next) => {
             dt = d.toISOString().replace('T', ' ').substring(0, 19),
             q2 = {
                 name: req.body.name,
-                user_id: 1,
+                user_id: req.body.user_id,
                 type: req.body.type,
                 discount_type: req.body.discount_type,
                 rate: req.body.rate,

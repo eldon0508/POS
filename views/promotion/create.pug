@@ -22,6 +22,7 @@ block content
                         div.card-body
                             form(action="/promotion/store" method="post")
                                 input(type="hidden" name="_csrf" value=_csrf)
+                                input(type="hidden" name="user_id" value=req.user.id)
                                 div.row
                                     div.col-6
                                         div.form-group
