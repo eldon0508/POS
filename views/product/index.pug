@@ -40,7 +40,7 @@ block content
                                                     td #{result.id}
                                                     td #{result.name}
                                                     td
-                                                        a(href="/category/edit/" + result.category_id) #{result.category_name}
+                                                        a(href="/category/" + result.category_id + "/edit") #{result.category_name}
                                                     td #{result.unit_price.toFixed(2)}
                                                     td 
                                                         if result.stock < 50

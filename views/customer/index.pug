@@ -54,7 +54,7 @@ block content
                                                         | #{result.address}
                                                     td
                                                         div(style='display:inline-block')
-                                                            form(method='post' action='/customer/new/tran/' + result.id)
+                                                            form(method='post' action='/customer/new/' + result.id + '/tran')
                                                                 input(type="hidden" name="_csrf" value=_csrf)
                                                                 button.btn.btn-sm.btn-info(type='submit')
                                                                     i.fa.fa-shopping-cart

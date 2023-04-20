@@ -49,6 +49,9 @@ block content
                                             tr
                                                 th Tax (10%)
                                                 td #{result.tax.toFixed(2)}
+                                            if result.discount > 0
+                                                th Discount
+                                                td -#{result.discount.toFixed(2)}
                                             tr
                                                 th Grand Total:
                                                 td #{result.grand_total.toFixed(2)}
@@ -67,6 +70,10 @@ block content
                                     button.btn.btn-info.float-right(type='button')
                                         i.fas.fa-calculator
                                         |  Recalculate
+                                if req.user.role == 1
+                                    button.btn.btn-secondary.float-right.mx-2(type='button' data-toggle='modal' data-target='#apply-discount')
+                                        i.fas.fa-tag
+                                        |  Apply Discount
         #pay-by-cash.modal.fade
             .modal-dialog
                 .modal-content
@@ -86,6 +93,37 @@ block content
                                     div.form-group
                                         label Payment
                                         input.form-control#payment(type="number" step=1 min=result.grand_total name='payment' placeholder='Enter Payment' required)
+                        .modal-footer.justify-content-between
+                            button.btn.btn-default(type='button' data-dismiss='modal') Close
+                            button.btn.btn-primary(type='submit') Submit
+
+        #apply-discount.modal.fade
+            .modal-dialog
+                .modal-content
+                    form(action="/transaction/" + result.id + "/applyDiscount" method="post")
+                        .modal-header
+                            h4.modal-title Apply Discount
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') &times;
+                        .modal-body
+                            input(type="hidden" name="_csrf" value=_csrf)
+                            div.row
+                                .col-12
+                                    .form-group
+                                        p.text-danger Submitting would overwrite any existing promotion. To revert, click 'Recalculate' button.
+                            div.row
+                                div.col-6
+                                    div.form-group
+                                        label
+                                            | Discount Type
+                                        select.form-control#discount_type(name="discount_type" required)
+                                            option(value="") --- Select Discount Type ---
+                                            option(value="1") Percentage
+                                            option(value="2") Fixed
+                                div.col-6
+                                    div.form-group
+                                        label Rate
+                                        input.form-control#rate(type="number" step=0.1 min=0.1 name='rate' placeholder='Enter Rate' required)
                         .modal-footer.justify-content-between
                             button.btn.btn-default(type='button' data-dismiss='modal') Close
                             button.btn.btn-primary(type='submit') Submit

@@ -113,14 +113,24 @@ const show = (req, res, next) => {
 }
 
 const destroy = async (req, res, next) => {
-    var d = new Date(),
-        dt = d.toISOString().replace('T', ' ').substring(0, 19);
+    await db.beginTransaction();
 
-    var query = `UPDATE transactions SET deleted_at = ${dt} WHERE id = ${req.params.id}`;
+    try {
+        var d = new Date(),
+            dt = d.toISOString().replace('T', ' ').substring(0, 19),
+            query = `UPDATE transactions SET deleted_at = "${dt}" WHERE id = "${req.params.id}"`;
 
-    db.query(query, (err, data) => {
-        if (err) throw err;
-    });
+        db.query(query);
+        req.flash('msg', 'Transaction has been deleted!');
+        req.flash('msg_type', 'success');
+        db.commit();
+    } catch (err) {
+        db.rollback();
+        req.flash('msg', 'Failed to delete record. Something went wrong!');
+        req.flash('msg_type', 'error');
+    }
+
+    res.redirect("/transaction/index");
 }
 
 /* add item */
@@ -167,7 +177,7 @@ const addItem = async (req, res, next) => {
         req.flash('msg', 'Failed to add item. Something went wrong!');
         req.flash('msg_type', 'error');
     }
-    res.redirect('/transaction/edit/' + tran_id);
+    res.redirect('/transaction/' + tran_id + '/edit');
 }
 
 /* delete item */
@@ -191,7 +201,28 @@ const deleteItem = async (req, res, next) => {
         req.flash('msg_type', 'error');
     }
 
-    res.redirect('/transaction/edit/' + tran_id);
+    res.redirect('/transaction/' + tran_id + '/edit');
+}
+
+/* Apply Discount */
+const applyDiscount = async (req, res, next) => {
+    await db.beginTransaction();
+
+    try {
+        var tran_id = req.params.id,
+            discount_type = req.body.discount_type,
+            rate = req.body.rate;
+
+        calTotal(tran_id, rate, discount_type);
+        req.flash('msg', 'Discount has been applied!');
+        req.flash('msg_type', 'success');
+        db.commit();
+    } catch (error) {
+        db.rollback();
+        req.flash('msg', 'Failed to apply discount. Something went wrong!');
+        req.flash('msg_type', 'error');
+    }
+    res.redirect('/transaction/' + tran_id + '/edit');
 }
 
 /* recalculate route */
@@ -205,7 +236,7 @@ const recalTotal = (req, res, next) => {
         req.flash('msg', 'Failed to recalculate. Something went wrong!');
         req.flash('msg_type', 'error');
     }
-    res.redirect('/transaction/edit/' + tran_id);
+    res.redirect('/transaction/' + tran_id + '/edit');
 }
 
 /* Pay by Card */
@@ -237,7 +268,7 @@ const byCard = async (req, res, next) => {
         req.flash('msg', 'Failed to proceed payment. Something went wrong!');
         req.flash('msg_type', 'error');
     }
-    res.redirect('/transaction/show/' + tran_id);
+    res.redirect('/transaction/' + tran_id + '/show');
 }
 
 /* Pay by Cash */
@@ -271,35 +302,47 @@ const byCash = async (req, res, next) => {
         req.flash('msg', 'Failed to proceed payment. Something went wrong!');
         req.flash('msg_type', 'error');
     }
-    res.redirect('/transaction/show/' + tran_id);
+    res.redirect('/transaction/' + tran_id + '/show');
 }
 
 /* recalculate function */
-function calTotal(tran_id) {
+function calTotal(tran_id, rate, disc_type) {
     var d = new Date(),
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
-        query = `SELECT * FROM transaction_items WHERE transaction_id = ${tran_id}`;
+        query = `SELECT * FROM transaction_items WHERE transaction_id = ${tran_id};
+                SELECT * FROM transactions WHERE id = ${tran_id}`;
 
     db.query(query, (err, data) => {
         if (err) throw err;
 
         var t = 0, totalQty = 0;
-        data.forEach(val => {
+        data[0].forEach(val => {
             t += val.total;
             totalQty += val.quantity;
         });
 
-        var tax = +((t * 0.1).toFixed(2)),       // convert string to number using + operator
-            d1 = {
-                total_quantity: totalQty,
-                subtotal: +t,
-                tax: +tax,
-                grand_total: +(t + tax),
-                updated_at: dt,
-            };
+        var tax = +((t * 0.1).toFixed(2));       // convert string to number using + operator
+        var disc = 0;
+        if (rate > 0) {
+            if (disc_type == 1) {
+                disc = +((t + tax) * (rate / 100));
+            } else {
+                disc = +rate;
+            }
+        }
+        var grand = +(t + tax - disc);
+
+        var d1 = {
+            total_quantity: totalQty,
+            subtotal: +t,
+            tax: +tax,
+            discount: +disc,
+            grand_total: grand,
+            updated_at: dt,
+        };
         var q2 = `UPDATE transactions SET ? WHERE id = ${tran_id}`;
         db.query(q2, d1);
     });
 }
 
-module.exports = { index, create, store, edit, show, destroy, addItem, deleteItem, recalTotal, byCard, byCash };
+module.exports = { index, create, store, edit, show, destroy, addItem, deleteItem, applyDiscount, recalTotal, byCard, byCash };
