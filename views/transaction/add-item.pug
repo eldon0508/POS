@@ -13,7 +13,7 @@ form(action="/transaction/" + result.id + "/addItem" method="post")
             div.form-group
                 label
                     | Quantity
-                input#quantity.form-control(type="number" name="quantity" min=1 step=1)
+                input#quantity.form-control(type="number" name="quantity" min=1 step=1 required)
     .row
         .col-12
             button.btn.btn-success.float-right(type='submit')
