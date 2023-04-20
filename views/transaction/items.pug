@@ -1,37 +1,28 @@
-div.row
+div.row.my-3
     div.col-12.table-responsive
         table.table.table-striped
             thead
                 tr
-                    th(width='10%')
-                        | Qty
-                    th
-                        | Product
-                    th
-                        | Description
-                    th 
-                        | Unit Price
-                    th 
-                        | Total
+                    th(width='1%')
+                    th Product
+                    th Description
+                    th(width='10%') Qty
+                    th Unit Price
+                    th Total
                     if result.status == 'pending'
                         th(width='5%').no-print
             tbody 
                 each item in items
                     tr
                         td
-                            | #{item.quantity}
                         if item.age_restriction
-                            td.text-danger
-                                | *#{item.name}
+                            td.text-danger *#{item.name}
                         else
-                            td
-                                | #{item.name}
-                        td
-                            | #{item.description}
-                        td
-                            | #{item.unit_price.toFixed(2)}
-                        td
-                            | #{item.total.toFixed(2)}
+                            td #{item.name}
+                        td #{item.description}
+                        td #{item.quantity}
+                        td #{item.unit_price.toFixed(2)}
+                        td #{item.total.toFixed(2)}
                         if result.status == 'pending'
                             td.no-print
                                 div(style='display:inline-block')
