@@ -25,54 +25,44 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Username
-                                            input.form-control#name(name='username' placeholder='Enter Username' required)
+                                            label Username
+                                            input.form-control#username(name='username' placeholder='Enter Username' required)
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Date of Birth
-                                            input.form-control#dob(type='date' max=new Date().toISOString().split('T')[0] name='dob' placeholder='Enter Date of Birth' required)
-                                div.row
-                                    div.col-6
-                                        div.form-group
-                                            label
-                                                | Email
-                                            input.form-control#email(type='email' name='email' placeholder='Enter Email' required)
-                                    div.col-6
-                                        div.form-group
-                                            label
-                                                | Password
+                                            label Password
                                             input.form-control#password(type='password' name='password' placeholder='Enter Password' required)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | First Name
-                                            input.form-control#first_name(name='first_name' placeholder='Enter First Name' required)
+                                            label Email
+                                            input.form-control#email(type='email' name='email' placeholder='Enter Email' required)
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Last Name
-                                            input.form-control#last_name(name='last_name' placeholder='Enter Last Name' required)
-                                div.row
-                                    div.col-6
-                                        div.form-group
-                                            label
-                                                | Address
-                                            input.form-control#address(name='address' placeholder='Enter Address' required)
-                                    div.col-6
-                                        div.form-group
-                                            label
-                                                | Role
+                                            label Role
                                             select.form-control#role(name="role" required)
                                                 option(value="") --- Select Role ---
                                                 option(value="1") Manager 
                                                 option(value="2") Staff
                                 div.row
+                                    div.col-6
+                                        div.form-group
+                                            label First Name
+                                            input.form-control#first_name(name='first_name' placeholder='Enter First Name' required)
+                                    div.col-6
+                                        div.form-group
+                                            label Last Name
+                                            input.form-control#last_name(name='last_name' placeholder='Enter Last Name' required)
+                                div.row
+                                    div.col-6
+                                        div.form-group
+                                            label Address
+                                            input.form-control#address(name='address' placeholder='Enter Address' required)
+                                    div.col-6
+                                        div.form-group
+                                            label Date of Birth
+                                            input.form-control#dob(type='date' max=new Date().toISOString().split('T')[0] name='dob' placeholder='Enter Date of Birth' required)
+                                div.row
                                     div.col-12.text-right
                                         a(href="/staff/index").mr-2
-                                            button.btn.btn-secondary(type='button')
-                                                | Back
-                                        button.btn.btn-success(type='submit')
-                                            | Submit
+                                            button.btn.btn-secondary(type='button') Back
+                                        button.btn.btn-success(type='submit') Submit

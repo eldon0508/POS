@@ -3,6 +3,7 @@ const express = require('express'),
   router = express.Router(),
   db = require('../database'),
   bcrypt = require('bcrypt'),
+  saltRounds = 10,
   passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy;
 
@@ -69,6 +70,54 @@ router.get('/', isAuth, function (req, res, next) {
     msg: req.flash('msg'),
     req: req,
   });
+});
+
+/* Profile page. */
+router.get('/profile', isAuth, function (req, res, next) {
+  var query = `SELECT * FROM users WHERE id = ${req.user.id}`;
+
+  db.query(query, (err, data) => {
+    res.render('auth/profile', {
+      title: 'Profile - Edit',
+      result: data[0],
+      msg_type: req.flash('msg_type'),
+      msg: req.flash('msg'),
+      req: req,
+    });
+  });
+});
+
+/* Profile update page. */
+router.post('/profile/update', isAuth, async function (req, res, next) {
+  await db.beginTransaction();
+
+  try {
+    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+      var d = new Date(),
+        dt = d.toISOString().replace('T', ' ').substring(0, 19),
+        q2 = {
+          password: hash,
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          dob: req.body.dob,
+          address: req.body.address,
+          updated_at: dt,
+        };
+
+      var query = `UPDATE users SET ? WHERE id = "${req.user.id}"`;
+
+      db.query(query, q2);
+      req.flash('msg', 'Profile has been updated!');
+      req.flash('msg_type', 'success');
+      db.commit();
+      res.redirect("/");
+    });
+  } catch (error) {
+    db.rollback();
+    req.flash('msg', 'Failed to update record. Something went wrong!');
+    req.flash('msg_type', 'error');
+    res.redirect("/profile");
+  }
 });
 
 // Passport local initialisation, using IStrategyOptionsWithRequest

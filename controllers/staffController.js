@@ -1,10 +1,11 @@
 var db = require('../database');
-
-const bcrypt = require('bcrypt');
+var dd = require('dump-die');
+const bcrypt = require('bcrypt'),
+    saltRounds = 10;
 
 /* index */
 const index = (req, res, next) => {
-    var query = `SELECT * FROM users WHERE deleted_at IS NULL`;
+    var query = `SELECT * FROM users WHERE id != ${req.user.id} AND deleted_at IS NULL`;
     db.query(query, function (err, data) {
         if (err) throw err;
 
@@ -31,28 +32,30 @@ const store = async (req, res, next) => {
     await db.beginTransaction();
 
     try {
-        var d = new Date(),
-            dt = d.toISOString().replace('T', ' ').substring(0, 19),
-            q2 = {
-                username: req.body.username,
-                email: req.body.email,
-                password: req.body.password,
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                dob: req.body.dob,
-                address: req.body.address,
-                role: req.body.role,
-                created_at: dt,
-                updated_at: dt,
-            };
+        bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+            var d = new Date(),
+                dt = d.toISOString().replace('T', ' ').substring(0, 19),
+                q2 = {
+                    username: req.body.username,
+                    password: hash,
+                    email: req.body.email,
+                    role: req.body.role,
+                    first_name: req.body.first_name,
+                    last_name: req.body.last_name,
+                    address: req.body.address,
+                    dob: req.body.dob,
+                    created_at: dt,
+                    updated_at: dt,
+                };
+            var query = "INSERT INTO users SET ?";
 
-        var query = "INSERT INTO users SET ?";
+            db.query(query, q2);
 
-        db.query(query, q2);
-
-        req.flash('msg', 'New Staff has been created!');
-        req.flash('msg_type', 'success');
-        db.commit();
+            req.flash('msg', 'New Staff has been created!');
+            req.flash('msg_type', 'success');
+            db.commit();
+            res.redirect("/staff/index");
+        });
     } catch (error) {
         db.rollback();
         req.flash('msg', 'Failed to create record. Something went wrong!');
@@ -83,26 +86,28 @@ const update = async (req, res, next) => {
     await db.beginTransaction();
 
     try {
-        var d = new Date(),
-            dt = d.toISOString().replace('T', ' ').substring(0, 19),
-            q2 = {
-                username: req.body.username,
-                email: req.body.email,
-                password: req.body.password,
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                dob: req.body.dob,
-                address: req.body.address,
-                role: req.body.role,
-                updated_at: dt,
-            };
+        bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+            var d = new Date(),
+                dt = d.toISOString().replace('T', ' ').substring(0, 19),
+                q2 = {
+                    password: hash,
+                    email: req.body.email,
+                    role: req.body.role,
+                    first_name: req.body.first_name,
+                    last_name: req.body.last_name,
+                    address: req.body.address,
+                    dob: req.body.dob,
+                    updated_at: dt,
+                };
 
-        var query = `UPDATE users SET ? WHERE id = "${req.params.id}"`;
+            var query = `UPDATE users SET ? WHERE id = "${req.params.id}"`;
 
-        db.query(query, q2);
-        req.flash('msg', 'Staff has been updated!');
-        req.flash('msg_type', 'success');
-        db.commit();
+            db.query(query, q2);
+            req.flash('msg', 'Staff has been updated!');
+            req.flash('msg_type', 'success');
+            db.commit();
+            res.redirect("/staff/index");
+        });
     } catch (error) {
         db.rollback();
         req.flash('msg', 'Failed to update record. Something went wrong!');
