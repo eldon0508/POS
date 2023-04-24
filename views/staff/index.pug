@@ -27,37 +27,23 @@ block content
                                     table#table.table.table-hover.dataTable.dtr-inline(role="grid")
                                         thead
                                             tr
-                                                th
-                                                    | Id
-                                                th
-                                                    | Username
-                                                th
-                                                    | Email
-                                                th 
-                                                    | Name
-                                                th 
-                                                    | Date of Birth
-                                                th 
-                                                    | Address
-                                                th 
-                                                    | Role
-                                                th
-                                                    | Action
+                                                th Id
+                                                th Username
+                                                th Email
+                                                th Name
+                                                th Date of Birth
+                                                th Address
+                                                th Role
+                                                th Action
                                         tbody 
                                             each result in results
                                                 tr
-                                                    td 
-                                                        | #{result.id}
-                                                    td
-                                                        | #{result.username}
-                                                    td
-                                                        | #{result.email}
-                                                    td
-                                                        | #{result.first_name} #{result.last_name}
-                                                    td
-                                                        | #{result.dob.toISOString().replace('T', ' ').substring(0, 10)}
-                                                    td
-                                                        | #{result.address}
+                                                    td #{result.id}
+                                                    td #{result.username}
+                                                    td #{result.email}
+                                                    td #{result.first_name} #{result.last_name}
+                                                    td #{result.dob.toISOString().replace('T', ' ').substring(0, 10)}
+                                                    td #{result.address}
                                                     td 
                                                         if result.role == 1 
                                                             | Manager
@@ -67,7 +53,6 @@ block content
                                                         div(style='display:inline-block')
                                                             a(href='/staff/edit/' + result.id).btn.btn-sm.btn-primary.mx-2
                                                                 i.fa.fa-edit
-                                                        | 
                                                         div(style='display:inline-block')
                                                             form(method='post' action='/staff/destroy/' + result.id)
                                                                 input(type="hidden" name="_method" value="DELETE")

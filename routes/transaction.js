@@ -6,11 +6,11 @@ router.get('/index', transactionController.index);
 router.get('/create', transactionController.create);
 router.post('/store', transactionController.store);
 router.get('/:id/show', transactionController.show);
-router.get('/:id/edit', transactionController.edit);
+router.get('/:id/edit/:category_id?', transactionController.edit);
 // router.post('/update/:id', transactionController.update);
 router.post('/:id/destroy', transactionController.destroy);
 
-router.post('/:id/addItem', transactionController.addItem);
+router.post('/addItem', transactionController.addItem);
 router.post('/:id/deleteItem', transactionController.deleteItem);
 router.get('/:id/recalTotal', transactionController.recalTotal);
 router.get('/:id/byCard', transactionController.byCard);

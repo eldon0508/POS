@@ -61,10 +61,15 @@ const store = (req, res, next) => {
 
 /* edit */
 const edit = (req, res, next) => {
-    var q = `SELECT * FROM transactions WHERE id = ${req.params.id} AND deleted_at IS NULL;
+    // Category filter
+    var cat_query = (req.params.category_id) ? "AND p.category_id = " + req.params.category_id : "",
+        q = `SELECT * FROM transactions WHERE id = ${req.params.id} AND deleted_at IS NULL;
     SELECT ti.*, p.name, p.description, p.unit_price AS p_unit_price, p.discounted_price, p.age_restriction FROM transaction_items ti LEFT JOIN products p ON ti.product_id = p.id WHERE ti.transaction_id = ${req.params.id} AND ti.deleted_at IS NULL;
-    SELECT * FROM products WHERE deleted_at IS NULL;`;
+    SELECT * FROM categories WHERE deleted_at IS NULL;
+    SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.deleted_at IS NULL `+ cat_query;
 
+
+    console.log(cat_query, 'asdfasdfasdfadsf', q);
     db.query(q, function (err, data) {
         if (err) throw err;
 
@@ -76,7 +81,8 @@ const edit = (req, res, next) => {
                 title: title,
                 result: data[0][0],
                 items: data[1],
-                products: data[2],
+                categories: data[2],
+                products: data[3],
                 customer: row[0],
                 msg_type: req.flash('msg_type'),
                 msg: req.flash('msg'),
@@ -148,17 +154,26 @@ const addItem = async (req, res, next) => {
         // Retrieve product detail
         db.query(query, (err, data) => {
             // Check whether product on discount
-            var product = data[0],
-                price = product.unit_price;
+            var flag = true,
+                product = data[0],
+                qty = req.body.quantity;
+
+            // Return error if insufficient stock
+            // if (qty > product.stock) {
+            //     db.rollback();
+            //     res.redirect('/transaction/' + tran_id + '/edit');
+            // }
+
+            var price = product.unit_price;
             if (product.discounted_price > 0) { price = product.discounted_price; }
 
-            var t = +(price * req.body.quantity);
+            var t = +(price * qty);
 
             // Set insert values
             var q3 = {
                 transaction_id: tran_id,
                 product_id: product.id,
-                quantity: req.body.quantity,
+                quantity: qty,
                 unit_price: price,
                 total: t,
                 age_restriction: product.age_restriction,
@@ -167,8 +182,8 @@ const addItem = async (req, res, next) => {
             };
             db.query(q2, q3);
             calTotal(tran_id);
-        });
 
+        });
         req.flash('msg', 'New item has been added to cart!');
         req.flash('msg_type', 'success');
         db.commit();
@@ -257,7 +272,6 @@ const byCard = async (req, res, next) => {
                     status: 'completed',
                     updated_at: dt,
                 };
-
             db.query(q2, d);
         });
         req.flash('msg', 'Payment completed!');

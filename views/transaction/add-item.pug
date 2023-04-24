@@ -1,34 +1,53 @@
-div.row
-    each prod in products
-        div.col-12.col-sm-6.col-md-4.d-flex.align-items-stretch.flex-column
-            form(action="/transaction/" + result.id + "/addItem" method="post")
-                input(type="hidden" name="transaction_id" value=result.id)
-                input(type="hidden" name="product_id" value=prod.id)
-                .card.bg-light.d-flex.flex-fill
-                    .card-header.text-muted.border-bottom-0
+div.card.card-solid
+    div.card-body.pb-0(style="max-height: 520px; overflow-y: auto;")
+        div.row
+            each category in categories
+                .col-2.d-flex.align-items-stretch.flex-column
+                    if category.id == req.params.category_id
+                        a.btn.btn-primary(href="/transaction/" + result.id + "/edit/" + category.id) #{category.name}
+                    else
+                        a.btn.btn-default(href="/transaction/" + result.id + "/edit/" + category.id) #{category.name}
+        div.row.mt-5.mb-3
+            each prod in products
+                .col-12.col-sm-6.col-md-3.d-flex.align-items-stretch.flex-column
+                    .card.bg-light.d-flex.flex-fill
+                        .card-header.text-muted.border-bottom-0
+                            small #{prod.category_name}
                         .card-body.pt-0
                             .row
                                 .col-7
-                                    h2.lead
-                                        b #{prod.name}
+                                    h3 #{prod.name}
                                     p.text-muted.text-sm
                                         b Description: 
-                                        |  #{prod.description}
-                                    ul.ml-4.mb-0.fa-ul.text-muted
-                                        li.small
+                                        | #{prod.description}
+                                    ul.ml-4.mb-0.fa-ul
+                                        li.mb-2
                                             span.fa-li
-                                                i.fas.fa-lg.fa-building
-                                            |  Stock: #{prod.unit_price}
+                                                i.fas.fa-archive
+                                            h5 #{prod.stock}
+                                        li.mb-2
+                                            span.fa-li
+                                                i.fas.fa-clock 
+                                            h5 #{prod.expiry_date.toISOString().replace('T', ' ').substring(0, 10)}
+                                        li.mb-2
+                                            span.fa-li
+                                                i.fas.fa-pound-sign
+                                            if prod.discounted_price > 0
+                                                h5.mb-0
+                                                    | #{prod.discounted_price.toFixed(2)}
+                                                span(style="text-decoration: line-through!important").text-muted.mt-0
+                                                    | #{prod.unit_price.toFixed(2)}
+                                            else
+                                                h5
+                                                    | #{prod.unit_price.toFixed(2)}
                                 .col-5.text-center
                                     img.img-circle.img-fluid(src='../../dist/img/user1-128x128.jpg' alt='user-avatar')
                         .card-footer
-                            .row
-                                .col-6
-                                    div.form-group
-                                            label 
-                                                small Quantity
-                                            input#quantity.form-control(type="number" name="quantity")
-                                .col-6
-                                    .text-right
-                                        button.btn.btn-success.float-right(type='submit')
-                                            i.fas.fa-user  Add
+                            form(action="/transaction/addItem" method="post")
+                                div.row
+                                    input(type="hidden" name="transaction_id" value=result.id)
+                                    input(type="hidden" name="product_id" value=prod.id)
+                                div.row.justify-content-between
+                                    input.form-control#quantity(type="number" name="quantity" min=1 step=1 max=prod.stock required placeholder="Qty").w-50
+                                    button(type="submit").btn.btn-sm.btn-success
+                                        i.fas.fa-cart-plus

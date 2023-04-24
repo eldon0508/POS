@@ -6,8 +6,8 @@ div.row.my-3
                     th(width='1%')
                     th Product
                     th Description
-                    th(width='10%') Qty
                     th Unit Price
+                    th(width='10%') Qty
                     th Total
                     if result.status == 'pending'
                         th(width='5%').no-print
@@ -20,8 +20,8 @@ div.row.my-3
                         else
                             td #{item.name}
                         td #{item.description}
-                        td #{item.quantity}
                         td #{item.unit_price.toFixed(2)}
+                        td #{item.quantity}
                         td #{item.total.toFixed(2)}
                         if result.status == 'pending'
                             td.no-print
