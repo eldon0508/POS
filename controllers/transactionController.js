@@ -326,10 +326,7 @@ function calTotal(tran_id, rate, disc_type) {
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
         query = `SELECT * FROM transaction_items WHERE transaction_id = ${tran_id};
                 SELECT * FROM transactions WHERE id = ${tran_id};
-                SELECT * FROM promotions 
-                WHERE type = 1 AND status = 1 
-                AND start_date < "${dOnly}" AND end_date > "${dOnly}" 
-                AND deleted_at IS NULL`;
+                SELECT * FROM promotions WHERE id = 1 AND status = 1 AND start_date < "${dOnly}" AND end_date > "${dOnly}" AND deleted_at IS NULL`;
 
     db.query(query, (err, data) => {
         if (err) throw err;
@@ -342,12 +339,12 @@ function calTotal(tran_id, rate, disc_type) {
 
         var tax = +((t * 0.1).toFixed(2));       // convert string to number using + operator
         var disc = 0,
-            promotion = data[2][0];
+            cartDis = data[2][0];
         if (rate > 0) {     // Apply Discount Manually
             disc = calDisc(t, tax, rate, disc_type, null);
-        } else {         // Apply Discount Automatically
-            if (t >= promotion.min_spending) {
-                disc = calDisc(t, tax, promotion.rate, promotion.discount_type, promotion.capped_at);
+        } else {         // Apply Cart Discount
+            if (t >= cartDis.min_spending) {
+                disc = calDisc(t, tax, cartDis.rate, cartDis.discount_type, cartDis.capped_at);
             }
         }
         var grand = +(t + tax - disc);

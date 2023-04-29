@@ -20,7 +20,7 @@ block content
                         div.card-header
                             a(href='/promotion/create').btn.btn-primary.float-right
                                 i.fa.fa-plus 
-                                |  Create Promotion
+                                |  Create Code
                         div.card-body
                             div.row
                                 div.col-12
@@ -29,7 +29,6 @@ block content
                                             tr
                                                 th Id
                                                 th Name
-                                                th Discount Scheme
                                                 th Discount Type
                                                 th Rate
                                                 th Capped
@@ -41,11 +40,6 @@ block content
                                                 tr
                                                     td #{result.id}
                                                     td #{result.name}
-                                                    td
-                                                        if result.type == 1
-                                                            | Total Amount 
-                                                        else
-                                                            | Promo Code
                                                     td
                                                         if result.discount_type == 1
                                                             | Percentage

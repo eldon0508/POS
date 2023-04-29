@@ -10,9 +10,7 @@ block content
                     ol.breadcrumb.float-sm-right
                         li.breadcrumb-item
                             a(href='/') Home
-                        li.breadcrumb-item 
-                            a(href='/promotion/index') Discount Code
-                        li.breadcrumb-item.active Edit
+                        li.breadcrumb-item.active #{title}
 
     section.content
         div.container-fluid
@@ -20,14 +18,15 @@ block content
                 div.col-12
                     div.card
                         div.card-body
-                            form(method="post" action="/promotion/" + result.id + "/update")
+                            form(method="post" action="/promotion/cart-discount/update")
                                 input(type="hidden" name="_csrf" value=_csrf)
                                 input(type="hidden" name="user_id" value=req.user.id)
+                                input(type="hidden" name="id" value=result.id)
                                 div.row
                                     div.col-6
                                         div.form-group
                                             label Name
-                                            input.form-control#name(value=result.name name='name' placeholder='Enter Name' required)
+                                            input.form-control#name(value=result.name disabled)
                                     div.col-6
                                         div.form-group
                                             label Status
@@ -65,11 +64,6 @@ block content
                                         div.form-group
                                             label End Date
                                             input.form-control#end_date(value=result.end_date.toISOString().split('T')[0] type='date' name='end_date')
-                                div.row
-                                    div.col-6
-                                        div.form-group
-                                            label Discount Code
-                                            input.form-control#code(value=result.code name='code' placeholder="Enter Discount Code")
                                 div.row
                                     div.col-12.text-right
                                         a(href="/promotion/index").mr-2

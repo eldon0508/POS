@@ -11,7 +11,7 @@ block content
                         li.breadcrumb-item
                             a(href='/') Home
                         li.breadcrumb-item 
-                            a(href='/promotion/index') Promotion
+                            a(href='/promotion/index') Discount Code
                         li.breadcrumb-item.active Create
 
     section.content
@@ -26,13 +26,11 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Name
+                                            label Name
                                             input.form-control#name(name='name' placeholder='Enter Name' required)
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Status
+                                            label Status
                                             select.form-control#status(name="status" required)
                                                 option(value="") --- Select Status ---
                                                 option(value="1") Active
@@ -40,61 +38,40 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Type
-                                            select.form-control#type(name="type" required)
-                                                option(value="") --- Select Type ---
-                                                option(value="1") Total Amount
-                                                option(value="2") Two-in-One
-                                                option(value="3") Promo Code
-                                    div.col-6
-                                        div.form-group
-                                            label
-                                                | Discount Type
+                                            label Discount Type
                                             select.form-control#discount_type(name="discount_type" required)
                                                 option(value="") --- Select Discount Type ---
                                                 option(value="1") Percentage
                                                 option(value="2") Fixed
+                                    div.col-6
+                                        div.form-group
+                                            label Rate
+                                            input.form-control#rate(type='number' name='rate' placeholder='Enter Rate' min=0 step=.01)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Rate
-                                            input.form-control#rate(type='number' name='rate' placeholder='Enter Rate' min=0 step=0.01)
+                                            label Minimum Spending
+                                            input.form-control#min_spending(name='min_spending' placeholder="Enter Minimum Spending" min=.01 step=.01)
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Capped
-                                            input.form-control#capped_at(type='number' name='capped_at' placeholder='Enter Capped' min=0 step=0.01)
+                                            label Capped
+                                            input.form-control#capped_at(type='number' name='capped_at' placeholder='Enter Capped' min=0 step=.01)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Start From
+                                            label Start Date
                                             input.form-control#start_date(type='date' name='start_date')
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | End At
+                                            label End Date
                                             input.form-control#end_date(type='date' name='end_date')
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Product
-                                            select.form-control.select2#product_id(name="product_id")
-                                                option(value="") --- Select Product ---
-                                                each product in products
-                                                    option(value=product.id) #{product.name}
-                                    div.col-6
-                                        div.form-group
-                                            label
-                                                | Promo Code
-                                            input.form-control#promo_code(name='promo_code' placeholder="Enter Promo Code")
+                                            label Discount Code
+                                            input.form-control#code(name='code' placeholder="Enter Discount Code")
                                 div.row
                                     div.col-12.text-right
                                         a(href="/promotion/index").mr-2
-                                            button.btn.btn-secondary(type='button')
-                                                | Back
-                                        button.btn.btn-success(type='submit')
-                                            | Submit
+                                            button.btn.btn-secondary(type='button') Back
+                                        button.btn.btn-success(type='submit') Submit
