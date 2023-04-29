@@ -38,7 +38,10 @@ block content
                                             each result in results
                                                 tr
                                                     td #{result.id}
-                                                    td #{result.name}
+                                                    if result.age_restriction
+                                                        td.text-danger #{result.name}
+                                                    else
+                                                        td #{result.name}
                                                     td
                                                         a(href="/category/" + result.category_id + "/edit") #{result.category_name}
                                                     td #{result.unit_price.toFixed(2)}

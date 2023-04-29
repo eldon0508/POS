@@ -1,6 +1,11 @@
 div.card.card-solid
     div.card-body.pb-0(style="max-height: 520px; overflow-y: auto;")
         div.row
+            .col-2.d-flex.align-items-stretch.flex-column
+                if flag 
+                    a.btn.btn-primary(href="/transaction/" + result.id + "/edit/") All
+                else
+                    a.btn.btn-default(href="/transaction/" + result.id + "/edit/") All
             each category in categories
                 .col-2.d-flex.align-items-stretch.flex-column
                     if category.id == req.params.category_id
@@ -16,7 +21,10 @@ div.card.card-solid
                         .card-body.pt-0
                             .row
                                 .col-7
-                                    h3 #{prod.name}
+                                    if prod.age_restriction == 1
+                                        h3.text-danger *#{prod.name}
+                                    else
+                                        h3 *#{prod.name}
                                     p.text-muted.text-sm
                                         b Description: 
                                         | #{prod.description}

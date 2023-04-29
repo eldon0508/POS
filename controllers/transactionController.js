@@ -68,6 +68,10 @@ const edit = (req, res, next) => {
     SELECT * FROM categories WHERE deleted_at IS NULL;
     SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.deleted_at IS NULL `+ cat_query;
 
+    var flag = true;
+    if (cat_query != "")
+        flag = false;
+
 
     console.log(cat_query, 'asdfasdfasdfadsf', q);
     db.query(q, function (err, data) {
@@ -84,6 +88,7 @@ const edit = (req, res, next) => {
                 categories: data[2],
                 products: data[3],
                 customer: row[0],
+                flag: flag,
                 msg_type: req.flash('msg_type'),
                 msg: req.flash('msg'),
                 req: req,
