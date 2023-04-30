@@ -20,18 +20,16 @@ block content
                 div.col-12
                     div.card
                         div.card-body
-                            form(action="/product/store" method="post")
+                            form(action="/product/store" method="post" enctype="multipart/form-data")
                                 input(type="hidden" name="_csrf" value=_csrf)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Name
+                                            label(for="name") Name
                                             input.form-control#name(name='name' placeholder='Enter Name' required)
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Category
+                                            label(for="category_id") Category
                                             select.form-control#category_id(name="category_id" required)
                                                 option(value="") --- Select Category ---
                                                     each category in categories 
@@ -39,56 +37,52 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Unit Price
+                                            label(for="unit_price") Unit Price
                                             input.form-control#unit_price(type='number' name='unit_price' placeholder='Enter Unit Price' step=0.01 min=0 required)
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Stock
+                                            label(for="stock") Stock
                                             input.form-control#stock(type='number' name='stock' placeholder='Enter Stock' step=1 min=0 required)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Discounted Price (Optional)
+                                            label(for="discounted_price") Discounted Price (Optional)
                                             input.form-control#discounted_price(type='number' name='discounted_price' placeholder='Enter Discounted Price' min=0 step=0.01)
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Expiry Date
+                                            label(for="expiry_date") Expiry Date
                                             input.form-control.date#expiry_date(type='date' name='expiry_date' placeholder='Enter Expiry Date' required min=new Date().toISOString().split('T')[0])
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Age Restriction 
-                                            small.text-danger 
-                                                | (Default No)
+                                            label(for="age_restriction") Age Restriction
+                                            small.text-danger (Default No)
                                             select.form-control#age_restriction(name="age_restriction")
                                                 option(value="") --- Select Age Restriction ---
                                                 option(value=0) No 
                                                 option(value=1) Yes
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Show Listing
-                                            small.text-danger 
-                                                | (Default Yes)
+                                            label(for="show_listing") Show Listing
+                                            small.text-danger (Default Yes)
                                             select.form-control#show_listing(name="show_listing")
                                                 option(value="") --- Select Show Listing ---
                                                 option(value=0) No 
                                                 option(value=1) Yes
                                 div.row
-                                    div.col-12
+                                    div.col-6
+                                        .form-group
+                                            label(for='image') Image
+                                            .input-group
+                                                .custom-file
+                                                    input#image.custom-file-input(type='file' name="image" required)
+                                                    label.custom-file-label(for='image') Choose file
+                                    div.col-6
                                         div.form-group
-                                            label
-                                                | Description
+                                            label(for="description") Description
                                             textarea.form-control#description(name="description")
                                 div.row
                                     div.col-12.text-right
                                         a(href="/product/index").mr-2
-                                            button.btn.btn-secondary(type='button')
-                                                | Back
-                                        button.btn.btn-success(type='submit')
-                                            | Submit
+                                            button.btn.btn-secondary(type='button') Back
+                                        button.btn.btn-success(type='submit') Submit

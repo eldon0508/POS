@@ -5,7 +5,8 @@ const path = require('path'),
   session = require('express-session'),
   cookieParser = require('cookie-parser'),
   logger = require('morgan'),
-  passport = require('passport');
+  passport = require('passport'),
+  fileUpload = require('express-fileupload');
 
 // Routes declaration
 var indexRouter = require('./routes/index'),
@@ -58,6 +59,7 @@ app.use(session({
 }));
 app.use(flash());
 app.use(passport.authenticate('session'));
+app.use(fileUpload());
 
 // Routes
 app.use('/', indexRouter);

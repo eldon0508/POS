@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2023 at 03:00 AM
+-- Generation Time: Apr 30, 2023 at 11:35 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -72,11 +72,11 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `first_name`, `last_name`, `phone`, `email`, `dob`, `address`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Tom', 'Gray', '00689284969', 'fwright@yahoo.com', '2017-01-29', 'Studio 48u\nCook Underpass\nDanside\nOL12 6RA', '2023-04-24 21:10:33', '2023-04-24 21:10:33', NULL),
-(2, 'Caitlin', 'Brown', '+44(0)0550878839', 'rebecca.griffiths@marshall.info', '1978-02-17', 'Studio 46c\nHughes Shore\nNew Scarlett\nSY5 0AR', '2023-04-24 21:10:33', '2023-04-24 21:10:33', NULL),
-(3, 'Oliver', 'Moore', '+44(0)851993950', 'sonia22@gmail.co.uk', '2004-12-26', '7 Imogen Spur\nIanburgh\nOX4 1GF', '2023-04-24 21:10:33', '2023-04-24 21:10:33', NULL),
-(4, 'Graham', 'Owen', '(09392) 13587', 'molly50@holmes.info', '2004-07-22', 'Flat 96\nScott Stream\nSouth Arthur\nPO17 5HZ', '2023-04-24 21:10:33', '2023-04-24 21:10:33', NULL),
-(5, 'Charlotte', 'Cooper', '07639 806679', 'tim.wilkinson@gmail.co.uk', '1979-08-16', 'Flat 06m\nClark Fords\nNew Naomiport\nOL12 7TX', '2023-04-24 21:10:33', '2023-04-24 21:10:33', NULL);
+(1, 'Isla', 'Roberts', '09421 18201', 'hunt.eleanor@hotmail.co.uk', '1998-02-27', '4 Tara Shoal\nCarmenland\nNG20 0JZ', '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(2, 'Gavin', 'Kennedy', '(0620) 0263871', 'fox.tiffany@chapman.co.uk', '2008-09-15', 'Studio 87z\nLloyd Lights\nNew Sabrina\nPE29 2HJ', '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(3, 'Becky', 'Knight', '(08252) 32671', 'scott.stewart@clarke.com', '1976-08-29', '872 Patrick Tunnel\nSouth Lindsay\nNE20 0RB', '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(4, 'Tim', 'Smith', '02318 92643', 'ryan.price@hall.com', '2018-04-04', '89 Hughes Isle\nRubymouth\nNE29 0AT', '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(5, 'Becky', 'Walsh', '06759 86244', 'xcampbell@gmail.co.uk', '1977-09-06', '638 Gray Track\nLake Juliafort\nSM3 9QR', '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -89,6 +89,8 @@ CREATE TABLE `products` (
   `name` varchar(255) NOT NULL,
   `category_id` bigint(20) UNSIGNED NOT NULL,
   `description` varchar(255) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `image_ext` varchar(255) DEFAULT NULL,
   `stock` int(11) NOT NULL,
   `unit_price` double(8,2) NOT NULL,
   `discounted_price` double(8,2) NOT NULL DEFAULT 0.00,
@@ -104,57 +106,57 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `category_id`, `description`, `stock`, `unit_price`, `discounted_price`, `expiry_date`, `age_restriction`, `show_listing`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'et', 2, 'Tempora omnis voluptatum vero cupiditate.', 105, 6.00, 0.00, '1990-09-14', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(2, 'veritatis', 5, 'Sapiente molestiae eligendi eveniet molestiae facere aut nihil.', 6, 4.00, 0.00, '2003-11-10', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(3, 'neque', 1, 'Earum animi voluptate deserunt ad aliquam.', 118, 4.00, 0.00, '1993-03-06', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(4, 'aut', 4, 'Itaque sed quia occaecati id.', 141, 1.00, 0.00, '1992-02-19', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(5, 'nemo', 1, 'Est sit tenetur aliquam eligendi voluptatem est consectetur.', 144, 8.00, 0.00, '2016-07-25', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(6, 'et', 1, 'Dolores quisquam rerum nisi voluptatum.', 102, 9.00, 0.00, '1985-01-27', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(7, 'iure', 3, 'Rerum consequatur tempore eaque saepe non est.', 111, 2.00, 0.00, '1977-09-19', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(8, 'quia', 2, 'Aliquid cupiditate blanditiis aut voluptatem ullam neque.', 30, 7.00, 0.00, '1989-04-16', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(9, 'nesciunt', 1, 'Quam molestiae voluptatem reprehenderit porro est.', 56, 2.00, 0.00, '1988-11-06', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(10, 'est', 3, 'Et quidem corporis maxime qui praesentium qui.', 86, 8.00, 0.00, '1976-08-18', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(11, 'culpa', 3, 'Debitis quod sunt harum esse.', 100, 5.00, 0.00, '2016-04-07', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(12, 'quo', 5, 'Quis ut ipsa corporis aut voluptatem et dolorem.', 52, 2.00, 0.00, '1975-08-04', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(13, 'qui', 5, 'Eum commodi dolor sapiente consectetur minima architecto doloribus eveniet.', 79, 3.00, 0.00, '1976-06-23', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(14, 'quo', 5, 'Similique aliquam veritatis reiciendis est.', 93, 2.00, 0.00, '1976-09-03', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(15, 'aut', 5, 'Et eligendi vel odio facilis vitae sit.', 94, 1.00, 0.00, '1972-09-10', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(16, 'quidem', 1, 'Amet natus eum ipsam quia sint iste.', 145, 4.00, 0.00, '1976-09-21', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(17, 'et', 5, 'Qui ipsum cum autem.', 37, 3.00, 0.00, '1972-04-23', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(18, 'iure', 2, 'Et est expedita consequatur dolorum perspiciatis iure.', 4, 5.00, 0.00, '1992-04-28', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(19, 'vitae', 1, 'Inventore molestiae non delectus sint omnis excepturi est.', 120, 5.00, 0.00, '1975-02-23', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(20, 'dolorum', 2, 'Praesentium nisi iste incidunt maxime.', 133, 4.00, 0.00, '2008-11-15', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(21, 'animi', 3, 'Dolor qui laborum ullam blanditiis qui.', 133, 7.00, 0.00, '2017-03-01', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(22, 'repellendus', 5, 'Officia ea aliquid est doloremque voluptates necessitatibus.', 115, 6.00, 0.00, '1999-06-09', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(23, 'sequi', 2, 'Sit id et expedita debitis ut.', 61, 9.00, 0.00, '2012-06-19', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(24, 'aut', 5, 'Cum voluptatibus corporis aut quis fuga.', 3, 6.00, 0.00, '1972-06-26', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(25, 'commodi', 5, 'Iusto non dolorem sequi assumenda deserunt sunt.', 15, 7.00, 0.00, '1994-09-24', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(26, 'dolores', 4, 'Sed tenetur ea eligendi autem quo qui.', 116, 6.00, 0.00, '2002-04-22', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(27, 'officia', 4, 'Sint sint omnis et id qui.', 122, 6.00, 0.00, '2008-10-10', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(28, 'rerum', 3, 'Dignissimos dolorem recusandae eaque est aut.', 117, 2.00, 0.00, '2005-05-16', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(29, 'explicabo', 3, 'Ut neque nihil minus.', 25, 7.00, 0.00, '2020-12-19', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(30, 'a', 4, 'Autem repellendus exercitationem ab maiores numquam.', 83, 6.00, 0.00, '2003-12-06', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(31, 'sapiente', 3, 'Et nihil repellendus quia nostrum.', 118, 1.00, 0.00, '2020-03-29', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(32, 'aut', 1, 'Sequi fuga ut qui impedit.', 71, 9.00, 0.00, '1979-06-08', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(33, 'debitis', 5, 'Et et magni ratione cupiditate quia consequuntur quod corrupti.', 67, 7.00, 0.00, '1976-04-05', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(34, 'aut', 3, 'Aperiam ut impedit tempore est.', 108, 7.00, 0.00, '1981-10-13', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(35, 'distinctio', 5, 'Quia et voluptatum quo repudiandae perferendis.', 14, 2.00, 0.00, '2008-07-31', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(36, 'molestiae', 1, 'Provident nisi impedit atque illo esse.', 122, 7.00, 0.00, '2019-09-17', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(37, 'voluptas', 3, 'Placeat omnis laborum non rerum possimus.', 128, 3.00, 0.00, '2003-10-16', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(38, 'voluptatem', 2, 'Qui qui tenetur quia illum quis occaecati.', 149, 8.00, 0.00, '2006-07-15', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(39, 'et', 1, 'Consequatur et atque vel est et non.', 8, 8.00, 0.00, '2022-07-25', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(40, 'quis', 1, 'Quas minus non fuga architecto et ea.', 6, 4.00, 0.00, '2014-05-09', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(41, 'reprehenderit', 4, 'Officia voluptatem est doloremque vero eum.', 8, 3.00, 0.00, '1972-10-28', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(42, 'molestiae', 5, 'Sint quae quia ab doloribus ad et quis.', 140, 3.00, 0.00, '1981-04-05', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(43, 'voluptatem', 1, 'Voluptas exercitationem eum sint.', 43, 3.00, 0.00, '2010-03-12', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(44, 'eveniet', 1, 'Error a numquam impedit qui est eos maxime aut.', 104, 6.00, 0.00, '2007-02-04', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(45, 'quaerat', 2, 'Ut ipsum nulla occaecati.', 117, 2.00, 0.00, '2015-01-21', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(46, 'aut', 1, 'Et sint neque et magni et temporibus possimus.', 141, 4.00, 0.00, '2013-09-30', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(47, 'reprehenderit', 5, 'Voluptatem nobis beatae cumque ut.', 53, 3.00, 0.00, '2006-03-06', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(48, 'dolorum', 3, 'Eos quo repudiandae consequatur nam tempore.', 27, 5.00, 0.00, '1970-04-20', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(49, 'quidem', 3, 'Quasi ea dolorum aperiam ex et.', 52, 5.00, 0.00, '2014-02-12', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL),
-(50, 'ad', 3, 'In nihil possimus cumque.', 107, 5.00, 0.00, '2014-01-02', 0, 1, '2023-04-28 23:27:04', '2023-04-28 23:27:04', NULL);
+INSERT INTO `products` (`id`, `name`, `category_id`, `description`, `image`, `image_ext`, `stock`, `unit_price`, `discounted_price`, `expiry_date`, `age_restriction`, `show_listing`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'reiciendis', 1, 'Aliquid deserunt est possimus nulla.', NULL, NULL, 23, 3.00, 0.00, '1976-10-01', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(2, 'ex', 1, 'Minima assumenda et officiis eum.', NULL, NULL, 113, 2.00, 0.00, '1992-04-15', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(3, 'rerum', 5, 'Magnam doloribus accusamus nobis impedit commodi animi.', NULL, NULL, 61, 4.00, 0.00, '1994-04-26', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(4, 'qui', 1, 'Qui quia eos possimus atque dolorum.', NULL, NULL, 69, 8.00, 0.00, '1974-06-05', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(5, 'aut', 3, 'Voluptatibus aut magni unde reiciendis.', NULL, NULL, 137, 1.00, 0.00, '2021-11-27', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(6, 'quos', 5, 'Animi reiciendis voluptatem magnam tempora.', NULL, NULL, 123, 2.00, 0.00, '1972-09-05', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(7, 'consequatur', 1, 'Et nobis maiores et numquam natus.', NULL, NULL, 93, 6.00, 0.00, '2007-05-19', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(8, 'perspiciatis', 1, 'Cupiditate in molestiae possimus.', NULL, NULL, 84, 1.00, 0.00, '2012-03-04', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(9, 'autem', 1, 'Consequuntur doloremque aut exercitationem quibusdam aut.', NULL, NULL, 9, 2.00, 0.00, '1977-11-20', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(10, 'ut', 3, 'Amet quisquam sunt ut aut laborum sequi.', NULL, NULL, 54, 4.00, 0.00, '2006-08-06', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(11, 'error', 1, 'Rem consectetur aliquid aut accusantium enim aut in laborum.', NULL, NULL, 77, 2.00, 0.00, '2022-08-26', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(12, 'laudantium', 2, 'Laudantium ea autem a unde sunt.', NULL, NULL, 116, 9.00, 0.00, '1971-05-11', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(13, 'voluptates', 3, 'Id incidunt ea inventore sed molestias iure.', NULL, NULL, 122, 1.00, 0.00, '2008-05-26', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(14, 'praesentium', 2, 'Et mollitia tenetur assumenda sint explicabo veritatis nisi.', NULL, NULL, 150, 8.00, 0.00, '1970-06-16', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(15, 'labore', 1, 'Sed enim neque iure ipsum laborum quis cupiditate.', NULL, NULL, 93, 1.00, 0.00, '1989-02-17', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(16, 'impedit', 3, 'Nisi quae porro adipisci repellendus accusantium recusandae reprehenderit.', NULL, NULL, 89, 4.00, 0.00, '2015-01-05', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(17, 'eum', 1, 'Ut est voluptatem officia error quaerat.', NULL, NULL, 77, 9.00, 0.00, '1974-09-14', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(18, 'voluptatem', 2, 'Id dignissimos vitae excepturi.', NULL, NULL, 104, 5.00, 0.00, '1976-09-28', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(19, 'non', 5, 'Et iusto aperiam quidem esse.', NULL, NULL, 93, 4.00, 0.00, '1977-08-03', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(20, 'ipsa', 3, 'Quis quisquam debitis autem alias eos repellat maiores ipsam.', NULL, NULL, 35, 4.00, 0.00, '1983-06-13', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(21, 'aliquid', 1, 'Autem dolorem accusamus voluptatum dolorum.', NULL, NULL, 111, 5.00, 0.00, '2022-03-22', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(22, 'ut', 4, 'Cupiditate et aut repellendus ut harum officia sit.', NULL, NULL, 72, 3.00, 0.00, '1985-02-24', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(23, 'accusantium', 1, 'Similique incidunt porro harum quo fugiat qui.', NULL, NULL, 148, 5.00, 0.00, '1993-09-02', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(24, 'recusandae', 3, 'Doloremque vel itaque veritatis facere aut ea quia consequatur.', NULL, NULL, 129, 2.00, 0.00, '2002-06-14', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(25, 'consectetur', 3, 'Eum aut a qui.', NULL, NULL, 103, 2.00, 0.00, '2019-05-01', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(26, 'non', 4, 'Possimus harum esse quaerat voluptatem non omnis.', NULL, NULL, 135, 9.00, 0.00, '1995-03-03', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(27, 'aspernatur', 5, 'Consequuntur sint pariatur odio reprehenderit similique hic ab beatae.', NULL, NULL, 71, 2.00, 0.00, '2002-08-16', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(28, 'autem', 5, 'Ea quia non quod eveniet tenetur tempore non.', NULL, NULL, 26, 2.00, 0.00, '1975-01-13', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(29, 'amet', 5, 'Qui est nisi ut laudantium laborum dolores.', NULL, NULL, 107, 3.00, 0.00, '1997-04-27', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(30, 'velit', 3, 'Ipsam vel placeat saepe vero quia cupiditate est.', NULL, NULL, 18, 2.00, 0.00, '2001-04-10', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(31, 'in', 4, 'Quo nemo quia quam quo nihil in hic exercitationem.', NULL, NULL, 19, 1.00, 0.00, '2004-11-08', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(32, 'deserunt', 2, 'Harum nesciunt maxime tenetur.', NULL, NULL, 92, 8.00, 0.00, '2021-09-23', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(33, 'ipsam', 3, 'Et sunt maiores illo ut quia odit.', NULL, NULL, 15, 8.00, 0.00, '2014-08-09', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(34, 'dignissimos', 5, 'Similique culpa ratione id et quae.', NULL, NULL, 12, 7.00, 0.00, '1985-05-06', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(35, 'enim', 2, 'Nobis eaque et officia autem ut.', NULL, NULL, 118, 6.00, 0.00, '1971-06-02', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(36, 'enim', 2, 'Ut quia quibusdam et et voluptatem sit velit.', NULL, NULL, 70, 9.00, 0.00, '1974-09-11', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(37, 'fuga', 1, 'Dolores libero et quam quam neque.', NULL, NULL, 139, 4.00, 0.00, '1993-11-16', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(38, 'eum', 4, 'Qui ea a id voluptatum mollitia nemo.', NULL, NULL, 144, 3.00, 0.00, '2019-03-09', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(39, 'expedita', 5, 'Rem consequatur doloribus atque eaque praesentium alias.', NULL, NULL, 77, 9.00, 0.00, '1999-08-19', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(40, 'quod', 1, 'Sunt minima eligendi nobis perspiciatis sit dolorum quia.', NULL, NULL, 146, 9.00, 0.00, '2009-03-10', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(41, 'impedit', 4, 'Est et nihil ea hic nisi ab.', NULL, NULL, 109, 8.00, 0.00, '2020-05-17', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(42, 'qui', 2, 'Praesentium eum id qui voluptatem ullam est.', NULL, NULL, 20, 3.00, 0.00, '1989-11-10', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(43, 'repudiandae', 5, 'Aliquid provident asperiores ea aliquam assumenda laboriosam alias.', NULL, NULL, 114, 5.00, 0.00, '1979-11-10', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(44, 'velit', 2, 'Voluptatem repellendus beatae quo repellat deleniti.', NULL, NULL, 121, 6.00, 0.00, '2002-12-15', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(45, 'enim', 3, 'Repudiandae aperiam ut et neque rerum unde cum.', NULL, NULL, 124, 3.00, 0.00, '1993-11-17', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(46, 'sunt', 1, 'Esse ratione rerum explicabo est.', NULL, NULL, 48, 5.00, 0.00, '2011-08-30', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(47, 'non', 3, 'Est enim eos qui est quidem sit exercitationem.', NULL, NULL, 1, 2.00, 0.00, '1995-05-05', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(48, 'itaque', 5, 'Enim magnam eius vitae doloremque harum quaerat aut neque.', NULL, NULL, 100, 5.00, 0.00, '1986-04-04', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(49, 'itaque', 1, 'Corporis sint animi aut totam unde asperiores occaecati.', NULL, NULL, 17, 2.00, 0.00, '1971-09-14', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL),
+(50, 'consectetur', 3, 'Nihil dolorem magnam enim est ullam iusto eos.', NULL, NULL, 82, 3.00, 0.00, '2021-04-25', 0, 1, '2023-04-30 20:35:28', '2023-04-30 20:35:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -171,7 +173,7 @@ CREATE TABLE `promotions` (
   `rate` double(8,2) NOT NULL,
   `capped_at` double(8,2) NOT NULL,
   `min_spending` double(8,2) NOT NULL,
-  `promo_code` varchar(255) DEFAULT NULL,
+  `code` varchar(255) DEFAULT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1,
@@ -184,8 +186,8 @@ CREATE TABLE `promotions` (
 -- Dumping data for table `promotions`
 --
 
-INSERT INTO `promotions` (`id`, `user_id`, `name`, `type`, `discount_type`, `rate`, `capped_at`, `min_spending`, `promo_code`, `start_date`, `end_date`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'Cart Discount', 1, 1, 5.00, 5.00, 20.00, NULL, '2000-01-01', '2030-01-01', 1, '2023-04-28 23:00:00', '2023-04-28 23:00:00', NULL);
+INSERT INTO `promotions` (`id`, `user_id`, `name`, `type`, `discount_type`, `rate`, `capped_at`, `min_spending`, `code`, `start_date`, `end_date`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'Cart Discount', 1, 1, 5.00, 5.00, 20.00, NULL, '2000-01-01', '2030-01-01', 1, '2023-04-29 23:00:00', '2023-04-29 23:00:00', NULL);
 
 -- --------------------------------------------------------
 
