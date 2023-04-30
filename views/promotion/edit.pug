@@ -26,11 +26,11 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label Name
+                                            label(for="name") Name
                                             input.form-control#name(value=result.name name='name' placeholder='Enter Name' required)
                                     div.col-6
                                         div.form-group
-                                            label Status
+                                            label(for="status") Status
                                             select.form-control#status(name="status" required)
                                                 option(value="") --- Select Status ---
                                                 option(value="1" selected=(result.status == 1)) Active
@@ -38,37 +38,37 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label Discount Type
+                                            label(for="discount_type") Discount Type
                                             select.form-control#discount_type(name="discount_type" required)
                                                 option(value="") --- Select Discount Type ---
                                                 option(value="1" selected=(result.discount_type == 1)) Percentage
                                                 option(value="2" selected=(result.discount_type == 2)) Fixed
                                     div.col-6
                                         div.form-group
-                                            label Rate
+                                            label(for="rate") Rate
                                             input.form-control#rate(value=result.rate type='number' name='rate' placeholder='Enter Rate' min=0 step=.01)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label Minimum Spending
+                                            label(for="min_spending") Minimum Spending
                                             input.form-control#min_spending(value=result.min_spending type='number' name='min_spending' placeholder='Enter Minimum Spending' min=0 step=.01)
                                     div.col-6
                                         div.form-group
-                                            label Capped
+                                            label(for="capped_at") Capped
                                             input.form-control#capped_at(value=result.capped_at type='number' name='capped_at' placeholder='Enter Capped' min=0 step=.01)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label Start Date
+                                            label(for="start_date") Start Date
                                             input.form-control#start_date(value=result.start_date.toISOString().split('T')[0] type='date' name='start_date')
                                     div.col-6
                                         div.form-group
-                                            label End Date
+                                            label(for="end_date") End Date
                                             input.form-control#end_date(value=result.end_date.toISOString().split('T')[0] type='date' name='end_date')
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label Discount Code
+                                            label(for="code") Discount Code
                                             input.form-control#code(value=result.code name='code' placeholder="Enter Discount Code")
                                 div.row
                                     div.col-12.text-right

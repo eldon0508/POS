@@ -25,20 +25,20 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label(for="username")  Username
+                                            label(for="username") Username
                                             input.form-control#username(value=result.username name='username' placeholder='Enter Username' disabled)
                                     div.col-6
                                         div.form-group
-                                            label(for="password")  Password
+                                            label(for="password") Password
                                             input.form-control#password(type='password' name='password' placeholder='Enter Password' required)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label(for="email")  Email
+                                            label(for="email") Email
                                             input.form-control#email(value=result.email type='email' name='email' placeholder='Enter Email' required)
                                     div.col-6
                                         div.form-group
-                                            label(for="role")  Role
+                                            label(for="role") Role
                                             select.form-control#role(name="role" required)
                                                 option(value="") --- Select Role ---
                                                 option(value="1" selected=(result.role == 1)) Manager 
@@ -46,20 +46,20 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label(for="first_name")  First Name
+                                            label(for="first_name") First Name
                                             input.form-control#first_name(value=result.first_name name='first_name' placeholder='Enter First Name' required)
                                     div.col-6
                                         div.form-group
-                                            label(for="last_name")  Last Name
+                                            label(for="last_name") Last Name
                                             input.form-control#last_name(value=result.last_name name='last_name' placeholder='Enter Last Name' required)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label(for="address")  Address
+                                            label(for="address") Address
                                             input.form-control#address(value=result.address name='address' placeholder='Enter Address' required)
                                     div.col-6
                                         div.form-group
-                                            label(for="dob")  Date of Birth
+                                            label(for="dob") Date of Birth
                                             input.form-control#dob(value=result.dob.toISOString().split('T')[0] type='date' max=new Date().toISOString().split('T')[0] name='dob' placeholder='Enter Date of Birth' required)
                                 div.row
                                     div.col-12.text-right
