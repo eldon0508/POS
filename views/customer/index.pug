@@ -27,31 +27,20 @@ block content
                                     table#table.table.table-hover.dataTable.dtr-inline(role="grid")
                                         thead
                                             tr
-                                                th
-                                                    | Id
-                                                th
-                                                    | Name
-                                                th
-                                                    | Phone
-                                                th
-                                                    | Date of Birth
-                                                th
-                                                    | Address
-                                                th 
-                                                    | Action
+                                                th Id
+                                                th Name
+                                                th Phone
+                                                th Date of Birth
+                                                th Address
+                                                th Action
                                         tbody 
                                             each result in results
                                                 tr
-                                                    td 
-                                                        | #{result.id}
-                                                    td
-                                                        | #{result.first_name} #{result.last_name}
-                                                    td
-                                                        | #{result.phone}
-                                                    td 
-                                                        | #{result.dob.toISOString().replace('T', ' ').substring(0, 10)}
-                                                    td 
-                                                        | #{result.address}
+                                                    td #{result.id}
+                                                    td #{result.first_name} #{result.last_name}
+                                                    td #{result.phone}
+                                                    td #{result.dob.toISOString().replace('T', ' ').substring(0, 10)}
+                                                    td #{result.address}
                                                     td
                                                         div(style='display:inline-block')
                                                             form(method='post' action='/customer/new/' + result.id + '/tran')

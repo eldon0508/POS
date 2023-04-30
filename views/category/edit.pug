@@ -25,13 +25,11 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Name
+                                            label(for="name") Name
                                             input.form-control#name(value=result.name name='name' placeholder='Enter Name' required)
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Status
+                                            label(for="status") Status
                                             select.form-control#status(name="status" required)
                                                 option(value="") --- Select Status ---
                                                 option(value=1 selected=(result.status == 1)) Active 
@@ -39,14 +37,10 @@ block content
                                 div.row
                                     div.col-12
                                         div.form-group
-                                            label
-                                                | Description
-                                            textarea.form-control#description(name="description")
-                                                | #{result.description}
+                                            label(for="description") Description
+                                            textarea.form-control#description(name="description") #{result.description}
                                 div.row
                                     div.col-12.text-right
                                         a(href="/category/index").mr-2
-                                            button.btn.btn-secondary(type='button')
-                                                | Back
-                                        button.btn.btn-success(type='submit')
-                                            | Submit
+                                            button.btn.btn-secondary(type='button') Back
+                                        button.btn.btn-success(type='submit') Submit

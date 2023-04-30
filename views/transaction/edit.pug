@@ -88,7 +88,7 @@ block content
                                         input.form-control(value=result.grand_total.toFixed(2) disabled)
                                 div.col-6
                                     div.form-group
-                                        label Payment
+                                        label(for="payment")  Payment
                                         input.form-control#payment(type="number" step=.1 min=result.grand_total name='payment' placeholder='Enter Payment' required)
                         .modal-footer.justify-content-between
                             button.btn.btn-default(type='button' data-dismiss='modal') Close
@@ -111,15 +111,14 @@ block content
                             div.row
                                 div.col-6
                                     div.form-group
-                                        label
-                                            | Discount Type
+                                        label(for="discount_type") Discount Type
                                         select.form-control#discount_type(name="discount_type" required)
                                             option(value="") --- Select Discount Type ---
                                             option(value="1") Percentage
                                             option(value="2") Fixed
                                 div.col-6
                                     div.form-group
-                                        label Rate
+                                        label(for="rate")  Rate
                                         input.form-control#rate(type="number" step=.1 min=.1 name='rate' placeholder='Enter Rate' required)
                         .modal-footer.justify-content-between
                             button.btn.btn-default(type='button' data-dismiss='modal') Close

@@ -25,8 +25,7 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Customer
+                                            label(for="customer_id") Customer
                                             select.select2.form-control#customer_id(name="customer_id" required)
                                                 option(value="") --- Select Customer ---
                                                 each customer in customers
@@ -34,7 +33,5 @@ block content
                                 div.row
                                     div.col-12.text-right
                                         a(href="/transaction/index").mx-2
-                                            button.btn.btn-secondary(type='button')
-                                                | Back
-                                        button.btn.btn-success(type='submit')
-                                            | Submit
+                                            button.btn.btn-secondary(type='button') Back
+                                        button.btn.btn-success(type='submit') Submit

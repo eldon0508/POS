@@ -25,41 +25,33 @@ block content
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | First Name
+                                            label(for="first_name") First Name
                                             input.form-control#first_name(name='first_name' placeholder='Enter First Name' required)
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Last Name
+                                            label(for="last_name") Last Name
                                             input.form-control#last_name(name='last_name' placeholder='Enter Last Name' required)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Phone
+                                            label(for="phone") Phone
                                             input#phone.form-control(type="phone" name="phone" placeholder="Enter Phone" required)
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Email
+                                            label(for="email") Email
                                             input.form-control#email(type="email" name='email' placeholder='Enter Email' required)
                                 div.row
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Date Of Birth
+                                            label(for="dob") Date Of Birth
                                             input#dob.form-control(type="date" name="dob" placeholder="Enter Date of Birth" required max=new Date().toISOString().split('T')[0])
                                     div.col-6
                                         div.form-group
-                                            label
-                                                | Address
+                                            label(for="address") Address
                                             input.form-control#address(name='address' placeholder='Enter Address' required)
-
                                 div.row
                                     div.col-12.text-right
                                         a(href="/customer/index").mr-2
-                                            button.btn.btn-secondary(type='button')
-                                                | Back
-                                        button.btn.btn-success(type='submit')
+                                            button.btn.btn-secondary(type='button') Back
+                                        button.btn.btn-success(type='submit') 
                                             | Submit
