@@ -71,6 +71,31 @@ block content
                             button.btn.btn-secondary.float-right.mx-2(type='button' data-toggle='modal' data-target='#apply-discount')
                                 i.fas.fa-tag
                                 |  Apply Discount
+                        button.btn.btn-outline-secondary.float-right(type='button' data-toggle='modal' data-target='#apply-discount-code')
+                            i.fas.fa-certificate
+                            |  Discount Code
+        #apply-discount-code.modal.fade
+            .modal-dialog
+                .modal-content
+                    form(action="/transaction/" + result.id + "/applyDiscountCode" method="post")
+                        .modal-header
+                            h4.modal-title Discount Code
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') &times;
+                        .modal-body
+                            input(type="hidden" name="_csrf" value=_csrf)
+                            div.row
+                                div.col-6
+                                    div.form-group
+                                        label Amount to Pay
+                                        input.form-control(value=result.grand_total.toFixed(2) disabled)
+                                div.col-6
+                                    div.form-group
+                                        label(for="code") Discount Code
+                                        input.form-control#code(name='code' placeholder='Enter Discount Code' required)
+                        .modal-footer.justify-content-between
+                            button.btn.btn-default(type='button' data-dismiss='modal') Close
+                            button.btn.btn-primary(type='submit') Submit
         #pay-by-cash.modal.fade
             .modal-dialog
                 .modal-content
@@ -109,17 +134,22 @@ block content
                                     .form-group
                                         p.text-danger Submitting would overwrite any existing promotion. To revert, click 'Recalculate' button.
                             div.row
-                                div.col-6
+                                div.col-12
                                     div.form-group
                                         label(for="discount_type") Discount Type
                                         select.form-control#discount_type(name="discount_type" required)
                                             option(value="") --- Select Discount Type ---
                                             option(value="1") Percentage
                                             option(value="2") Fixed
+                            .row
                                 div.col-6
                                     div.form-group
                                         label(for="rate") Rate
                                         input.form-control#rate(type="number" step=.1 min=.1 name='rate' placeholder='Enter Rate' required)
+                                div.col-6
+                                    div.form-group
+                                        label(for="capped_at") Capped At
+                                        input.form-control#capped_at(type="number" step=.1 min=.1 name='capped_at' placeholder='Enter Capped' required)
                         .modal-footer.justify-content-between
                             button.btn.btn-default(type='button' data-dismiss='modal') Close
                             button.btn.btn-primary(type='submit') Submit

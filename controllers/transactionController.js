@@ -186,7 +186,7 @@ const addItem = async (req, res, next) => {
                 updated_at: dt,
             };
             db.query(q2, q3);
-            calTotal(tran_id);
+            calTotal(tran_id, 1);
 
         });
         req.flash('msg', 'New item has been added to cart!');
@@ -210,7 +210,7 @@ const deleteItem = async (req, res, next) => {
             query = `DELETE FROM transaction_items WHERE id = "${transaction_item_id}"`;
 
         db.query(query);
-        calTotal(tran_id);
+        calTotal(tran_id, 1);
 
         req.flash('msg', 'Item has been removed from cart!');
         req.flash('msg_type', 'success');
@@ -231,9 +231,10 @@ const applyDiscount = async (req, res, next) => {
     try {
         var tran_id = req.params.id,
             discount_type = req.body.discount_type,
-            rate = req.body.rate;
+            rate = req.body.rate,
+            capped_at = req.body.capped_at;
 
-        calTotal(tran_id, rate, discount_type);
+        calTotal(tran_id, 2, discount_type, rate, capped_at);
         req.flash('msg', 'Discount has been applied!');
         req.flash('msg_type', 'success');
         db.commit();
@@ -245,11 +246,40 @@ const applyDiscount = async (req, res, next) => {
     res.redirect('/transaction/' + tran_id + '/edit');
 }
 
+/* Apply Discount */
+const applyDiscountCode = async (req, res, next) => {
+    await db.beginTransaction();
+
+    try {
+        var d = new Date(),
+            dOnly = d.toISOString().replace('T', ' ').substring(0, 11),
+            tran_id = req.params.id,
+            code = req.body.code,
+            query = `SELECT * FROM promotions WHERE status = 1 AND deleted_at IS NULL AND start_date < "${dOnly}" AND end_date > "${dOnly}" AND type = 2 AND code = "${code}"`;
+
+        db.query(query, (err, data) => {
+            var disc = data[0];
+            calTotal(tran_id, 2, disc.discount_type, disc.rate, disc.capped_at);
+        });
+
+
+        req.flash('msg', 'Discount has been applied!');
+        req.flash('msg_type', 'success');
+        db.commit();
+    } catch (error) {
+        db.rollback();
+        req.flash('msg', 'Failed to apply discount. Something went wrong!');
+        req.flash('msg_type', 'error');
+    }
+    res.redirect('/transaction/' + tran_id + '/edit');
+}
+
+
 /* recalculate route */
 const recalTotal = (req, res, next) => {
     try {
         var tran_id = req.params.id;
-        calTotal(tran_id);
+        calTotal(tran_id, 1);
         req.flash('msg', 'Recalculation completed!');
         req.flash('msg_type', 'success');
     } catch (error) {
@@ -325,7 +355,8 @@ const byCash = async (req, res, next) => {
 }
 
 /* recalculate function */
-function calTotal(tran_id, rate, disc_type) {
+function calTotal(tran_id, type = 1, disc_type, rate, capped) {
+    // Type 1: Cart Discount, 2: External Discounts (Apply Discount/Discount Code)
     var d = new Date(),
         dOnly = d.toISOString().replace('T', ' ').substring(0, 11),
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
@@ -345,12 +376,13 @@ function calTotal(tran_id, rate, disc_type) {
         var tax = +((t * 0.1).toFixed(2));       // convert string to number using + operator
         var disc = 0,
             cartDis = data[2][0];
-        if (rate > 0) {     // Apply Discount Manually
-            disc = calDisc(t, tax, rate, disc_type, null);
-        } else {         // Apply Cart Discount
+
+        if (type == 1) {     // Apply Cart Discount
             if (t >= cartDis.min_spending) {
-                disc = calDisc(t, tax, cartDis.rate, cartDis.discount_type, cartDis.capped_at);
+                disc = calDisc(t, tax, cartDis.discount_type, cartDis.rate, cartDis.capped_at);
             }
+        } else {         // Apply External Discounts
+            disc = calDisc(t, tax, disc_type, rate, capped);
         }
         var grand = +(t + tax - disc);
 
@@ -368,7 +400,7 @@ function calTotal(tran_id, rate, disc_type) {
 }
 
 /* Calculate & return discount based on type, cap  */
-function calDisc(total, tax, rate, type, cap) {
+function calDisc(total, tax, type, rate, capped) {
     var deduct;
     if (type == 1) {
         deduct = +((total + tax) * (rate / 100));
@@ -376,12 +408,12 @@ function calDisc(total, tax, rate, type, cap) {
         deduct = rate;
     }
 
-    if (cap != null) {
-        if (deduct >= cap) {
-            deduct = cap;
+    if (capped != null) {
+        if (deduct >= capped) {
+            deduct = capped;
         }
     }
     return deduct;
 }
 
-module.exports = { index, create, store, edit, show, destroy, addItem, deleteItem, applyDiscount, recalTotal, byCard, byCash };
+module.exports = { index, create, store, edit, show, destroy, addItem, deleteItem, applyDiscount, applyDiscountCode, recalTotal, byCard, byCash };

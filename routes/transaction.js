@@ -16,5 +16,6 @@ router.get('/:id/recalTotal', transactionController.recalTotal);
 router.get('/:id/byCard', transactionController.byCard);
 router.post('/:id/byCash', transactionController.byCash);
 router.post('/:id/applyDiscount', transactionController.applyDiscount);
+router.post('/:id/applyDiscountCode', transactionController.applyDiscountCode);
 
 module.exports = router;
