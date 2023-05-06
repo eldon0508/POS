@@ -153,6 +153,7 @@ passport.serializeUser(function (user, done) {
     done(null, {
       id: user.id,
       username: user.username,
+      name: user.first_name + " " + user.last_name,
       role: user.role,
     });
   });
