@@ -17,5 +17,7 @@ router.get('/:id/byCard', transactionController.byCard);
 router.post('/:id/byCash', transactionController.byCash);
 router.post('/:id/applyDiscount', transactionController.applyDiscount);
 router.post('/:id/applyDiscountCode', transactionController.applyDiscountCode);
+router.get('/summary', transactionController.summaryIndex);
+router.post('/summary/search', transactionController.summarySearch);
 
 module.exports = router;

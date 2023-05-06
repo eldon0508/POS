@@ -69,11 +69,9 @@ const edit = (req, res, next) => {
     SELECT p.*, c.name AS category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.deleted_at IS NULL `+ cat_query;
 
     var flag = true;
-    if (cat_query != "")
-        flag = false;
+    if (cat_query != "") { flag = false; }
 
 
-    console.log(cat_query, 'asdfasdfasdfadsf', q);
     db.query(q, function (err, data) {
         if (err) throw err;
 
@@ -274,7 +272,6 @@ const applyDiscountCode = async (req, res, next) => {
     res.redirect('/transaction/' + tran_id + '/edit');
 }
 
-
 /* recalculate route */
 const recalTotal = (req, res, next) => {
     try {
@@ -354,6 +351,63 @@ const byCash = async (req, res, next) => {
     res.redirect('/transaction/' + tran_id + '/show');
 }
 
+/* Summary Index */
+const summaryIndex = (req, res, next) => {
+    res.render('transaction/summary', {
+        title: 'Summary',
+        search: false,
+        req: req,
+    });
+}
+
+/* Summary Search */
+const summarySearch = (req, res, next) => {
+    var query = `SELECT * FROM transactions WHERE created_at BETWEEN '${req.body.from}' AND '${req.body.to}' AND status = '${req.body.status}'`;
+
+    db.query(query, (err, d1) => {
+        var from = req.body.from,
+            to = req.body.to,
+            status = req.body.status,
+            transactions = d1,
+            totalQty = 0,
+            discount = 0,
+            grandTotal = 0,
+            tran_ids = [];
+
+        transactions.forEach(element => {
+            totalQty += element.total_quantity;
+            discount += element.discount;
+            grandTotal += element.grand_total;
+            tran_ids.push(element.id);
+        });
+
+        var tran_num = tran_ids.length;
+        var q = `SELECT ti.quantity, ti.unit_price, ti.total, p.*, c.name AS category_name FROM transaction_items ti 
+                LEFT JOIN products p ON ti.product_id = p.id 
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE ti.transaction_id IN (${tran_ids})`;
+
+        db.query(q, (err, d2) => {
+            var items = d2;
+            console.log(items, totalQty, discount, grandTotal);
+            res.render('transaction/summary', {
+                transactions: transactions,
+                totalQty: totalQty,
+                discount: discount,
+                grandTotal: grandTotal,
+                tran_num: tran_num,
+                item_lists: items,
+                title: "Transaction Summary From " + from + " to " + to,
+                from: from,
+                to: to,
+                status: status,
+                search: true,
+                req: req,
+            });
+        });
+    });
+}
+
 /* recalculate function */
 function calTotal(tran_id, type = 1, disc_type, rate, capped) {
     // Type 1: Cart Discount, 2: External Discounts (Apply Discount/Discount Code)
@@ -416,4 +470,4 @@ function calDisc(total, tax, type, rate, capped) {
     return deduct;
 }
 
-module.exports = { index, create, store, edit, show, destroy, addItem, deleteItem, applyDiscount, applyDiscountCode, recalTotal, byCard, byCash };
+module.exports = { index, create, store, edit, show, destroy, addItem, deleteItem, applyDiscount, applyDiscountCode, recalTotal, byCard, byCash, summaryIndex, summarySearch };

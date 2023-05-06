@@ -1,0 +1,78 @@
+extends ../../layout/base-datatables.pug
+
+block content 
+    div.content-header
+        .container-fluid
+            .row.mb-2
+                .col-sm-6
+                .col-sm-6
+                    ol.breadcrumb.float-sm-right
+                        li.breadcrumb-item
+                            a(href='/') Home
+                        li.breadcrumb-item 
+                            a(href='/transaction/index') Transaction
+                        li.breadcrumb-item.active #{title}
+
+    section.content
+        div.container-fluid
+            form(action="/transaction/summary/search" method="post")
+                div.card
+                    div.card-header
+                        h2.text-center Summary
+                    div.card-body
+                        div.row
+                            div.col-md-2.offset-md-3
+                                label(for="from") From
+                                if search == true
+                                    input.form-control#from(type="date" name="from" placeholder="Select From" value=from required)
+                                else
+                                    input.form-control#from(type="date" name="from" placeholder="Select From" required)
+                            div.col-md-2
+                                label(for="to") To
+                                if search == true
+                                    input.form-control#to(type="date" name="to" placeholder="Select To" value=to required)
+                                else
+                                    input.form-control#to(type="date" name="to" placeholder="Select To" required)
+                            div.col-md-2
+                                label(for="from") Status
+                                select.form-control#status(name="status" required)
+                                    option(value="") --- Select Status ---
+                                    option(value="pending" selected=(status == 'pending')) Pending
+                                    option(value="completed" selected=(status == 'completed')) Completed
+                        div.row.mt-3
+                            .col-md-4.offset-md-4.text-center 
+                                button.btn.btn-primary(type="submit") Search
+
+    if search == true
+        section.content
+            div.container-fluid
+                .row
+                    .col-12.col-sm-6.col-md-3
+                        .info-box
+                            span.info-box-icon.bg-info.elevation-1
+                                i.fas.fa-chart-line
+                            .info-box-content
+                                span.info-box-text Total Quantity
+                                span.info-box-number #{totalQty}
+                    .col-12.col-sm-6.col-md-3
+                        .info-box.mb-3
+                            span.info-box-icon.bg-danger.elevation-1
+                                i.fas.fa-percentage
+                            .info-box-content
+                                span.info-box-text Discount Given
+                                span.info-box-number #{discount.toFixed(2)}
+                    .clearfix.hidden-md-up
+                    .col-12.col-sm-6.col-md-3
+                        .info-box.mb-3
+                            span.info-box-icon.bg-success.elevation-1
+                                i.fas.fa-pound-sign
+                            .info-box-content
+                                span.info-box-text Total Sales
+                                span.info-box-number #{grandTotal.toFixed(2)}
+                    .col-12.col-sm-6.col-md-3
+                        .info-box.mb-3
+                            span.info-box-icon.bg-warning.elevation-1
+                                i.fas.fa-chart-bar
+                            .info-box-content
+                                span.info-box-text No. Transaction
+                                span.info-box-number #{tran_num}
