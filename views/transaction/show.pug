@@ -18,12 +18,18 @@ block content
             .row
                 .col-12
                     .invoice.p-3.mb-3
+                        .ribbon-wrapper.ribbon-xl
+                            if (result.status == 'completed')
+                                .ribbon.bg-success.text-xl
+                                    | Completed
+                            else if (result.status == 'refunded')
+                                .ribbon.bg-warning.text-xl
+                                    | Refunded
                         .row
                             .col-12
                                 h4
                                     i.fas.fa-globe
                                     |  Customer Details
-                                    small.float-right Date: #{result.updated_at.toISOString().replace('T', ' ').substring(0, 10)}
                         .row.invoice-info
                             .col-sm-4.invoice-col
                                 address
@@ -34,6 +40,10 @@ block content
                                     | Phone: #{customer.phone}
                                     br
                                     | Email: #{customer.email}
+                        .row
+                            .col-md-12
+                                h4.text-right
+                                    small.float-rigth Date: #{result.updated_at.toISOString().replace('T', ' ').substring(0, 10)}
                         include items.pug
                         .row
                             .col-3.offset-9
@@ -42,23 +52,46 @@ block content
                                         tbody
                                             tr
                                                 th(style='width:50%') Subtotal:
-                                                td 
-                                                    | #{result.subtotal.toFixed(2)}
+                                                td #{result.subtotal.toFixed(2)}
                                             tr
                                                 th Tax (10%)
-                                                td 
-                                                    | #{result.tax.toFixed(2)}
+                                                td #{result.tax.toFixed(2)}
+                                            if result.discount > 0
+                                                th Discount
+                                                td -#{result.discount.toFixed(2)}
                                             tr
                                                 th Grand Total:
-                                                td 
-                                                    | #{result.grand_total.toFixed(2)}
+                                                td #{result.grand_total.toFixed(2)}
                         .row
                             .col-12
                                 small.text-danger.text-small
                                     | *=Age Restricted Item
-                                button.btn.btn-warning.float-right.no-print(type='button')
-                                    i.fas.fa-hand-holding-usd
-                                    |  Refund
+                                if (refund_flag && result.status == 'completed')
+                                    button.btn.btn-warning.float-right.no-print(type='button' data-toggle='modal' data-target='#refund-modal')
+                                        i.fas.fa-hand-holding-usd
+                                        |  Refund
                                 button.btn.btn-default.float-right.no-print.mx-2(type='button' onclick="window.print();")
                                     i.fas.fa-print
                                     |  Print
+                                a(href="/transaction/index") 
+                                    button.btn.btn-secondary.float-right.no-print(type='button') Back
+
+        #refund-modal.modal.fade
+            .modal-dialog
+                .modal-content
+                    form(action="/transaction/" + result.id + "/refund" method="post")
+                        .modal-header
+                            h4.modal-title Pay By Cash
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') &times;
+                        .modal-body
+                            input(type="hidden" name="_csrf" value=_csrf)
+                            input(type="hidden" name="user_id" value=req.user.id)
+                            div.row
+                                div.col-12
+                                    div.form-group
+                                        label Reason
+                                        input.form-control#reason(name="reason" placeholder='Enter Reason' required)
+                        .modal-footer.justify-content-between
+                            button.btn.btn-default(type='button' data-dismiss='modal') Close
+                            button.btn.btn-primary(type='submit') Submit

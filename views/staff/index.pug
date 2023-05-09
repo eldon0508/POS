@@ -27,12 +27,12 @@ block content
                                     table#table.table.table-hover.dataTable.dtr-inline(role="grid")
                                         thead
                                             tr
-                                                th Id
+                                                th(width='5%') ID
                                                 th Username
                                                 th Email
                                                 th Name
-                                                th Date of Birth
-                                                th Address
+                                                //- th Date of Birth
+                                                //- th Address
                                                 th Role
                                                 th Action
                                         tbody 
@@ -42,8 +42,8 @@ block content
                                                     td #{result.username}
                                                     td #{result.email}
                                                     td #{result.first_name} #{result.last_name}
-                                                    td #{result.dob.toISOString().replace('T', ' ').substring(0, 10)}
-                                                    td #{result.address}
+                                                    //- td #{result.dob.toISOString().replace('T', ' ').substring(0, 10)}
+                                                    //- td #{result.address}
                                                     td 
                                                         if result.role == 1 
                                                             | Manager

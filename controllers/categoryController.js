@@ -1,6 +1,5 @@
 var db = require('../database');
 
-
 /* index */
 const index = (req, res, next) => {
     var query = `SELECT * FROM categories WHERE deleted_at IS NULL`;

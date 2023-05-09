@@ -27,7 +27,7 @@ block content
                                     table#table.table.table-hover.dataTable.dtr-inline(role="grid")
                                         thead
                                             tr
-                                                th Id
+                                                th(width='5%') ID
                                                 th Customer
                                                 th Item Qty
                                                 th Amount
@@ -39,19 +39,24 @@ block content
                                                 tr
                                                     td #{result.id}
                                                     td
-                                                        a(href="/customer/" + result.customer_id + "/edit")
+                                                        a(href="/customer/" + result.customer_id + "/edit" target="_blank")
                                                             | #{result.first_name} #{result.last_name}
                                                     td #{result.total_quantity}
                                                     td #{result.grand_total.toFixed(2)}
-                                                    td #{(result.status).toUpperCase()}
+                                                    td
+                                                        if (result.status == 'completed')
+                                                            button.btn.bg-gradient-success
+                                                                span #{(result.status).toUpperCase()}
+                                                        else if (result.status == 'refunded')
+                                                            button.btn.bg-gradient-warning
+                                                                span #{(result.status).toUpperCase()}
                                                     td #{result.created_at.toISOString().replace('T', ' ').substring(0, 10)}
                                                     td
-                                                        if result.status == 'completed'
+                                                        if (result.status == 'completed' || result.status == 'refunded')
                                                             div(style='display:inline-block')
                                                                 a(href='/transaction/' + result.id + '/show').btn.btn-sm.btn-info.mx-2
                                                                     i.fa.fa-eye
-
-                                                        if result.status == 'pending'
+                                                        if (result.status == 'pending')
                                                             div(style='display:inline-block')
                                                                 a(href='/transaction/' + result.id + '/edit').btn.btn-sm.btn-primary.mx-2
                                                                     i.fa.fa-edit

@@ -12,11 +12,13 @@ router.post('/:id/destroy', transactionController.destroy);
 
 router.post('/addItem', transactionController.addItem);
 router.post('/:id/deleteItem', transactionController.deleteItem);
+router.post('/:id/applyDiscount', transactionController.applyDiscount);
+router.post('/:id/applyDiscountCode', transactionController.applyDiscountCode);
 router.get('/:id/recalTotal', transactionController.recalTotal);
 router.get('/:id/byCard', transactionController.byCard);
 router.post('/:id/byCash', transactionController.byCash);
-router.post('/:id/applyDiscount', transactionController.applyDiscount);
-router.post('/:id/applyDiscountCode', transactionController.applyDiscountCode);
+router.post('/:id/refund', transactionController.refund);
+
 router.get('/summary', transactionController.summaryIndex);
 router.post('/summary/search', transactionController.summarySearch);
 

@@ -1,0 +1,72 @@
+extends ../layout/base-datatables.pug
+
+block content 
+    div.content-header
+        .container-fluid
+            .row.mb-2
+                .col-sm-6
+                    h1 #{title}
+                .col-sm-6
+                    ol.breadcrumb.float-sm-right
+                        li.breadcrumb-item
+                            a(href='/') Home
+                        li.breadcrumb-item.active #{title}
+
+    section.content 
+        div.container-fluid
+            div.row
+                div.col-12
+                    div.card
+                        //- div.card-header
+                        //-     a(href='/product/create').btn.btn-primary.float-right
+                        //-         i.fa.fa-plus
+                        div.card-body
+                            div.row
+                                div.col-12
+                                    table#table.table.table-hover.dataTable.dtr-inline(role="grid")
+                                        thead
+                                            tr
+                                                th(width='5%') ID
+                                                th Customer Name
+                                                th(width='5%') Amount
+                                                th Date
+                                                th(width='50%') Reason
+                                                th Action
+                                        tbody 
+                                            each result in results
+                                                tr
+                                                    td #{result.id}
+                                                    td
+                                                        a(href="/customer/" + result.customer_id + "/edit" target="_blank") #{result.customer_fname} #{result.customer_lname}
+                                                    td #{result.amount.toFixed(2)}
+                                                    td #{result.updated_at.toISOString().replace('T', ' ').substring(0, 10)}
+                                                    td #{result.reason}
+                                                    td
+                                                        div(style='display:inline-block')
+                                                            a(href='/transaction/' + result.transaction_id + '/show' target="_blank").btn.btn-sm.btn-info.mx-2
+                                                                i.fa.fa-eye
+                                                        //- div(style='display:inline-block')
+                                                        //-     form(method='post' action='/product/' + result.id + '/destroy')
+                                                        //-         input(type="hidden" name="_method" value="DELETE")
+                                                        //-         button.btn.btn-sm.btn-danger.js-show-confirmation-modal(type='submit')
+                                                        //-             i.fas.fa-trash-alt
+                            div.row
+                                div.col-12.col-md-6
+                                    div#table_info.dataTables_info(role="status")
+                                        //- Total entries and pagination text added by JS
+
+    .modal.confirmation-modal.fade
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h5.modal-title
+                        | Delete Product
+                    button.close(type="button" data-dismiss="modal" arial-label="Close")
+                        span(aria-hidden="true") &times;
+                .modal-body 
+                    p Are you sure?
+                .modal-footer 
+                    button.btn.btn-secondary.js-cancel(data-dismiss="modal")
+                        | Cancel
+                    button.btn.btn-danger.js-confirm
+                        | Continue

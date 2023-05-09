@@ -103,10 +103,18 @@ const show = (req, res, next) => {
     db.query(q, function (err, data) {
         if (err) throw err;
 
-        var title = 'Transaction #' + data[0][0].id,
+        var d = new Date(),
+            dt = d.toISOString().replace('T', ' ').substring(0, 19),
+            title = 'Transaction #' + data[0][0].id,
             q2 = `SELECT * FROM customers WHERE id = ${data[0][0].customer_id} AND deleted_at IS NULL;`;
 
+        var refund_flag = false,
+            updated_at = data[0][0].updated_at.toISOString().replace('T', ' ').substring(0, 19),
+            daysDiff = dayDiff(d.getTime(), new Date(updated_at).getTime());
+
         db.query(q2, (err, row) => {
+            if (daysDiff <= 7) { refund_flag = true; }
+
             res.render('transaction/show', {
                 title: title,
                 result: data[0][0],
@@ -116,6 +124,7 @@ const show = (req, res, next) => {
                 msg_type: req.flash('msg_type'),
                 msg: req.flash('msg'),
                 req: req,
+                refund_flag: refund_flag
             });
         });
     });
@@ -351,6 +360,42 @@ const byCash = async (req, res, next) => {
     res.redirect('/transaction/' + tran_id + '/show');
 }
 
+/* Refund */
+const refund = async (req, res, next) => {
+    await db.beginTransaction();
+
+    try {
+        var d = new Date(),
+            dt = d.toISOString().replace('T', ' ').substring(0, 19),
+            tran_id = req.params.id,
+            q = `SELECT * FROM transactions WHERE id = ${tran_id}`;
+        db.query(q, (err, data) => {
+            var transaction = data[0];
+
+            var d = {
+                transaction_id: transaction.id,
+                customer_id: transaction.customer_id,
+                user_id: req.body.user_id,
+                amount: transaction.grand_total,
+                reason: req.body.reason,
+                created_at: dt,
+                updated_at: dt,
+            };
+            var query = `INSERT INTO refunds SET ?; UPDATE transactions SET status = 'refunded' WHERE id = ${tran_id}`;
+
+            db.query(query, d);
+        });
+        req.flash('msg', 'Refund successfully!');
+        req.flash('msg_type', 'success');
+        db.commit();
+    } catch (error) {
+        db.rollback();
+        req.flash('msg', 'Failed to refund. Something went wrong!');
+        req.flash('msg_type', 'error');
+    }
+    res.redirect('/transaction/' + tran_id + '/show');
+}
+
 /* Summary Index */
 const summaryIndex = (req, res, next) => {
     res.render('transaction/summary', {
@@ -470,4 +515,32 @@ function calDisc(total, tax, type, rate, capped) {
     return deduct;
 }
 
-module.exports = { index, create, store, edit, show, destroy, addItem, deleteItem, applyDiscount, applyDiscountCode, recalTotal, byCard, byCash, summaryIndex, summarySearch };
+function dayDiff(currentDate, compareDate) {
+    console.log(currentDate, compareDate);
+    var difference = currentDate - compareDate;
+
+    var daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
+    difference -= daysDifference * 1000 * 60 * 60 * 24
+
+    var hoursDifference = Math.floor(difference / 1000 / 60 / 60);
+    difference -= hoursDifference * 1000 * 60 * 60
+
+    var minutesDifference = Math.floor(difference / 1000 / 60);
+    difference -= minutesDifference * 1000 * 60
+
+    var secondsDifference = Math.floor(difference / 1000);
+
+    return daysDifference;
+    // console.log('difference = ' +
+    //     daysDifference + ' day/s ' +
+    //     hoursDifference + ' hour/s ' +
+    //     minutesDifference + ' minute/s ' +
+    //     secondsDifference + ' second/s ');
+}
+
+module.exports = {
+    index, create, store, edit, show, destroy,
+    addItem, deleteItem, applyDiscount, applyDiscountCode, recalTotal,
+    byCard, byCash, refund,
+    summaryIndex, summarySearch
+};

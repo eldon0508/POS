@@ -27,7 +27,7 @@ block content
                                     table#table.table.table-hover.dataTable.dtr-inline(role="grid")
                                         thead
                                             tr
-                                                th Id
+                                                th(width='5%') ID
                                                 th Name
                                                 th Category
                                                 th Price
@@ -43,7 +43,7 @@ block content
                                                     else
                                                         td #{result.name}
                                                     td
-                                                        a(href="/category/" + result.category_id + "/edit") #{result.category_name}
+                                                        a(href="/category/" + result.category_id + "/edit" target="_blank") #{result.category_name}
                                                     td #{result.unit_price.toFixed(2)}
                                                     td 
                                                         if result.stock < 50
@@ -60,7 +60,6 @@ block content
                                                         div(style='display:inline-block')
                                                             a(href='/product/' + result.id + '/edit').btn.btn-sm.btn-primary.mx-2
                                                                 i.fa.fa-edit
-                                                        | 
                                                         div(style='display:inline-block')
                                                             form(method='post' action='/product/' + result.id + '/destroy')
                                                                 input(type="hidden" name="_method" value="DELETE")
