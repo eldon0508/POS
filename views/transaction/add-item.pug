@@ -3,15 +3,15 @@ div.card.card-solid
         div.row
             .col-2.d-flex.align-items-stretch.flex-column
                 if flag 
-                    a.btn.btn-primary(href="/transaction/" + result.id + "/edit/") All
+                    a.btn.btn-primary.mb-2(href="/transaction/" + result.id + "/edit/") All
                 else
-                    a.btn.btn-default(href="/transaction/" + result.id + "/edit/") All
+                    a.btn.btn-default.mb-2(href="/transaction/" + result.id + "/edit/") All
             each category in categories
                 .col-2.d-flex.align-items-stretch.flex-column
                     if category.id == req.params.category_id
-                        a.btn.btn-primary(href="/transaction/" + result.id + "/edit/" + category.id) #{category.name}
+                        a.btn.btn-primary.mb-2(href="/transaction/" + result.id + "/edit/" + category.id) #{category.name}
                     else
-                        a.btn.btn-default(href="/transaction/" + result.id + "/edit/" + category.id) #{category.name}
+                        a.btn.btn-default.mb-2(href="/transaction/" + result.id + "/edit/" + category.id) #{category.name}
         div.row.mt-5.mb-3
             each prod in products
                 .col-12.col-sm-6.col-md-4.d-flex.align-items-stretch.flex-column

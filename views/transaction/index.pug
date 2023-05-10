@@ -50,6 +50,9 @@ block content
                                                         else if (result.status == 'refunded')
                                                             button.btn.bg-gradient-warning
                                                                 span #{(result.status).toUpperCase()}
+                                                        else if (result.status == 'pending')
+                                                            button.btn.bg-gradient-secondary 
+                                                                span #{(result.status).toUpperCase()}
                                                     td #{result.created_at.toISOString().replace('T', ' ').substring(0, 10)}
                                                     td
                                                         if (result.status == 'completed' || result.status == 'refunded')
