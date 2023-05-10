@@ -37,6 +37,38 @@ const create = (req, res, next) => {
     });
 }
 
+/* Guest Checkout */
+const guessCheckout = (req, res, next) => {
+    var query = `SELECT COUNT(id) AS count FROM customers WHERE deleted_at IS NULL`;
+
+    db.query(query, (err, data) => {
+        var count = data[0].count + 1,
+            d = new Date(),
+            dt = d.toISOString().replace('T', ' ').substring(0, 19),
+            d2 = {
+                first_name: "Guest",
+                last_name: count,
+                created_at: dt,
+                updated_at: dt,
+            };
+        var q2 = "INSERT INTO customers SET ?";
+
+        db.query(q2, d2, (err, row) => {
+            var q3 = `INSERT INTO transactions SET ?`,
+                d3 = {
+                    customer_id: row.insertId,
+                    created_at: dt,
+                    updated_at: dt,
+                };
+
+            db.query(q3, d3, (err, row2) => {
+                var tran_id = row2.insertId;
+                res.redirect('/transaction/' + tran_id + '/edit');
+            });
+        });
+    });
+}
+
 /* store */
 const store = (req, res, next) => {
     var d = new Date(),
@@ -53,9 +85,7 @@ const store = (req, res, next) => {
         if (err) throw err;
 
         var tran_id = data.insertId;
-        res.render('', {
-            tran_id: tran_id,
-        });
+        res.redirect('/transaction/' + tran_id + '/edit');
     });
 }
 
@@ -539,7 +569,7 @@ function dayDiff(currentDate, compareDate) {
 }
 
 module.exports = {
-    index, create, store, edit, show, destroy,
+    index, create, guessCheckout, store, edit, show, destroy,
     addItem, deleteItem, applyDiscount, applyDiscountCode, recalTotal,
     byCard, byCash, refund,
     summaryIndex, summarySearch

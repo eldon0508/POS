@@ -31,7 +31,9 @@ block content
                                                 each customer in customers
                                                     option(value=customer.id) #{customer.first_name} #{customer.last_name}
                                 div.row
-                                    div.col-12.text-right
-                                        a(href="/transaction/index").mx-2
+                                    .col-6
+                                        a.btn.btn-info.mx-2(href="/transaction/guestCheckout") Guess Checkout
+                                    div.col-6.text-right
+                                        a(href="/transaction/index")
                                             button.btn.btn-secondary(type='button') Back
                                         button.btn.btn-success(type='submit') Submit

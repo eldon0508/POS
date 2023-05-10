@@ -18,12 +18,14 @@ block content
             include add-item.pug
         .container-fluid
             .invoice.p-3.mb-3
+                .ribbon-wrapper.ribbon-xl
+                    .ribbon.bg-dark.text-xl
+                        | Pending
                 .row
                     .col-12
                         h4
                             i.fas.fa-info-circle
                             |  Customer Details
-                            small.float-right Date: #{result.created_at.toISOString().replace('T', ' ').substring(0, 10)}
                 .row.invoice-info
                     .col-sm-4.invoice-col
                         address
@@ -34,6 +36,10 @@ block content
                             | Phone: #{customer.phone}
                             br
                             | Email: #{customer.email}
+                .row
+                    .col-md-12
+                        h4.text-right
+                            small.float-rigth Date: #{result.updated_at.toISOString().replace('T', ' ').substring(0, 10)}
                 include items.pug
                 .row
                     .col-3.offset-9
@@ -56,10 +62,9 @@ block content
                     .col-12
                         small.text-danger.text-small
                             | *=Age Restricted Item
-                        a(href="/transaction/" + result.id + "/byCard")  
-                            button.btn.btn-success.float-right(type='button')
-                                i.far.fa-credit-card
-                                |  Pay by Card
+                        button.btn.btn-success.float-right(type='button' data-toggle='modal' data-target='#pay-by-card')
+                            i.far.fa-credit-card
+                            |  Pay by Card
                         button.btn.btn-primary.float-right.mx-2(type='button' data-toggle='modal' data-target='#pay-by-cash')
                             i.fas.fa-money-bill
                             |  Pay by Cash
@@ -116,6 +121,29 @@ block content
                                     div.form-group
                                         label(for="payment") Payment
                                         input.form-control#payment(type="number" step=.1 min=result.grand_total name='payment' placeholder='Enter Payment' required)
+                        .modal-footer.justify-content-between
+                            button.btn.btn-default(type='button' data-dismiss='modal') Close
+                            button.btn.btn-primary(type='submit') Submit
+
+        #pay-by-card.modal.fade
+            .modal-dialog
+                .modal-content
+                    form(action="/transaction/" + result.id + "/byCard" method="post")
+                        .modal-header
+                            h4.modal-title Pay By Card
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') &times;
+                        .modal-body
+                            input(type="hidden" name="_csrf" value=_csrf)
+                            div.row
+                                div.col-6
+                                    div.form-group
+                                        label Amount to Pay
+                                        input.form-control(value=result.grand_total.toFixed(2) disabled)
+                                div.col-6
+                                    div.form-group
+                                        label(for="pin") Pin
+                                        input.form-control#pin(name='pin' placeholder='Enter Pin' required)
                         .modal-footer.justify-content-between
                             button.btn.btn-default(type='button' data-dismiss='modal') Close
                             button.btn.btn-primary(type='submit') Submit
