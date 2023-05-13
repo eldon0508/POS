@@ -30,7 +30,7 @@ block content
                                                 th(width='5%') ID
                                                 th Name
                                                 th Phone
-                                                th Date of Birth
+                                                //- th Date of Birth
                                                 th Address
                                                 th Action
                                         tbody 
@@ -39,7 +39,7 @@ block content
                                                     td #{result.id}
                                                     td #{result.first_name} #{result.last_name}
                                                     td #{result.phone}
-                                                    td #{result.dob.toISOString().replace('T', ' ').substring(0, 10)}
+                                                    //- td #{result.dob.toIOString().replace('T', ' ').substring(0, 10)}
                                                     td #{result.address}
                                                     td
                                                         div(style='display:inline-block')
