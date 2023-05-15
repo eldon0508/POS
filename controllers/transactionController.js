@@ -220,7 +220,11 @@ const addItem = async (req, res, next) => {
             calTotal(tran_id, 1);
 
         });
-        req.flash('msg', 'New item has been added to cart!');
+        if (product.age_restriction)
+            req.flash('msg', 'New restricted item has been added to cart! Please verify the age with customer!');
+        else
+            req.flash('msg', 'New item has been added to cart!');
+
         req.flash('msg_type', 'success');
         db.commit();
     } catch (error) {

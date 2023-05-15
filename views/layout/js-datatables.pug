@@ -10,11 +10,15 @@ script(type='text/javascript' src='/adminlte/plugins/pdfmake/pdfmake.min.js')
 script(type='text/javascript' src='/adminlte/plugins/pdfmake/vfs_fonts.js')
 script(type='text/javascript' src='/adminlte/plugins/datatables-buttons/js/buttons.html5.min.js')
 script(type='text/javascript' src='/adminlte/plugins/datatables-buttons/js/buttons.print.min.js')
+
 script.
-    if ($("#table").length)
-        $("#table").DataTable({
-            "responsive": true, 
-            "lengthChange": true, 
-            "autoWidth": false,
-            "buttons": ["csv", "pdf", "print"]
-        }).buttons().container().appendTo('#table_wrapper .col-md-6:eq(0)');
+    $(document).ready(function(){
+        if ($("#table").length) {
+            $("#table").DataTable({
+                "responsive": true, 
+                "lengthChange": true, 
+                "autoWidth": false,
+                "buttons": ["csv", "pdf", "print"]
+            }).buttons().container().appendTo('#table_wrapper .col-md-6:eq(0)');
+        }
+    });

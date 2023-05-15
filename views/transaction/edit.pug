@@ -90,6 +90,10 @@ block content
                         .modal-body
                             input(type="hidden" name="_csrf" value=_csrf)
                             div.row
+                                .col-12
+                                    .form-group
+                                        p.text-danger Submitting this would overwrite "Cart Discount". To revert, click 'Recalculate' button.
+                            div.row
                                 div.col-6
                                     div.form-group
                                         label Amount to Pay
@@ -161,7 +165,7 @@ block content
                             div.row
                                 .col-12
                                     .form-group
-                                        p.text-danger Submitting would overwrite any existing promotion. To revert, click 'Recalculate' button.
+                                        p.text-danger Submitting this would overwrite "Cart Discount". To revert, click 'Recalculate' button.
                             div.row
                                 div.col-12
                                     div.form-group
