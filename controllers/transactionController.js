@@ -38,7 +38,7 @@ const create = (req, res, next) => {
 }
 
 /* Guest Checkout */
-const guessCheckout = (req, res, next) => {
+const guestCheckout = (req, res, next) => {
     var query = `SELECT COUNT(id) AS count FROM customers WHERE deleted_at IS NULL`;
 
     db.query(query, (err, data) => {
@@ -48,6 +48,8 @@ const guessCheckout = (req, res, next) => {
             d2 = {
                 first_name: "Guest",
                 last_name: count,
+                dob: '1980-01-01',
+                email: 'guest' + count + '@example.co.uk',
                 created_at: dt,
                 updated_at: dt,
             };
@@ -569,7 +571,7 @@ function dayDiff(currentDate, compareDate) {
 }
 
 module.exports = {
-    index, create, guessCheckout, store, edit, show, destroy,
+    index, create, guestCheckout, store, edit, show, destroy,
     addItem, deleteItem, applyDiscount, applyDiscountCode, recalTotal,
     byCard, byCash, refund,
     summaryIndex, summarySearch

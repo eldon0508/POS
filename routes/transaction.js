@@ -5,7 +5,7 @@ var transactionController = require('../controllers/transactionController');
 router.get('/index', transactionController.index);
 router.get('/create', transactionController.create);
 router.post('/store', transactionController.store);
-router.get('/guestCheckout', transactionController.guessCheckout);
+router.get('/guestCheckout', transactionController.guestCheckout);
 router.get('/:id/show', transactionController.show);
 router.get('/:id/edit/:category_id?', transactionController.edit);
 // router.post('/update/:id', transactionController.update);

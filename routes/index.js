@@ -46,7 +46,7 @@ router.get('/login', isGuest, (req, res, next) => {
 
 /* login post */
 router.post('/login', isGuest, passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/transaction/index',
   failureRedirect: '/login',
 }));
 
@@ -92,11 +92,36 @@ router.post('/profile/update', isAuth, async function (req, res, next) {
   await db.beginTransaction();
 
   try {
-    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+    var pass = (req.body.password == "") ? null : req.body.password;
+    console.log(pass);
+    if (pass != null) {
+      bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+        var d = new Date(),
+          dt = d.toISOString().replace('T', ' ').substring(0, 19),
+          q2 = {
+            password: hash,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            dob: req.body.dob,
+            address: req.body.address,
+            updated_at: dt,
+          };
+
+        var query = `UPDATE users SET ? WHERE id = "${req.body.user_id}"`;
+        db.query(query, q2);
+
+        db.commit();
+        req.logout(function (err) {
+          req.flash('msg_type', 'success');
+          req.flash('msg', 'Profile has been updated! Please relogin.');
+          res.redirect('/login');
+        });
+      });
+
+    } else {
       var d = new Date(),
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
         q2 = {
-          password: hash,
           first_name: req.body.first_name,
           last_name: req.body.last_name,
           dob: req.body.dob,
@@ -105,14 +130,16 @@ router.post('/profile/update', isAuth, async function (req, res, next) {
         };
 
       var query = `UPDATE users SET ? WHERE id = "${req.user.id}"`;
-
       db.query(query, q2);
+
+      db.commit();
       req.flash('msg', 'Profile has been updated!');
       req.flash('msg_type', 'success');
-      db.commit();
-      res.redirect("/");
-    });
+      res.redirect('/profile');
+    }
+
   } catch (error) {
+    console.log(error);
     db.rollback();
     req.flash('msg', 'Failed to update record. Something went wrong!');
     req.flash('msg_type', 'error');
