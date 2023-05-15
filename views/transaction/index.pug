@@ -9,7 +9,7 @@ block content
                 .col-sm-6
                     ol.breadcrumb.float-sm-right
                         li.breadcrumb-item
-                            a(href='/') Home
+                            a(href='/transaction/index') Home
                         li.breadcrumb-item.active #{title}
 
     section.content
@@ -18,7 +18,7 @@ block content
                 div.col-12
                     div.card
                         div.card-header
-                            a(href='/transaction/create').btn.btn-primary.float-right
+                            button.btn.btn-primary.float-right(type='button' data-toggle='modal' data-target='#create-modal')
                                 i.fa.fa-plus 
                                 |  Create Transaction
                         div.card-body
@@ -87,3 +87,30 @@ block content
                             | Cancel
                         button.btn.btn-danger.js-confirm
                             | Continue
+
+        #create-modal.modal.fade
+            .modal-dialog
+                .modal-content
+                    form(action="/transaction/store" method="post")
+                        input(type="hidden" name="_csrf" value=_csrf)
+                        .modal-header
+                            h4.modal-title Create Transaction
+                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                            span(aria-hidden='true') &times;
+                        .modal-body
+                            div.row
+                                div.col-12
+                                    div.form-group
+                                        label(for="customer_id") Customer
+                                        br
+                                        select.select2.form-control#customer_id(name="customer_id" required)
+                                            option(value="") --- Select Customer ---
+                                            each customer in customers
+                                                option(value=customer.id) #{customer.first_name} #{customer.last_name}
+                            div.row.mt-3
+                                div.col-12
+                                    .form-group
+                                        a.btn.btn-info.mx-2(href="/transaction/guestCheckout") Guest Checkout
+                        .modal-footer.justify-content-between
+                            button.btn.btn-default(type='button' data-dismiss='modal') Close
+                            button.btn.btn-primary(type='submit') Submit

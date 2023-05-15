@@ -3,7 +3,6 @@ var router = express.Router();
 var transactionController = require('../controllers/transactionController');
 
 router.get('/index', transactionController.index);
-router.get('/create', transactionController.create);
 router.post('/store', transactionController.store);
 router.get('/guestCheckout', transactionController.guestCheckout);
 router.get('/:id/show', transactionController.show);

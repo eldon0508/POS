@@ -8,30 +8,18 @@ const index = (req, res, next) => {
     FROM transactions t
     LEFT JOIN customers c
     ON t.customer_id = c.id
-    WHERE t.deleted_at IS NULL`;
+    WHERE t.deleted_at IS NULL;
+    SELECT * FROM customers WHERE deleted_at IS NULL;`;
 
     db.query(query, function (err, data) {
         if (err) throw err;
 
         res.render('transaction/index', {
             title: 'Transaction',
-            results: data,
+            results: data[0],
+            customers: data[1],
             msg_type: req.flash('msg_type'),
             msg: req.flash('msg'),
-            req: req,
-        });
-    });
-}
-
-// Create page for new transaction
-const create = (req, res, next) => {
-    var query = `SELECT * FROM customers WHERE deleted_at IS NULL;`;
-
-    db.query(query, (err, data) => {
-        if (err) throw err;
-
-        res.render('transaction/create', {
-            customers: data,
             req: req,
         });
     });
@@ -65,6 +53,8 @@ const guestCheckout = (req, res, next) => {
 
             db.query(q3, d3, (err, row2) => {
                 var tran_id = row2.insertId;
+                req.flash('msg', 'New Guest Transaction Created!');
+                req.flash('msg_type', 'success');
                 res.redirect('/transaction/' + tran_id + '/edit');
             });
         });
@@ -87,6 +77,8 @@ const store = (req, res, next) => {
         if (err) throw err;
 
         var tran_id = data.insertId;
+        req.flash('msg', 'New Transaction Created!');
+        req.flash('msg_type', 'success');
         res.redirect('/transaction/' + tran_id + '/edit');
     });
 }
@@ -571,7 +563,7 @@ function dayDiff(currentDate, compareDate) {
 }
 
 module.exports = {
-    index, create, guestCheckout, store, edit, show, destroy,
+    index, guestCheckout, store, edit, show, destroy,
     addItem, deleteItem, applyDiscount, applyDiscountCode, recalTotal,
     byCard, byCash, refund,
     summaryIndex, summarySearch
