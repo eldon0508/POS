@@ -54,7 +54,6 @@ const store = async (req, res, next) => {
             req.flash('msg', 'New Staff has been created!');
             req.flash('msg_type', 'success');
             db.commit();
-            res.redirect("/staff/index");
         });
     } catch (error) {
         db.rollback();
