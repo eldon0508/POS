@@ -154,8 +154,8 @@ const show = (req, res, next) => {
     });
 }
 
-const destroy = async (req, res, next) => {
-    await db.beginTransaction();
+const destroy = (req, res, next) => {
+    db.beginTransaction();
 
     try {
         var d = new Date(),
@@ -189,9 +189,7 @@ const addItem = async (req, res, next) => {
 
         // Retrieve product detail
         db.query(query, (err, data) => {
-            // Check whether product on discount
-            var flag = true,
-                product = data[0],
+            var product = data[0],
                 qty = req.body.quantity;
 
             // Return error if insufficient stock
@@ -200,6 +198,7 @@ const addItem = async (req, res, next) => {
             //     res.redirect('/transaction/' + tran_id + '/edit');
             // }
 
+            // Check whether product on discount
             var price = product.unit_price;
             if (product.discounted_price > 0) { price = product.discounted_price; }
 
@@ -218,16 +217,13 @@ const addItem = async (req, res, next) => {
             };
             db.query(q2, q3);
             calTotal(tran_id, 1);
-
         });
-        if (product.age_restriction)
-            req.flash('msg', 'New restricted item has been added to cart! Please verify the age with customer!');
-        else
-            req.flash('msg', 'New item has been added to cart!');
 
+        req.flash('msg', 'New item has been added to cart!');
         req.flash('msg_type', 'success');
         db.commit();
     } catch (error) {
+        console.log(error);
         db.rollback();
         req.flash('msg', 'Failed to add item. Something went wrong!');
         req.flash('msg_type', 'error');
