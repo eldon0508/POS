@@ -1,5 +1,6 @@
 var db = require('../database');
 var dd = require('dump-die');
+var NotFoundError = require('./NotFoundError');
 
 /* index */
 const index = (req, res, next) => {
@@ -27,9 +28,11 @@ const index = (req, res, next) => {
 
 /* Guest Checkout */
 const guestCheckout = (req, res, next) => {
-    var query = `SELECT COUNT(id) AS count FROM customers WHERE deleted_at IS NULL`;
+    var q1 = `SELECT COUNT(id) AS count FROM customers`,
+        q2 = "INSERT INTO customers SET ?",
+        q3 = `INSERT INTO transactions SET ?`;
 
-    db.query(query, (err, data) => {
+    db.query(q1, (err, data) => {
         var count = data[0].count + 1,
             d = new Date(),
             dt = d.toISOString().replace('T', ' ').substring(0, 19),
@@ -41,15 +44,13 @@ const guestCheckout = (req, res, next) => {
                 created_at: dt,
                 updated_at: dt,
             };
-        var q2 = "INSERT INTO customers SET ?";
 
         db.query(q2, d2, (err, row) => {
-            var q3 = `INSERT INTO transactions SET ?`,
-                d3 = {
-                    customer_id: row.insertId,
-                    created_at: dt,
-                    updated_at: dt,
-                };
+            var d3 = {
+                customer_id: row.insertId,
+                created_at: dt,
+                updated_at: dt,
+            };
 
             db.query(q3, d3, (err, row2) => {
                 var tran_id = row2.insertId;
@@ -154,8 +155,8 @@ const show = (req, res, next) => {
     });
 }
 
-const destroy = async (req, res, next) => {
-    await db.beginTransaction();
+const destroy = (req, res, next) => {
+    db.beginTransaction();
 
     try {
         var d = new Date(),
@@ -189,9 +190,7 @@ const addItem = async (req, res, next) => {
 
         // Retrieve product detail
         db.query(query, (err, data) => {
-            // Check whether product on discount
-            var flag = true,
-                product = data[0],
+            var product = data[0],
                 qty = req.body.quantity;
 
             // Return error if insufficient stock
@@ -200,6 +199,7 @@ const addItem = async (req, res, next) => {
             //     res.redirect('/transaction/' + tran_id + '/edit');
             // }
 
+            // Check whether product on discount
             var price = product.unit_price;
             if (product.discounted_price > 0) { price = product.discounted_price; }
 
@@ -218,16 +218,13 @@ const addItem = async (req, res, next) => {
             };
             db.query(q2, q3);
             calTotal(tran_id, 1);
-
         });
-        if (product.age_restriction)
-            req.flash('msg', 'New restricted item has been added to cart! Please verify the age with customer!');
-        else
-            req.flash('msg', 'New item has been added to cart!');
 
+        req.flash('msg', 'New item has been added to cart!');
         req.flash('msg_type', 'success');
         db.commit();
     } catch (error) {
+        console.log(error);
         db.rollback();
         req.flash('msg', 'Failed to add item. Something went wrong!');
         req.flash('msg_type', 'error');
@@ -292,18 +289,27 @@ const applyDiscountCode = async (req, res, next) => {
             code = req.body.code,
             query = `SELECT * FROM promotions WHERE status = 1 AND deleted_at IS NULL AND start_date < "${dOnly}" AND end_date > "${dOnly}" AND type = 2 AND code = "${code}"`;
 
+        var disc;
         db.query(query, (err, data) => {
-            var disc = data[0];
-            calTotal(tran_id, 2, disc.discount_type, disc.rate, disc.capped_at);
+            disc = data[0];
         });
 
+        if (disc != null) {
+            calTotal(tran_id, 2, disc.discount_type, disc.rate, disc.capped_at);
+        } else {
+            throw new NotFoundError('not found');
+        }
 
         req.flash('msg', 'Discount has been applied!');
         req.flash('msg_type', 'success');
         db.commit();
     } catch (error) {
         db.rollback();
-        req.flash('msg', 'Failed to apply discount. Something went wrong!');
+        if (error instanceof (NotFoundError)) {
+            req.flash('msg', 'No such code. Failed to apply discount!');
+        } else {
+            req.flash('msg', 'Failed to apply discount. Something went wrong!');
+        }
         req.flash('msg_type', 'error');
     }
     res.redirect('/transaction/' + tran_id + '/edit');
@@ -331,22 +337,25 @@ const byCard = async (req, res, next) => {
         var d = new Date(),
             dt = d.toISOString().replace('T', ' ').substring(0, 19),
             tran_id = req.params.id,
-            q = `SELECT * FROM transactions WHERE id = ${tran_id}`;
+            q = `SELECT * FROM transactions WHERE id = ${tran_id}`,
+            q2 = `UPDATE transactions SET ? WHERE id = ${tran_id}`;
+
         db.query(q, (err, data) => {
-            var q2 = `UPDATE transactions SET ? WHERE id = ${tran_id}`,
-                d = {
-                    payment: data[0].grand_total,
-                    changes: 0,
-                    payment_method: 'card',
-                    status: 'completed',
-                    updated_at: dt,
-                };
+            var d = {
+                payment: data[0].grand_total,
+                changes: 0,
+                payment_method: 'card',
+                status: 'completed',
+                updated_at: dt,
+            };
             db.query(q2, d);
         });
+
         req.flash('msg', 'Payment completed!');
         req.flash('msg_type', 'success');
         db.commit();
     } catch (error) {
+        console.log(error);
         db.rollback();
         req.flash('msg', 'Failed to proceed payment. Something went wrong!');
         req.flash('msg_type', 'error');
@@ -544,7 +553,6 @@ function calDisc(total, tax, type, rate, capped) {
 }
 
 function dayDiff(currentDate, compareDate) {
-    console.log(currentDate, compareDate);
     var difference = currentDate - compareDate;
 
     var daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
