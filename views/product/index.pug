@@ -44,7 +44,12 @@ block content
                                                         td #{result.name}
                                                     td
                                                         a(href="/category/" + result.category_id + "/edit" target="_blank") #{result.category_name}
-                                                    td #{result.unit_price.toFixed(2)}
+                                                    td 
+                                                        if result.discounted_price > 0
+                                                            span.text-warning
+                                                                | #{result.discounted_price.toFixed(2)}
+                                                        else
+                                                            | #{result.unit_price.toFixed(2)}
                                                     td 
                                                         if result.stock < 50
                                                             i.fa.fa-battery-quarter
