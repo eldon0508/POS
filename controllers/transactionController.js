@@ -274,6 +274,7 @@ const applyDiscount = async (req, res, next) => {
         db.rollback();
         req.flash('msg', 'Failed to apply discount. Something went wrong!');
         req.flash('msg_type', 'error');
+        console.log(error);
     }
     res.redirect('/transaction/' + tran_id + '/edit');
 }
@@ -287,18 +288,21 @@ const applyDiscountCode = async (req, res, next) => {
             dOnly = d.toISOString().replace('T', ' ').substring(0, 11),
             tran_id = req.params.id,
             code = req.body.code,
-            query = `SELECT * FROM promotions WHERE status = 1 AND deleted_at IS NULL AND start_date < "${dOnly}" AND end_date > "${dOnly}" AND type = 2 AND code = "${code}"`;
+            query = `SELECT * FROM promotions WHERE status = 1 AND deleted_at IS NULL AND start_date <= "${dOnly}" AND end_date >= "${dOnly}" AND type = 2 AND code = "${code}"`;
 
-        var disc;
+        
         db.query(query, (err, data) => {
+            var disc;
             disc = data[0];
+            calTotal(tran_id, 2, disc.discount_type, disc.rate, disc.capped_at);
         });
 
-        if (disc != null) {
-            calTotal(tran_id, 2, disc.discount_type, disc.rate, disc.capped_at);
-        } else {
-            throw new NotFoundError('not found');
-        }
+        // if (disc != null) {
+            
+        // }
+        // } else {
+        //     throw new NotFoundError('not found');
+        // }
 
         req.flash('msg', 'Discount has been applied!');
         req.flash('msg_type', 'success');
@@ -307,10 +311,13 @@ const applyDiscountCode = async (req, res, next) => {
         db.rollback();
         if (error instanceof (NotFoundError)) {
             req.flash('msg', 'No such code. Failed to apply discount!');
+            console.log(error);
         } else {
             req.flash('msg', 'Failed to apply discount. Something went wrong!');
+            console.log(error);
         }
         req.flash('msg_type', 'error');
+        console.log(error);
     }
     res.redirect('/transaction/' + tran_id + '/edit');
 }
@@ -498,7 +505,7 @@ function calTotal(tran_id, type = 1, disc_type, rate, capped) {
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
         query = `SELECT * FROM transaction_items WHERE transaction_id = ${tran_id};
                 SELECT * FROM transactions WHERE id = ${tran_id};
-                SELECT * FROM promotions WHERE id = 1 AND status = 1 AND start_date < "${dOnly}" AND end_date > "${dOnly}" AND deleted_at IS NULL`;
+                SELECT * FROM promotions WHERE id = 1 AND status = 1 AND deleted_at IS NULL;`;
 
     db.query(query, (err, data) => {
         if (err) throw err;

@@ -55,15 +55,15 @@ block content
                                         div.form-group
                                             label(for="capped_at") Capped
                                             input.form-control#capped_at(value=result.capped_at type='number' name='capped_at' placeholder='Enter Capped' min=0 step=.01)
-                                div.row
-                                    div.col-6
-                                        div.form-group
-                                            label(for="start_date") Start Date
-                                            input.form-control#start_date(value=result.start_date.toISOString().split('T')[0] type='date' name='start_date')
-                                    div.col-6
-                                        div.form-group
-                                            label(for="end_date") End Date
-                                            input.form-control#end_date(value=result.end_date.toISOString().split('T')[0] type='date' name='end_date')
+                                //- div.row
+                                //-     div.col-6
+                                //-         div.form-group
+                                //-             label(for="start_date") Start Date
+                                //-             input.form-control#start_date(value=result.start_date.toISOString().split('T')[0] type='date' name='start_date')
+                                //-     div.col-6
+                                //-         div.form-group
+                                //-             label(for="end_date") End Date
+                                //-             input.form-control#end_date(value=result.end_date.toISOString().split('T')[0] type='date' name='end_date')
                                 div.row
                                     div.col-12.text-right
                                         a(href="/promotion/index").mr-2
