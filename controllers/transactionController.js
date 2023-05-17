@@ -298,8 +298,7 @@ const applyDiscountCode = async (req, res, next) => {
         });
 
         // if (disc != null) {
-            
-        // }
+        //     calTotal(tran_id, 2, disc.discount_type, disc.rate, disc.capped_at);
         // } else {
         //     throw new NotFoundError('not found');
         // }
@@ -501,7 +500,6 @@ const summarySearch = (req, res, next) => {
 function calTotal(tran_id, type = 1, disc_type, rate, capped) {
     // Type 1: Cart Discount, 2: External Discounts (Apply Discount/Discount Code)
     var d = new Date(),
-        dOnly = d.toISOString().replace('T', ' ').substring(0, 11),
         dt = d.toISOString().replace('T', ' ').substring(0, 19),
         query = `SELECT * FROM transaction_items WHERE transaction_id = ${tran_id};
                 SELECT * FROM transactions WHERE id = ${tran_id};
