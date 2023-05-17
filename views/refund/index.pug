@@ -33,9 +33,9 @@ block content
                                                 th(width='50%') Reason
                                                 th Action
                                         tbody 
-                                            each result in results
+                                            each result, index in results
                                                 tr
-                                                    td #{result.id}
+                                                    td #{index + 1}
                                                     td
                                                         a(href="/customer/" + result.customer_id + "/edit" target="_blank") #{result.customer_fname} #{result.customer_lname}
                                                     td #{result.amount.toFixed(2)}
