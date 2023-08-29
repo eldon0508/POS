@@ -7,7 +7,6 @@ const express = require('express'),
   passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy;
 
-
 /* Protecting routes declaration */
 function isAuth(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
